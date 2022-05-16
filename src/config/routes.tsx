@@ -1,16 +1,15 @@
 import { RouteRecordRaw } from 'vue-router';
-import { Bar } from '../pages/Bar';
-import { Foo } from '../pages/Foo';
+import { Welcome } from '../pages/Welcome';
 
 export const routes: RouteRecordRaw[] = [
-  { path: '/', component: Foo },
+  { path: '/', redirect: '/welcome' },
   {
     path: '/welcome',
-    component: Bar,
+    component: Welcome,
     children: [
       {
-        path: '/1',
-        component: Foo,
+        path: '1',
+        redirect: '/welcome/1',
       },
     ],
   },
