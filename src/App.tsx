@@ -1,5 +1,6 @@
 import { defineComponent, ref } from 'vue';
 import { RouterView } from 'vue-router';
+import styles from './App.module.scss';
 
 export const App = defineComponent({
   setup() {
@@ -9,8 +10,6 @@ export const App = defineComponent({
     };
     return () => (
       <>
-        {/* <div>{count.value}</div>
-        <button onClick={onClick}>+1</button> */}
         <header>
           导航
           <ul>
