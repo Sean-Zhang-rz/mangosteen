@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Welcome } from '../pages/Welcome';
+import { WelcomeAction } from '../pages/Welcome/Action';
 import { WelcomeRender } from '../pages/Welcome/Render';
 
 export const routes: RouteRecordRaw[] = [
@@ -14,7 +15,7 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: ':id',
-        component: WelcomeRender,
+        components: { main: WelcomeRender, footer: WelcomeAction },
       },
     ],
   },
