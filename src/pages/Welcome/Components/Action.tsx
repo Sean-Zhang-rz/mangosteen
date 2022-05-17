@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-import styles from '../Render/index.module.scss';
+import styles from './index.module.scss';
 
 export const WelcomeAction = defineComponent({
   setup: (props, context) => {
