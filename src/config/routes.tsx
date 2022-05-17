@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Welcome } from '../pages/Welcome';
-import { WelcomeAction } from '../pages/Welcome/Action';
-import { WelcomeRender } from '../pages/Welcome/Render';
+import { WelcomeAction } from '../pages/Welcome/Components/Action';
+import { WelcomeRender } from '../pages/Welcome/Components/Render';
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },

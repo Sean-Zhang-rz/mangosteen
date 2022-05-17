@@ -13,17 +13,16 @@ export const Welcome = defineComponent({
         </header>
         <main class={styles.main}>
           <Transition
-            name="slide-fade"
             enterFromClass={styles.enter_from}
             enterActiveClass={styles.enter_active}
             leaveActiveClass={styles.leave_active}
             leaveToClass={styles.leave_to}
           >
-            <RouterView name="main" key={parseInt(useRoute()?.params?.id.toString())}></RouterView>
+            <RouterView name="main" key={useRoute()?.params?.id.toString()}></RouterView>
           </Transition>
         </main>
         <footer>
-          <RouterView name="footer" />
+          <RouterView name="footer" key={useRoute()?.params?.id.toString()} />
         </footer>
       </div>
     );
