@@ -1,16 +1,16 @@
-import { defineComponent, ref, Transition, VNode, watchEffect } from 'vue';
-import { RouteLocationNormalizedLoaded, RouterView, useRoute } from 'vue-router';
+import { defineComponent, ref, Transition, watchEffect } from 'vue';
+import { RouterView, useRoute } from 'vue-router';
 import logoSvg from '/src/assets/icons/logo.svg';
 import styles from './index.module.scss';
 import { useSwipe } from '../../hooks/useSwipe';
 
 export const Welcome = defineComponent({
   setup: (props, context) => {
-    const main = ref<HTMLElement | null>(null);
+    const main = ref<HTMLElement>();
     const { direction } = useSwipe(main);
-    watchEffect(() => {
-      console.log(direction.value);
-    });
+    // watchEffect(() => {
+    //   console.log(direction.value);
+    // });
 
     return () => (
       <div class={styles.wrapper}>
