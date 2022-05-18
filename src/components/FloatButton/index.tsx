@@ -1,9 +1,19 @@
-import { defineComponent } from 'vue';
-import { Icon } from '../Icon';
+import { defineComponent, PropType } from 'vue';
+import { Icon, IconName } from '../Icon';
 import styles from './index.module.scss';
 
 export const FloatButton = defineComponent({
+  props: {
+    name: {
+      type: String as PropType<IconName>,
+      required: true,
+    },
+  },
   setup: (props, context) => {
-    return () => <Icon name="add" class={styles.icon} />;
+    return () => (
+      <div class={styles.float_button}>
+        <Icon name={props.name} class={styles.icon} />
+      </div>
+    );
   },
 });
