@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { join } from 'path';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 // @ts-nocheck
@@ -8,6 +9,11 @@ import { svgstore } from './src/plugins/svgstore';
 export default defineConfig({
   // build path
   // base: '/mangosteen/dist/',
+  resolve: {
+    alias: {
+      '@': join(__dirname, 'src'),
+    },
+  },
   plugins: [
     vue(),
     vueJsx({

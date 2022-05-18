@@ -1,17 +1,14 @@
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import pigSvg from '/src/assets/icons/pig.svg';
-import clockSvg from '/src/assets/icons/clock.svg';
-import chartSvg from '/src/assets/icons/chart.svg';
-import cloudSvg from '/src/assets/icons/cloud.svg';
 import styles from './index.module.scss';
+import { Icon } from '@/components/Icon';
 
 export const WelcomeRender = defineComponent({
   setup: (props, context) => {
     const card = ref<HTMLDivElement>();
     const slotsArray = [
       {
-        icon: () => <img class={styles.icon} src={pigSvg} />,
+        icon: () => <Icon name="pig" />,
         title: () => (
           <h2>
             会挣钱
@@ -21,7 +18,7 @@ export const WelcomeRender = defineComponent({
         ),
       },
       {
-        icon: () => <img class={styles.icon} src={clockSvg} />,
+        icon: () => <Icon name="clock" />,
         title: () => (
           <h2>
             每日提醒
@@ -31,7 +28,7 @@ export const WelcomeRender = defineComponent({
         ),
       },
       {
-        icon: () => <img class={styles.icon} src={chartSvg} />,
+        icon: () => <Icon name="chart" />,
         title: () => (
           <h2>
             每日提醒
@@ -41,7 +38,7 @@ export const WelcomeRender = defineComponent({
         ),
       },
       {
-        icon: () => <img class={styles.icon} src={cloudSvg} />,
+        icon: () => <Icon name="cloud" />,
         title: () => (
           <h2>
             每日提醒
