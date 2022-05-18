@@ -1,16 +1,26 @@
 import { defineComponent, ref, Transition, watchEffect } from 'vue';
-import { RouterView, useRoute } from 'vue-router';
+import { RouterView, useRoute, useRouter } from 'vue-router';
 import logoSvg from '/src/assets/icons/logo.svg';
 import styles from './index.module.scss';
 import { useSwipe } from '../../hooks/useSwipe';
+import { throttle } from '../../utils/throttle';
 
 export const Welcome = defineComponent({
   setup: (props, context) => {
     const main = ref<HTMLElement>();
-    const { direction } = useSwipe(main);
-    // watchEffect(() => {
-    //   console.log(direction.value);
-    // });
+    const router = useRouter();
+    const route = useRoute();
+    const { swiping, direction } = useSwipe(main);
+    const pushRouter = throttle(() => {
+      const pageId = parseInt(route?.params?.id.toString());
+      if (pageId === 4) return;
+      router.push(`/welcome/${pageId + 1}`);
+    }, 500);
+    watchEffect(() => {
+      if (swiping.value && direction.value === 'left') {
+        pushRouter();
+      }
+    });
 
     return () => (
       <div class={styles.wrapper}>
