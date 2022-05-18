@@ -14,7 +14,9 @@ export const WelcomeAction = defineComponent({
         <RouterLink to={id <= 3 ? `/welcome/${id + 1}` : '/start'}>
           {id <= 3 ? '下一页' : '完成'}
         </RouterLink>
-        <RouterLink to="/start">跳过</RouterLink>
+        <RouterLink class={id === 4 ? styles.fake : ''} to="/start">
+          跳过
+        </RouterLink>
       </div>
     );
   },
