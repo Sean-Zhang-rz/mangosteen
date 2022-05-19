@@ -12,7 +12,7 @@ export const StartPage = defineComponent({
     };
     return () => (
       <div class={styles.container}>
-        <NavBar />
+        <NavBar title="山竹记账" icon="menu" />
         <div class={styles.icon_wrapper}>
           <Icon name="pig" class={styles.icon} />
         </div>
