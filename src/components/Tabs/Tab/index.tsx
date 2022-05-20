@@ -7,6 +7,6 @@ export const Tab = defineComponent({
     },
   },
   setup: (props, context) => {
-    return () => <div>{props.name}</div>;
+    return () => <div>{context.slots.default?.()}</div>;
   },
 });
