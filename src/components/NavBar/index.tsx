@@ -14,7 +14,7 @@ export const NavBar = defineComponent({
       default: 'back',
     },
   },
-  setup: ({ title, icon }, context) => {
+  setup: ({ title, icon }) => {
     const overlayVisible = ref(false);
     const goBack = () => {};
     const openMenu = () => {

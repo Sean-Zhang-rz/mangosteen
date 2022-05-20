@@ -12,7 +12,8 @@ export type IconName =
   | 'back'
   | 'export'
   | 'charts'
-  | 'notify';
+  | 'notify'
+  | 'back';
 
 export const Icon = defineComponent({
   props: {

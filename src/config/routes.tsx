@@ -1,8 +1,11 @@
+import { ItemPage } from '@/pages/Item';
 import { RouteRecordRaw } from 'vue-router';
-import { StartPage } from '../pages/StartPage/inedx';
-import { Welcome } from '../pages/Welcome';
-import { WelcomeAction } from '../pages/Welcome/Components/Action';
-import { WelcomeRender } from '../pages/Welcome/Components/Render';
+import { StartPage } from '@/pages/StartPage/inedx';
+import { Welcome } from '@/pages/Welcome';
+import { WelcomeAction } from '@/pages/Welcome/Components/Action';
+import { WelcomeRender } from '@/pages/Welcome/Components/Render';
+import { ItemList } from '@/pages/Item/components/List';
+import { ItemCreate } from '@/pages/Item/components/Create';
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -23,5 +26,19 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/start',
     component: StartPage,
+  },
+  {
+    path: '/items',
+    component: ItemPage,
+    children: [
+      {
+        path: '',
+        component: ItemList,
+      },
+      {
+        path: 'create',
+        component: ItemCreate,
+      },
+    ],
   },
 ];
