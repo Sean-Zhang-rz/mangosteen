@@ -1,3 +1,4 @@
+import { InputPad } from '@/components/InputPad';
 import { MainLayout } from '@/components/MainLayout';
 import { Tabs } from '@/components/Tabs';
 import { Tab } from '@/components/Tabs/Tab';
@@ -12,12 +13,15 @@ export const ItemCreate = defineComponent({
       <MainLayout title="记一笔" icon="back">
         {{
           default: () => (
-            <>
+            <div class={styles.wrapper}>
               <Tabs v-model:selected={refKind.value}>
                 <Tab name="支出">icon列表</Tab>
                 <Tab name="收入">icon列表2</Tab>
               </Tabs>
-            </>
+              <div class={styles.inputPad_wrapper}>
+                <InputPad></InputPad>
+              </div>
+            </div>
           ),
         }}
       </MainLayout>
