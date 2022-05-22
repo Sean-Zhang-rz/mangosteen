@@ -1,10 +1,10 @@
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { emojiList } from '@/utils/emojiList';
 import styles from './index.module.scss';
 
 export const EmojiList = defineComponent({
   setup: (props, context) => {
-    const refSelected = ref(3);
+    const refSelected = ref(0);
     const table: [string, string[]][] = [
       [
         '表情',
@@ -76,25 +76,36 @@ export const EmojiList = defineComponent({
       ],
       ['运动', ['sport', 'game']],
     ];
+    const selectCategory = (index: number) => {
+      refSelected.value = index;
+    };
+    const selectIcon = (i: string) => {
+      context.emit('update:modelValue', i);
+    };
+    const emojis = computed(() => {
+      return table[refSelected.value][1].map((category) => {
+        return emojiList
+          .find((item) => item[0] === category)?.[1]
+          .map((i) => (
+            <li class={styles.selected} onClick={() => selectIcon(i)}>
+              {i}
+            </li>
+          ));
+      });
+    });
     return () => (
       <div class={styles.emoji_list}>
         <nav>
           {table.map((item, index) => (
-            <span class={index === refSelected.value ? styles.selected : ''}>{item[0]}</span>
+            <span
+              class={index === refSelected.value ? styles.selected : ''}
+              onClick={() => selectCategory(index)}
+            >
+              {item[0]}
+            </span>
           ))}
         </nav>
-        <ol>
-          {table[refSelected.value][1].map((category) => {
-            return emojiList
-              .find((item) => item[0] === category)?.[1]
-              .map((i) => {
-                console.log([...i].length);
-                // if (i.length === 1) return
-                return <li>{i}</li>;
-              });
-          })}
-        </ol>
-        ;
+        <ol>{emojis.value}</ol>;
       </div>
     );
   },
