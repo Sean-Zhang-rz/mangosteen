@@ -21,13 +21,13 @@ export const ItemCreate = defineComponent({
                 <Tab name="收入">icon列表2</Tab>
               </Tabs>
               <div class={styles.inputPad_wrapper}>
-                <InputPad></InputPad>
-                <NumberKeyboard
+                <InputPad class={styles.input_pad}></InputPad>
+                {/* <NumberKeyboard
                   show={show.value}
                   theme="custom"
                   extra-key="."
                   close-button-text="提交"
-                />
+                /> */}
               </div>
             </div>
           ),
