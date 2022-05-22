@@ -13,8 +13,16 @@ export const InputPad = defineComponent({
     const amount = ref<String>('');
     const selectedDate = ref<Date>(new Date());
     const isShow = ref(false);
-    const appendText = (index: number | string) => {
-      amount.value += `${index}`;
+    const appendText = (n: number | string) => {
+      const ns = n.toString();
+      const m = amount.value;
+      const dotIndex = m.indexOf('.');
+      if (m.length >= 13) return;
+      if (dotIndex >= 0 && m.length - dotIndex > 2) return;
+      if (ns === '0' && dotIndex === -1 && m === '0') return;
+      if (ns === '.' && dotIndex !== -1) return;
+      if (m === '0' && ns !== '.') amount.value = '';
+      amount.value += `${n}`;
     };
     const setDate = (date: Date) => {
       console.log(date);
