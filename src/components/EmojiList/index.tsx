@@ -105,7 +105,7 @@ export const EmojiList = defineComponent({
             </span>
           ))}
         </nav>
-        <ol>{emojis.value}</ol>;
+        <ol>{emojis.value}</ol>
       </div>
     );
   },
