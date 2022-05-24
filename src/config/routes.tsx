@@ -7,8 +7,7 @@ import { WelcomeRender } from '@/pages/Welcome/Components/Render';
 import { ItemList } from '@/pages/Item/components/List';
 import { ItemCreate } from '@/pages/Item/components/Create';
 import { TagPage } from '@/pages/Tag';
-// import { TagCreate } from '@/pages/Tag/TagCreate';
-// import { TagEdit } from '@/pages/Tag/TagEdit';
+import { TagForm } from '@/pages/Tag/Components/TagForm';
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -47,15 +46,15 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/tags',
     component: TagPage,
-    // children: [
-    //   {
-    //     path: 'create',
-    //     component: TagCreate,
-    //   },
-    //   {
-    //     path: ':id',
-    //     component: TagEdit,
-    //   },
-    // ],
+    children: [
+      {
+        path: '',
+        redirect: '/tags/show',
+      },
+      {
+        path: ':type',
+        component: TagForm,
+      },
+    ],
   },
 ];

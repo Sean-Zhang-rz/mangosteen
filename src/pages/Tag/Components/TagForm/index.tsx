@@ -1,16 +1,26 @@
+import { Button } from '@/components/Button';
 import { EmojiList } from '@/components/EmojiList';
 import { MainLayout } from '@/components/MainLayout';
 import { Rules, validate } from '@/utils/validateForm';
 import { defineComponent, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 import styles from './index.module.scss';
 
-export const TagCreate = defineComponent({
+type tagPageType = 'show' | 'edit';
+
+export const TagForm = defineComponent({
   setup: (props, context) => {
+    console.log(useRoute().params);
+
+    const tagPageType: tagPageType = useRoute().params.type as tagPageType;
+    const tagName = useRoute().query.tagName as string;
+    const tagSign = useRoute().query.tagSign as string;
     const formData = reactive({
-      name: '',
-      sign: '',
+      name: tagName || '',
+      sign: tagSign || '',
     });
     const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({});
+
     const checkInput = () => {
       const rules: Rules<typeof formData>[] = [
         { key: 'name', type: 'required', message: '必填' },
@@ -65,6 +75,16 @@ export const TagCreate = defineComponent({
             <button class={[styles.form_item, styles.button]}>提交</button>
           </div>
         </form>
+        {tagPageType === 'edit' ? (
+          <div class={styles.actions}>
+            <Button level="danger" class={styles.removeTags} onClick={() => {}}>
+              删除标签
+            </Button>
+            <Button level="danger" class={styles.removeTagsAndItems} onClick={() => {}}>
+              删除标签和记账
+            </Button>
+          </div>
+        ) : null}
       </MainLayout>
     );
   },
