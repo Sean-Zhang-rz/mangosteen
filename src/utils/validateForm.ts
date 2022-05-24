@@ -1,11 +1,14 @@
-interface FData {
-  [k: string]: string | number | null | undefined | FData;
-}
-export type Rules<T> = {
-  key: keyof T;
-  message: string;
-} & ({ type: 'required' } | { type: 'pattern'; regex: RegExp });
-export const validate = <T extends FData>(formData: T, rules: Rules<T>[]) => {
+// interface FData {
+//   [k: string]: string | number | null | undefined | FData;
+// }
+// export type Rules<T> = {
+//   key: keyof T;
+//   message: string;
+// } & ({ type: 'required' } | { type: 'pattern'; regex: RegExp });
+
+import FormDataProps, { Rules } from '@/api/types/form';
+
+export const validate = <T extends FormDataProps>(formData: T, rules: Rules<T>[]) => {
   type Errors = {
     [k in keyof T]?: string[];
   };
@@ -32,6 +35,6 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>[]) => {
   });
   return errors;
 };
-function isEmpty(value: null | undefined | string | number | FData) {
+function isEmpty(value: null | undefined | string | number | FormDataProps) {
   return value == null || value === '';
 }
