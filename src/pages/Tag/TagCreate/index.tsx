@@ -1,7 +1,6 @@
 import { EmojiList } from '@/components/EmojiList';
 import { MainLayout } from '@/components/MainLayout';
 import { Rules, validate } from '@/utils/validateForm';
-import { spawn } from 'child_process';
 import { defineComponent, reactive } from 'vue';
 import styles from './index.module.scss';
 

@@ -92,7 +92,7 @@ export const ItemCreate = defineComponent({
                 </Tab>
               </Tabs>
               <div class={styles.inputPad_wrapper}>
-                <InputPad class={styles.input_pad}></InputPad>
+                <InputPad />
               </div>
             </div>
           ),
