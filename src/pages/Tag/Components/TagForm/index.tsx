@@ -5,7 +5,7 @@ import form from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import { MainLayout } from '@/components/MainLayout';
 import { validate } from '@/utils/validateForm';
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import styles from './index.module.scss';
 
@@ -44,6 +44,9 @@ export const TagForm = defineComponent({
     };
     const FormComponent = form<typeof formData>();
 
+    watch(formData, (newValue) => {
+      console.log('formData', newValue);
+    });
     return () => (
       <MainLayout title="新建标签" icon="back">
         {/* <form class={styles.form} onSubmit={onSubmit}>
@@ -77,10 +80,14 @@ export const TagForm = defineComponent({
             </label>
           </div>
         </form> */}
+
         <FormComponent formData={formData} rules={rules}>
           <FormItem label="标签名" prop="name" />
-          <FormItem label={`符号 ${formData.sign}`}>
-            <EmojiList v-model={formData.sign} />
+          <FormItem prop="sign">
+            {{
+              label: () => `符号 ${formData.sign}`,
+              default: () => <EmojiList v-model={formData.sign} />,
+            }}
           </FormItem>
         </FormComponent>
         <p class={styles.tips}>记账时长按标签即可进行编辑</p>

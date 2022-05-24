@@ -16,6 +16,7 @@ export default function form<T>() {
     setup: (props, context) => {
       const onSubmit = () => {};
       const children = context.slots.default?.();
+      console.log(children);
 
       return () => (
         <form class={styles.form} onSubmit={onSubmit}>
