@@ -24,7 +24,7 @@ export const Tabs = defineComponent({
       });
       return (
         <div class={[styles.tabs, cp + '_tabs']}>
-          <ol class={styles.tabs_nav}>
+          <ol class={[styles.tabs_nav]}>
             {childrenArray.map((item) => (
               <li
                 class={[
