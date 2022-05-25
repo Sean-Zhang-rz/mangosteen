@@ -1,6 +1,5 @@
 import { defineComponent, PropType } from 'vue';
 import FormDataProps, { Rules } from '@/api/types/form';
-import { FormItem } from './Components/FormItem';
 import styles from './index.module.scss';
 
 export default function form<T>() {
@@ -12,18 +11,14 @@ export default function form<T>() {
       rules: {
         type: Array as PropType<Rules<T>[]>,
       },
+      onSubmit: {
+        type: Function as PropType<(e: Event) => void>,
+      },
     },
     setup: (props, context) => {
-      const onSubmit = () => {};
-      const children = context.slots.default?.();
-      console.log(children);
-
       return () => (
-        <form class={styles.form} onSubmit={onSubmit}>
-          {children?.map((c) => {
-            if (c.type !== FormItem) return <c />;
-            return <c formData={props.formData} />;
-          })}
+        <form class={styles.form} onSubmit={props.onSubmit}>
+          {context.slots.default?.()}
         </form>
       );
     },

@@ -1,11 +1,11 @@
+import { defineComponent, reactive, ref } from 'vue';
 import { Rules } from '@/api/types/form';
 import { Button } from '@/components/Button';
 import { EmojiList } from '@/components/EmojiList';
 import form from '@/components/Form';
-import { FormItem } from '@/components/Form/Components/FormItem';
+import formItem from '@/components/Form/Components/FormItem';
 import { MainLayout } from '@/components/MainLayout';
 import { validate } from '@/utils/validateForm';
-import { defineComponent, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import styles from './index.module.scss';
 
@@ -42,58 +42,33 @@ export const TagForm = defineComponent({
       e.preventDefault();
       checkInput();
     };
-    const FormComponent = form<typeof formData>();
-
-    watch(formData, (newValue) => {
-      console.log('formData', newValue);
-    });
+    const Form = form<typeof formData>();
+    const FormItem = formItem<{ [k in keyof typeof formData]?: string[] }>();
     return () => (
       <MainLayout title="新建标签" icon="back">
-        {/* <form class={styles.form} onSubmit={onSubmit}>
-          <div class={styles.form_row}>
-            <label class={styles.form_label}>
-              <span class={styles.form_item_name}>标签名</span>
-              <div class={styles.form_item_value}>
-                <input
-                  v-model={formData.name}
-                  class={[
-                    styles.form_item,
-                    styles.input,
-                    errors['name']?.length ? styles.error : '',
-                  ]}
-                />
-              </div>
-              <div class={styles.form_item_errorHint}>
-                <span>{errors['name']?.[0] ? errors['name']?.[0] : '　'}</span>
-              </div>
-            </label>
-          </div>
-          <div class={styles.form_row}>
-            <label class={styles.form_label}>
-              <span class={styles.form_item_name}>符号 {formData.sign}</span>
-              <div class={styles.form_item_value}>
-                <EmojiList v-model={formData.sign} />
-              </div>
-              <div class={styles.form_item_errorHint}>
-                <span>{errors['sign']?.[0] ? errors['sign']?.[0] : '　'}</span>
-              </div>
-            </label>
-          </div>
-        </form> */}
-
-        <FormComponent formData={formData} rules={rules}>
-          <FormItem label="标签名" prop="name" />
-          <FormItem prop="sign">
+        <Form formData={formData} rules={rules} onSubmit={onSubmit}>
+          <FormItem
+            v-model={formData.name}
+            label={'标签名'}
+            error={errors['name'] ? errors['name'][0] : '　'}
+          />
+          <FormItem
+            v-model={formData.sign}
+            label={`符号 ${formData.sign}`}
+            error={errors['sign'] ? errors['sign'][0] : '　'}
+          >
             {{
-              label: () => `符号 ${formData.sign}`,
               default: () => <EmojiList v-model={formData.sign} />,
             }}
           </FormItem>
-        </FormComponent>
-        <p class={styles.tips}>记账时长按标签即可进行编辑</p>
-        <div class={styles.form_row}>
-          <button class={[styles.form_item, styles.button]}>提交</button>
-        </div>
+          <p class={styles.tips}>记账时长按标签即可进行编辑</p>
+          <FormItem>
+            {{
+              default: () => <button class={[styles.form_item, styles.button]}>提交</button>,
+            }}
+          </FormItem>
+        </Form>
+
         {tagPageType === 'edit' ? (
           <div class={styles.actions}>
             <Button level="danger" class={styles.removeTags} onClick={() => {}}>
