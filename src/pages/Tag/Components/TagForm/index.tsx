@@ -16,47 +16,25 @@ export const TagForm = defineComponent({
     const tagPageType: tagPageType = useRoute().params.type as tagPageType;
     const tagName = useRoute().query.tagName as string;
     const tagSign = useRoute().query.tagSign as string;
+
     const formData = reactive({
       name: tagName || '',
       sign: tagSign || '',
     });
-    const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({});
+
     const rules: Rules<typeof formData>[] = [
       { key: 'name', type: 'required', message: '必填' },
       { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: '只能填1到4个字符' },
       { key: 'sign', type: 'required', message: '必填' },
     ];
-    const checkInput = () => {
-      const rules: Rules<typeof formData>[] = [
-        { key: 'name', type: 'required', message: '必填' },
-        { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: '只能填1到4个字符' },
-        { key: 'sign', type: 'required', message: '必填' },
-      ];
-      Object.assign(errors, {
-        name: undefined,
-        sign: undefined,
-      });
-      Object.assign(errors, validate(formData, rules));
-    };
-    const onSubmit = (e: Event) => {
-      e.preventDefault();
-      checkInput();
-    };
+
     const Form = form<typeof formData>();
     const FormItem = formItem<{ [k in keyof typeof formData]?: string[] }>();
     return () => (
       <MainLayout title="新建标签" icon="back">
-        <Form formData={formData} rules={rules} onSubmit={onSubmit}>
-          <FormItem
-            v-model={formData.name}
-            label={'标签名'}
-            error={errors['name'] ? errors['name'][0] : '　'}
-          />
-          <FormItem
-            v-model={formData.sign}
-            label={`符号 ${formData.sign}`}
-            error={errors['sign'] ? errors['sign'][0] : '　'}
-          >
+        <Form formData={formData} rules={rules}>
+          <FormItem label="标签名" prop="name" />
+          <FormItem label={`符号 ${formData.sign}`} prop="sign">
             {{
               default: () => <EmojiList v-model={formData.sign} />,
             }}

@@ -1,11 +1,15 @@
 import { computed, defineComponent, PropType, reactive } from 'vue';
 import FormDataProps, { Rules } from '@/api/types/form';
 import styles from './index.module.scss';
+
 export default function formItem<T>() {
   return defineComponent({
     props: {
       formData: {
         type: Object as PropType<FormDataProps>,
+      },
+      prop: {
+        type: String,
       },
       label: {
         type: String,
@@ -55,7 +59,6 @@ export default function formItem<T>() {
             <span class={styles.form_item_name}>{props.label}</span>
             {content.value}
             <div class={styles.form_item_errorHint}>
-              {/* <span>{props.error ? props.error : '　'}</span> */}
               <span>{props.error}</span>
             </div>
           </label>
