@@ -8,8 +8,12 @@ export const Tabs = defineComponent({
       type: String,
       required: false,
     },
+    classPrefix: {
+      type: String,
+    },
   },
   setup: (props, context) => {
+    const cp = props.classPrefix;
     return () => {
       const childrenArray = context.slots.default?.();
       if (!childrenArray) return () => null;
@@ -19,11 +23,14 @@ export const Tabs = defineComponent({
         }
       });
       return (
-        <div class={styles.tabs}>
+        <div class={[styles.tabs, cp + '_tabs']}>
           <ol class={styles.tabs_nav}>
             {childrenArray.map((item) => (
               <li
-                class={item.props?.name === props.selected ? styles.selected : ''}
+                class={[
+                  item.props?.name === props.selected ? [styles.selected, cp + '_selected'] : '',
+                  cp + '_tabs_nav_item',
+                ]}
                 onClick={() => context.emit('update:selected', item.props?.name)}
               >
                 {item.props?.name}

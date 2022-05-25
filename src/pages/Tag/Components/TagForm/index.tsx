@@ -30,6 +30,7 @@ export const TagForm = defineComponent({
 
     const Form = form<typeof formData>();
     const FormItem = formItem<{ [k in keyof typeof formData]?: string[] }>();
+
     return () => (
       <MainLayout title="新建标签" icon="back">
         <Form formData={formData} rules={rules}>

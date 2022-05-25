@@ -1,7 +1,6 @@
 import { defineComponent, PropType, reactive } from 'vue';
 import FormDataProps, { Rules } from '@/api/types/form';
 import styles from './index.module.scss';
-import formItem from './Components/FormItem';
 import { validate } from '@/utils/validateForm';
 
 export default function form<T>() {
@@ -39,9 +38,6 @@ export default function form<T>() {
       return () => (
         <form class={styles.form} onSubmit={onSubmit}>
           {context.slots.default?.().map((c) => {
-            console.log(c?.props?.prop);
-            console.log(c.type === formItem<{ [k in keyof typeof props.formData]?: string[] }>());
-
             return (
               <c
                 formDara={FormData}

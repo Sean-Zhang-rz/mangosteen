@@ -6,11 +6,12 @@
     align-items: center;
     text-align: center;
     color: var(--navbar-text);
+    background: var(--navbar-bg-end);
 
     > li {
       flex: 1;
       padding: 12px 0;
-      background-color: var(--navbar-bg-end);
+      // background-color: var(--navbar-bg-end);
       &.selected {
         position: relative;
         &::after {
