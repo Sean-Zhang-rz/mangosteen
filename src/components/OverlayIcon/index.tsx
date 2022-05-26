@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router';
 import { Icon } from '../Icon';
 import styles from './index.module.scss';
 
-export const Overlay = defineComponent({
+export const OverlayIcon = defineComponent({
   props: {
     onClose: {
       type: Function as PropType<() => void>,

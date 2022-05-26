@@ -1,9 +1,9 @@
 import { defineComponent, reactive, ref, watchEffect } from 'vue';
+import { Overlay } from 'vant';
 import { MainLayout } from '@/components/MainLayout';
 import { Tabs } from '@/components/Tabs';
 import { Tab } from '@/components/Tabs/Tab';
 import { Time } from '@/utils/time';
-import { Overlay } from 'vant';
 import form from '@/components/Form';
 import formItem from '@/components/Form/Components/FormItem';
 import { ItemSummary } from '../Summary';

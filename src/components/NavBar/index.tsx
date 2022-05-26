@@ -1,6 +1,6 @@
 import { defineComponent, PropType, ref } from 'vue';
 import { Icon, IconName } from '../Icon';
-import { Overlay } from '../Overlay';
+import { OverlayIcon } from '../OverlayIcon';
 import styles from './index.module.scss';
 
 export const NavBar = defineComponent({
@@ -29,7 +29,7 @@ export const NavBar = defineComponent({
         ) : null}
         <span class={styles.title_wrapper}>{title}</span>
         {icon === 'menu' && overlayVisible.value === true ? (
-          <Overlay
+          <OverlayIcon
             onClose={() => {
               overlayVisible.value = false;
             }}
