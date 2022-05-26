@@ -32,11 +32,6 @@ export const ItemList = defineComponent({
         end: time.lastDayOfYear(),
       },
     ];
-    // watchEffect(() => {
-    //   if (refSelected.value === '自定义时间') {
-    //     refOverlayVisible.value = true;
-    //   }
-    // });
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault();
       refOverlayVisible.value = false;
@@ -52,7 +47,11 @@ export const ItemList = defineComponent({
               <Tabs
                 classPrefix={'customTabs'}
                 v-model:selected={refSelected.value}
-                onUpdate:selected={() => (refOverlayVisible.value = true)}
+                onUpdate:selected={(value) => {
+                  if (value === '自定义时间') {
+                    refOverlayVisible.value = true;
+                  }
+                }}
               >
                 <Tab name="本月">
                   <ItemSummary
@@ -80,14 +79,21 @@ export const ItemList = defineComponent({
 
               <Overlay show={refOverlayVisible.value} class={styles.overlay}>
                 <div class={styles.overlay_inner}>
-                  <header>请选择时间 {refOverlayVisible.value.toString()}</header>
+                  <header>请选择时间</header>
                   <main>
                     <Form formData={customTime} onSubmit={onSubmitCustomTime}>
                       <FormItem label="开始时间" prop="start" type="date" />
                       <FormItem label="结束时间" prop="end" type="date" />
                       <FormItem>
                         <div class={styles.actions}>
-                          <button type="button">取消</button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              refOverlayVisible.value = false;
+                            }}
+                          >
+                            取消
+                          </button>
                           <button type="submit" onClick={onSubmitCustomTime}>
                             确认
                           </button>
