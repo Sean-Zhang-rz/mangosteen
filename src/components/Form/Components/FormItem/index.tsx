@@ -39,8 +39,8 @@ export default function formItem<T>() {
               children.map((c) => (
                 <c
                   class={[
-                    styles.form_item,
-                    styles.input,
+                    // styles.form_item,
+                    // styles.input,
                     props.error?.length! > 1 ? styles.error : '',
                   ]}
                 />

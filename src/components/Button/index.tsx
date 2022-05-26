@@ -7,13 +7,18 @@ export const Button = defineComponent({
       type: String as PropType<'important' | 'normal' | 'danger'>,
       required: true,
     },
+    type: {
+      type: String as PropType<'submit' | 'button'>,
+    },
     onClick: {
       type: Function as PropType<(e: MouseEvent) => void>,
     },
   },
   setup: (props, context) => {
     return () => (
-      <button class={[styles.btn, styles[props.level]]}>{context.slots.default?.()}</button>
+      <button class={[styles.btn, styles[props.level]]} type={props.type}>
+        {context.slots.default?.()}
+      </button>
     );
   },
 });
