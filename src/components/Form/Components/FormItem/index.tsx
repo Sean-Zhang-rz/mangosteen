@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType, reactive, ref } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import FormDataProps, { Rules } from '@/api/types/form';
 import styles from './index.module.scss';
 import { DatetimePicker, Popup } from 'vant';
@@ -19,9 +19,9 @@ export default function formItem<T>() {
       label: {
         type: String,
       },
-      rule: {
-        type: Object as PropType<Rules<T>[]>,
-      },
+      // rule: {
+      //   type: Object as PropType<Rules<T>[]>,
+      // },
       type: {
         type: String as PropType<'date'>,
       },
@@ -37,23 +37,15 @@ export default function formItem<T>() {
         return (
           <div class={styles.form_item_value}>
             {children ? (
-              children.map((c) => (
-                <c
-                  class={[
-                    // styles.form_item,
-                    // styles.input,
-                    props.error?.length! > 1 ? styles.error : '',
-                  ]}
-                />
-              ))
+              children.map((c) => <c class={props.error?.length! > 1 ? styles.error : ''} />)
             ) : (
               <>
                 <input
                   value={props.modelValue}
+                  readonly={props.type === 'date'}
                   onInput={(e: any) => {
                     context.emit('update:modelValue', e.target.value);
                   }}
-                  readonly={props.type === 'date'}
                   onClick={() => {
                     if (props.type === 'date') {
                       refDateVisible.value = true;

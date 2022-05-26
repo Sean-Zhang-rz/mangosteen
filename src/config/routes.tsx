@@ -8,6 +8,7 @@ import { ItemList } from '@/pages/Item/components/List';
 import { ItemCreate } from '@/pages/Item/components/Create';
 import { TagPage } from '@/pages/Tag';
 import { TagForm } from '@/pages/Tag/Components/TagForm';
+import { SignInPage } from '@/pages/SignIn';
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -56,5 +57,9 @@ export const routes: RouteRecordRaw[] = [
         component: TagForm,
       },
     ],
+  },
+  {
+    path: '/sign_in',
+    component: SignInPage,
   },
 ];
