@@ -1,6 +1,8 @@
-import { computed, defineComponent, PropType, reactive } from 'vue';
+import { computed, defineComponent, PropType, reactive, ref } from 'vue';
 import FormDataProps, { Rules } from '@/api/types/form';
 import styles from './index.module.scss';
+import { DatetimePicker, Popup } from 'vant';
+import { Time } from '@/utils/time';
 
 export default function formItem<T>() {
   return defineComponent({
@@ -11,11 +13,17 @@ export default function formItem<T>() {
       prop: {
         type: String,
       },
+      modelValue: {
+        type: [String, Number],
+      },
       label: {
         type: String,
       },
       rule: {
         type: Object as PropType<Rules<T>[]>,
+      },
+      type: {
+        type: String as PropType<'date'>,
       },
       error: {
         type: String,
@@ -23,7 +31,7 @@ export default function formItem<T>() {
     },
     setup: (props, context) => {
       const children = context.slots.default?.();
-
+      const refDateVisible = ref(false);
       const content = computed(() => {
         return (
           <div class={styles.form_item_value}>
@@ -38,16 +46,39 @@ export default function formItem<T>() {
                 />
               ))
             ) : (
-              <input
-                onInput={(e: any) => {
-                  context.emit('update:modelValue', e.target.value);
-                }}
-                class={[
-                  styles.form_item,
-                  styles.input,
-                  props.error?.length! > 1 ? styles.error : '',
-                ]}
-              />
+              <>
+                <input
+                  value={props.modelValue}
+                  onInput={(e: any) => {
+                    context.emit('update:modelValue', e.target.value);
+                  }}
+                  readonly={props.type === 'date'}
+                  onClick={() => {
+                    if (props.type === 'date') {
+                      refDateVisible.value = true;
+                    }
+                  }}
+                  class={[
+                    styles.form_item,
+                    styles.input,
+                    props.error?.length! > 1 ? styles.error : '',
+                  ]}
+                />
+                {props.type === 'date' ? (
+                  <Popup position="bottom" v-model:show={refDateVisible.value} teleport="body">
+                    <DatetimePicker
+                      value={props.modelValue}
+                      type="date"
+                      title="选择年月日"
+                      onConfirm={(date: Date) => {
+                        context.emit('update:modelValue', new Time(date).format());
+                        refDateVisible.value = false;
+                      }}
+                      onCancel={() => (refDateVisible.value = false)}
+                    />
+                  </Popup>
+                ) : null}
+              </>
             )}
           </div>
         );

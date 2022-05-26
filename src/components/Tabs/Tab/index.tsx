@@ -5,8 +5,11 @@ export const Tab = defineComponent({
     name: {
       type: String,
     },
+    onClick: {
+      type: Function,
+    },
   },
   setup: (props, context) => {
-    return () => <div>{context.slots.default?.()}</div>;
+    return () => <div onClick={props?.onClick?.()}>{context.slots.default?.()}</div>;
   },
 });
