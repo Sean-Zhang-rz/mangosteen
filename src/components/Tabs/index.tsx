@@ -12,6 +12,7 @@ export const Tabs = defineComponent({
       type: String,
     },
   },
+  emits: ['update:selected'],
   setup: (props, context) => {
     const cp = props.classPrefix;
     return () => {

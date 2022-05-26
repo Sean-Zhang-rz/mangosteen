@@ -32,11 +32,11 @@ export const ItemList = defineComponent({
         end: time.lastDayOfYear(),
       },
     ];
-    watchEffect(() => {
-      if (refSelected.value === '自定义时间') {
-        refOverlayVisible.value = true;
-      }
-    });
+    // watchEffect(() => {
+    //   if (refSelected.value === '自定义时间') {
+    //     refOverlayVisible.value = true;
+    //   }
+    // });
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault();
       refOverlayVisible.value = false;
@@ -49,7 +49,11 @@ export const ItemList = defineComponent({
         {{
           default: () => (
             <>
-              <Tabs classPrefix={'customTabs'} v-model:selected={refSelected.value}>
+              <Tabs
+                classPrefix={'customTabs'}
+                v-model:selected={refSelected.value}
+                onUpdate:selected={() => (refOverlayVisible.value = true)}
+              >
                 <Tab name="本月">
                   <ItemSummary
                     startDate={timeList[0].start.format()}

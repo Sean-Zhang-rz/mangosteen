@@ -29,6 +29,7 @@ export default function formItem<T>() {
         type: String,
       },
     },
+    emits: ['update:modelValue'],
     setup: (props, context) => {
       const children = context.slots.default?.();
       const refDateVisible = ref(false);
