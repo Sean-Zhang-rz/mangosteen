@@ -4,8 +4,8 @@ import { MainLayout } from '@/components/MainLayout';
 import { Tabs } from '@/components/Tabs';
 import { Tab } from '@/components/Tabs/Tab';
 import { Time } from '@/utils/time';
-import form from '@/components/Form';
-import formItem from '@/components/Form/Components/FormItem';
+import { Form } from '@/components/Form';
+import { FormItem } from '@/components/Form/Components/FormItem';
 import { ItemSummary } from '../Summary';
 import styles from './index.module.scss';
 
@@ -36,8 +36,6 @@ export const ItemList = defineComponent({
       e.preventDefault();
       refOverlayVisible.value = false;
     };
-    const Form = form<typeof customTime>();
-    const FormItem = formItem<{ [k in keyof typeof customTime]?: string[] }>();
 
     return () => (
       <MainLayout title="山竹记账" icon="menu">

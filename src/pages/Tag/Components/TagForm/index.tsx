@@ -2,8 +2,8 @@ import { defineComponent, reactive, ref } from 'vue';
 import { Rules } from '@/api/types/form';
 import { Button } from '@/components/Button';
 import { EmojiList } from '@/components/EmojiList';
-import form from '@/components/Form';
-import formItem from '@/components/Form/Components/FormItem';
+import { Form } from '@/components/Form';
+import { FormItem } from '@/components/Form/Components/FormItem';
 import { MainLayout } from '@/components/MainLayout';
 import { validate } from '@/utils/validateForm';
 import { useRoute } from 'vue-router';
@@ -22,14 +22,11 @@ export const TagForm = defineComponent({
       sign: tagSign || '',
     });
 
-    const rules: Rules<typeof formData>[] = [
+    const rules: Rules[] = [
       { key: 'name', type: 'required', message: '必填' },
       { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: '只能填1到4个字符' },
       { key: 'sign', type: 'required', message: '必填' },
     ];
-
-    const Form = form<typeof formData>();
-    const FormItem = formItem<{ [k in keyof typeof formData]?: string[] }>();
 
     return () => (
       <MainLayout title="新建标签" icon="back">
