@@ -5,6 +5,7 @@
 .form_row {
   margin-top: 8px;
 }
+
 .form_item {
   min-height: var(--input-min-height);
   max-width: 100%;
@@ -30,10 +31,12 @@
       border-color: var(--error-color);
     }
   }
+
   &_value {
     display: flex;
     margin-top: 4px;
   }
+
   &_errorHint {
     margin-top: 4px;
     color: var(--error-color);
@@ -48,4 +51,13 @@
   .removeTagsAndItems {
     width: calc(50% - 8px);
   }
+}
+.validationCodeInput {
+  flex-grow: 1;
+  width: 9em;
+}
+.validationCodeButton {
+  flex-grow: 1;
+  margin-left: 16px;
+  width: 9em;
 }

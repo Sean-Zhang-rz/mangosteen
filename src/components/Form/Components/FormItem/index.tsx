@@ -3,6 +3,7 @@ import FormDataProps, { Rules } from '@/api/types/form';
 import styles from './index.module.scss';
 import { DatetimePicker, Popup } from 'vant';
 import { Time } from '@/utils/time';
+import { Button } from '@/components/Button';
 
 export default function formItem<T>() {
   return defineComponent({
@@ -23,11 +24,10 @@ export default function formItem<T>() {
       //   type: Object as PropType<Rules<T>[]>,
       // },
       type: {
-        type: String as PropType<'date'>,
+        type: String as PropType<'date' | 'validation'>,
       },
-      error: {
-        type: String,
-      },
+      error: String,
+      placeholder: String,
     },
     emits: ['update:modelValue'],
     setup: (props, context) => {
@@ -43,6 +43,7 @@ export default function formItem<T>() {
                 <input
                   value={props.modelValue}
                   readonly={props.type === 'date'}
+                  placeholder={props.placeholder}
                   onInput={(e: any) => {
                     context.emit('update:modelValue', e.target.value);
                   }}
@@ -54,6 +55,7 @@ export default function formItem<T>() {
                   class={[
                     styles.form_item,
                     styles.input,
+                    props.type === 'validation' ? styles.validationCodeInput : '',
                     props.error?.length! > 1 ? styles.error : '',
                   ]}
                 />
@@ -70,6 +72,11 @@ export default function formItem<T>() {
                       onCancel={() => (refDateVisible.value = false)}
                     />
                   </Popup>
+                ) : null}
+                {props.type === 'validation' ? (
+                  <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}>
+                    发送验证码
+                  </Button>
                 ) : null}
               </>
             )}

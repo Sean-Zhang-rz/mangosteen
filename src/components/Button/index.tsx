@@ -5,7 +5,6 @@ export const Button = defineComponent({
   props: {
     level: {
       type: String as PropType<'important' | 'normal' | 'danger'>,
-      required: true,
     },
     type: {
       type: String as PropType<'submit' | 'button'>,
@@ -16,7 +15,7 @@ export const Button = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <button class={[styles.btn, styles[props.level]]} type={props.type}>
+      <button class={[styles.btn, styles[props.level || 'normal']]} type={props.type}>
         {context.slots.default?.()}
       </button>
     );

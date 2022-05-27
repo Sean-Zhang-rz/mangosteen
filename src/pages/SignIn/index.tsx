@@ -4,6 +4,8 @@ import form from '@/components/Form';
 import styles from './index.module.scss';
 import formItem from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
+import { Icon } from '@/components/Icon';
+import { Button } from '@/components/Button';
 
 export const SignInPage = defineComponent({
   components: {
@@ -11,13 +13,13 @@ export const SignInPage = defineComponent({
   },
   setup: (props, context) => {
     const formData = reactive({
-      emailAddress: '',
-      validationCode: '',
+      email: '',
+      code: '',
     });
     const rules: Rules<typeof formData>[] = [
-      { key: 'emailAddress', type: 'required', message: '必填' },
-      { key: 'emailAddress', type: 'pattern', regex: /^.{1,4}$/, message: '只能填1到4个字符' },
-      { key: 'validationCode', type: 'required', message: '必填' },
+      { key: 'email', type: 'required', message: '必填' },
+      { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
+      { key: 'code', type: 'required', message: '必填' },
     ];
     const Form = form<typeof formData>();
     const FormItem = formItem<{ [k in keyof typeof formData]?: string[] }>();
@@ -27,9 +29,26 @@ export const SignInPage = defineComponent({
           default: () => {
             return (
               <div class={styles.wrapper}>
+                <div class={styles.logo}>
+                  <Icon class={styles.icon} name="logo" />
+                  <h1 class={styles.appName}>山竹记账</h1>
+                </div>
                 <Form formData={formData} rules={rules}>
-                  <FormItem prop="index" label="test">
-                    123
+                  <FormItem
+                    label="邮箱地址"
+                    prop="email"
+                    placeholder="请输入邮箱，然后点击发送验证码"
+                    v-model={formData.email}
+                  />
+                  <FormItem
+                    label="验证码"
+                    prop="code"
+                    type="validation"
+                    placeholder="请输入六位数字"
+                    v-model={formData.code}
+                  />
+                  <FormItem style={{ paddingTop: '96px' }}>
+                    <Button class={styles.btn}>登录</Button>
                   </FormItem>
                 </Form>
               </div>

@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 
 export type IconName =
   | 'add'
+  | 'logo'
   | 'chart'
   | 'clock'
   | 'cloud'
