@@ -1,11 +1,10 @@
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { Rules } from '@/api/types/form';
 import { Button } from '@/components/Button';
 import { EmojiList } from '@/components/EmojiList';
 import { Form } from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import { MainLayout } from '@/components/MainLayout';
-import { validate } from '@/utils/validateForm';
 import { useRoute } from 'vue-router';
 import styles from './index.module.scss';
 

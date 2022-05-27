@@ -45,7 +45,9 @@ export const SignInPage = defineComponent({
                     placeholder="请输入六位数字"
                   />
                   <FormItem style={{ paddingTop: '96px' }}>
-                    <Button class={styles.btn}>登录</Button>
+                    <Button type="submit" class={styles.btn}>
+                      登录
+                    </Button>
                   </FormItem>
                 </Form>
               </div>

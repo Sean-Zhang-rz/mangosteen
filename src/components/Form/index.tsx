@@ -23,16 +23,13 @@ export const Form = defineComponent({
       checkInput();
     };
     const checkInput = () => {
-      const rules: Rules[] = [
-        { key: 'name', type: 'required', message: '必填' },
-        { key: 'name', type: 'pattern', regex: /^.{1,4}$/, message: '只能填1到4个字符' },
-        { key: 'sign', type: 'required', message: '必填' },
-      ];
-      Object.assign(errors, {
-        name: undefined,
-        sign: undefined,
-      });
-      Object.assign(errors, validate(props.formData, rules));
+      if (props.rules) {
+        Object.assign(errors, {
+          name: undefined,
+          sign: undefined,
+        });
+        Object.assign(errors, validate(props.formData, props.rules));
+      }
     };
     return () => (
       <form class={styles.form} onSubmit={onSubmit}>
