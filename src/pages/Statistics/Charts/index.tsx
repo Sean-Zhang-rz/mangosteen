@@ -1,4 +1,5 @@
-import { defineComponent, PropType } from 'vue';
+import { FormItem } from '@/components/Form/Components/FormItem';
+import { defineComponent, PropType, ref } from 'vue';
 
 import styles from './index.module.scss';
 
@@ -14,6 +15,20 @@ export const Charts = defineComponent({
     },
   },
   setup: (props, context) => {
-    return () => <div class={styles.wrapper}>图表</div>;
+    const category = ref('expenses');
+
+    return () => (
+      <div class={styles.wrapper}>
+        <FormItem
+          v-model={category.value}
+          label="类型"
+          type="select"
+          options={[
+            { value: 'expenses', text: '支出' },
+            { value: 'income', text: '收入' },
+          ]}
+        />
+      </div>
+    );
   },
 });

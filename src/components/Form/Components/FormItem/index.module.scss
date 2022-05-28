@@ -9,6 +9,14 @@
 .form_item {
   min-height: var(--input-min-height);
   max-width: 100%;
+  &.select {
+    width: 100px;
+    height: 30px;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--input-radius);
+    padding: 0 8px;
+  }
+
   &.button {
     width: 100%;
     background-color: var(--button-bg);

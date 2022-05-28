@@ -23,8 +23,9 @@ export const FormItem = defineComponent({
       type: Object as PropType<Rules>,
     },
     type: {
-      type: String as PropType<'date' | 'validation'>,
+      type: String as PropType<'date' | 'validation' | 'select'>,
     },
+    options: Array as PropType<Array<{ value: string; text: string }>>,
     error: String,
     placeholder: String,
   },
@@ -39,44 +40,61 @@ export const FormItem = defineComponent({
             children.map((c) => <c class={props.error?.length! > 1 ? styles.error : ''} />)
           ) : (
             <>
-              <input
-                value={props.modelValue}
-                readonly={props.type === 'date'}
-                placeholder={props.placeholder}
-                onInput={(e: any) => {
-                  context.emit('update:modelValue', e.target.value);
-                }}
-                onClick={() => {
-                  if (props.type === 'date') {
-                    refDateVisible.value = true;
-                  }
-                }}
-                class={[
-                  styles.form_item,
-                  styles.input,
-                  props.type === 'validation' ? styles.validationCodeInput : '',
-                  props.error?.length! > 1 ? styles.error : '',
-                ]}
-              />
-              {props.type === 'date' ? (
-                <Popup position="bottom" v-model:show={refDateVisible.value} teleport="body">
-                  <DatetimePicker
+              {props.type === 'select' ? (
+                <select
+                  class={[styles.form_item, styles.select]}
+                  value={props.modelValue}
+                  onChange={(e: any) => {
+                    context.emit('update:modelValue', e.target.value);
+                  }}
+                >
+                  {props.options?.map((option) => (
+                    <option value={option.value}>{option.text}</option>
+                  ))}
+                </select>
+              ) : (
+                <>
+                  {' '}
+                  <input
                     value={props.modelValue}
-                    type="date"
-                    title="选择年月日"
-                    onConfirm={(date: Date) => {
-                      context.emit('update:modelValue', new Time(date).format());
-                      refDateVisible.value = false;
+                    readonly={props.type === 'date'}
+                    placeholder={props.placeholder}
+                    onInput={(e: any) => {
+                      context.emit('update:modelValue', e.target.value);
                     }}
-                    onCancel={() => (refDateVisible.value = false)}
+                    onClick={() => {
+                      if (props.type === 'date') {
+                        refDateVisible.value = true;
+                      }
+                    }}
+                    class={[
+                      styles.form_item,
+                      styles.input,
+                      props.type === 'validation' ? styles.validationCodeInput : '',
+                      props.error?.length! > 1 ? styles.error : '',
+                    ]}
                   />
-                </Popup>
-              ) : null}
-              {props.type === 'validation' ? (
-                <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}>
-                  发送验证码
-                </Button>
-              ) : null}
+                  {props.type === 'date' ? (
+                    <Popup position="bottom" v-model:show={refDateVisible.value} teleport="body">
+                      <DatetimePicker
+                        value={props.modelValue}
+                        type="date"
+                        title="选择年月日"
+                        onConfirm={(date: Date) => {
+                          context.emit('update:modelValue', new Time(date).format());
+                          refDateVisible.value = false;
+                        }}
+                        onCancel={() => (refDateVisible.value = false)}
+                      />
+                    </Popup>
+                  ) : null}
+                  {props.type === 'validation' ? (
+                    <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}>
+                      发送验证码
+                    </Button>
+                  ) : null}
+                </>
+              )}
             </>
           )}
         </div>
