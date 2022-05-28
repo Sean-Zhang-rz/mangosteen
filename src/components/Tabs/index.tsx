@@ -38,7 +38,9 @@ export const Tabs = defineComponent({
               </li>
             ))}
           </ol>
-          <div>{childrenArray.find((content) => content.props?.name === props.selected)}</div>
+          <div class={styles.tab_content}>
+            {childrenArray.find((content) => content.props?.name === props.selected)}
+          </div>
         </div>
       );
     };

@@ -2,6 +2,9 @@ import { defineComponent, PropType, onMounted, ref } from 'vue';
 import * as echarts from 'echarts';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import styles from './index.module.scss';
+import { LineChart } from '@/pages/Components/ChartModule/Line';
+import { PieChart } from '@/pages/Components/ChartModule/Pie';
+import { BarChart } from '@/pages/Components/ChartModule/Bar';
 
 export const Charts = defineComponent({
   props: {
@@ -76,8 +79,9 @@ export const Charts = defineComponent({
             { value: 'income', text: '收入' },
           ]}
         />
-        <div ref={refDiv} class={styles.demo}></div>
-        <div ref={refDiv2} class={styles.demo2}></div>
+        <LineChart />
+        <PieChart />
+        <BarChart />
       </div>
     );
   },
