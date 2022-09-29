@@ -8,6 +8,7 @@ export const Button = defineComponent({
     },
     type: {
       type: String as PropType<'submit' | 'button'>,
+      default: 'button'
     },
     onClick: {
       type: Function as PropType<(e: MouseEvent) => void>,
