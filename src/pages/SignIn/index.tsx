@@ -21,6 +21,9 @@ export const SignInPage = defineComponent({
       { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
       { key: 'code', type: 'required', message: '必填' },
     ];
+    const onClickSendValidationCode = () => {
+      console.log('11111');
+    }
 
     return () => (
       <MainLayout title="登录" icon="back">
@@ -43,6 +46,7 @@ export const SignInPage = defineComponent({
                     prop="code"
                     type="validation"
                     placeholder="请输入六位数字"
+                    onClick={onClickSendValidationCode}
                   />
                   <FormItem style={{ paddingTop: '96px' }}>
                     <Button type="submit" class={styles.btn}>

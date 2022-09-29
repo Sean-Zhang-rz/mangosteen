@@ -1,9 +1,9 @@
 import { computed, defineComponent, PropType, ref } from 'vue';
 import FormDataProps, { Rules } from '@/api/types/form';
-import styles from './index.module.scss';
 import { DatetimePicker, Popup } from 'vant';
 import { Time } from '@/utils/time';
 import { Button } from '@/components/Button';
+import styles from './index.module.scss';
 
 export const FormItem = defineComponent({
   props: {
@@ -28,6 +28,7 @@ export const FormItem = defineComponent({
     options: Array as PropType<Array<{ value: string; text: string }>>,
     error: String,
     placeholder: String,
+    onClick: Function as PropType<((e: MouseEvent) => void) | undefined>
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
@@ -89,7 +90,8 @@ export const FormItem = defineComponent({
                     </Popup>
                   ) : null}
                   {props.type === 'validation' ? (
-                    <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}>
+                    <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}
+                      onClick={props.onClick}>
                       发送验证码
                     </Button>
                   ) : null}
