@@ -6,6 +6,7 @@ import { FormItem } from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
+import { getValidationCode } from '@/api/common';
 
 export const SignInPage = defineComponent({
   components: {
@@ -22,9 +23,12 @@ export const SignInPage = defineComponent({
       { key: 'code', type: 'required', message: '必填' },
     ];
     const onClickSendValidationCode = () => {
-      console.log('11111');
-    }
-
+      const res = getValidationCode({ email: formData.email }).catch(onError);
+    };
+    const onError = (error: any) => {
+      if (error.status === 422) Object.assign(error, error.data.errors);
+      throw error;
+    };
     return () => (
       <MainLayout title="登录" icon="back">
         {{
