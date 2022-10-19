@@ -1,12 +1,12 @@
 import { defineComponent, ref, Transition, VNode, watchEffect } from 'vue';
 import { RouterView, useRoute, useRouter } from 'vue-router';
-import logoSvg from '/src/assets/icons/logo.svg';
+import logoSvg from '@/assets/icons/logo.svg';
+import { useSwipe } from '@/hooks/useSwipe';
+import { throttle } from '@/utils/throttle';
 import styles from './index.module.scss';
-import { useSwipe } from '../../hooks/useSwipe';
-import { throttle } from '../../utils/throttle';
 
 export const Welcome = defineComponent({
-  setup: (props, context) => {
+  setup: () => {
     const main = ref<HTMLElement>();
     const router = useRouter();
     const route = useRoute();
@@ -16,9 +16,16 @@ export const Welcome = defineComponent({
       if (pageId === 4) return;
       router.push(`/welcome/${pageId + 1}`);
     }, 500);
+    const backRouter = throttle(() => {
+      const pageId = parseInt(route?.params?.id.toString());
+      if (pageId === 1) return;
+      router.push(`/welcome/${pageId - 1}`);
+    }, 500);
     watchEffect(() => {
       if (swiping.value && direction.value === 'left') {
         pushRouter();
+      } else if (swiping.value && direction.value === 'right') {
+        backRouter()
       }
     });
 
@@ -33,10 +40,10 @@ export const Welcome = defineComponent({
             {({ Component: X }: { Component: VNode }) => {
               return (
                 <Transition
-                  enterFromClass={styles.enter_from}
+                  enterFromClass={direction.value === 'left' ? styles.enter_from : styles.leave_to}
                   enterActiveClass={styles.enter_active}
                   leaveActiveClass={styles.leave_active}
-                  leaveToClass={styles.leave_to}
+                  leaveToClass={direction.value === 'left' ? styles.leave_to : styles.enter_from}
                 >
                   {/* @ts-ignore */}
                   <X key={useRoute()?.params?.id.toString()}></X>
