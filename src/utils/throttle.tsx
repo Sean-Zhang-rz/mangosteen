@@ -1,5 +1,5 @@
 export const throttle = <T extends (...args: any[]) => any>(fn: T, time: number) => {
-  let timer: number | undefined = undefined;
+  let timer: number | NodeJS.Timeout | undefined = undefined;
   let result: ReturnType<T>;
   return (...args: Parameters<T>) => {
     if (timer) {

@@ -5,6 +5,7 @@ export const Button = defineComponent({
   props: {
     level: {
       type: String as PropType<'important' | 'normal' | 'danger'>,
+      default: 'normal'
     },
     type: {
       type: String as PropType<'submit' | 'button'>,
