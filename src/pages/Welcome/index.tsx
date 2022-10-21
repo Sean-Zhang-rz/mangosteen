@@ -19,7 +19,7 @@ export const Welcome = defineComponent({
     const backRouter = throttle(() => {
       const pageId = parseInt(route?.params?.id.toString());
       if (pageId === 1) return;
-      router.push(`/welcome/${pageId - 1}`);
+      router.back();
     }, 500);
     watchEffect(() => {
       if (swiping.value && direction.value === 'left') {

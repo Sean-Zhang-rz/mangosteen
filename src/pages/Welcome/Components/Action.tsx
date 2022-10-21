@@ -3,7 +3,7 @@ import { RouterLink, useRoute } from 'vue-router';
 import styles from './index.module.scss';
 
 export const WelcomeAction = defineComponent({
-  setup: (props, context) => {
+  setup: () => {
     const id = parseInt(useRoute()?.params?.id.toString());
 
     return () => (
