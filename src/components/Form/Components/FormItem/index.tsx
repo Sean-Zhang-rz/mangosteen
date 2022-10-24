@@ -33,6 +33,7 @@ export const FormItem = defineComponent({
   emits: ['update:modelValue'],
   setup: (props, context) => {
     const children = context.slots.default?.();
+    const button = context.slots.button?.();
     const refDateVisible = ref(false);
     const content = computed(() => {
       return (
@@ -71,7 +72,7 @@ export const FormItem = defineComponent({
                     class={[
                       styles.form_item,
                       styles.input,
-                      props.type === 'validation' ? styles.validationCodeInput : '',
+                      button ? styles.input_with_button : '',
                       props.error?.length! > 1 ? styles.error : '',
                     ]}
                   />
@@ -89,12 +90,7 @@ export const FormItem = defineComponent({
                       />
                     </Popup>
                   ) : null}
-                  {props.type === 'validation' ? (
-                    <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}
-                      onClick={props.onClick}>
-                      发送验证码
-                    </Button>
-                  ) : null}
+                  {button ? <div class={[styles.slots_button]}>{button}</div> : null}
                 </>
               )}
             </>
@@ -116,97 +112,3 @@ export const FormItem = defineComponent({
     );
   },
 });
-
-// export default function formItem<T>() {
-//   return defineComponent({
-//     props: {
-//       formData: {
-//         type: Object as PropType<FormDataProps>,
-//       },
-//       prop: {
-//         type: String,
-//       },
-//       modelValue: {
-//         type: [String, Number],
-//       },
-//       label: {
-//         type: String,
-//       },
-//       // rule: {
-//       //   type: Object as PropType<Rules<T>[]>,
-//       // },
-//       type: {
-//         type: String as PropType<'date' | 'validation'>,
-//       },
-//       error: String,
-//       placeholder: String,
-//     },
-//     emits: ['update:modelValue'],
-//     setup: (props, context) => {
-//       const children = context.slots.default?.();
-//       const refDateVisible = ref(false);
-//       const content = computed(() => {
-//         return (
-//           <div class={styles.form_item_value}>
-//             {children ? (
-//               children.map((c) => <c class={props.error?.length! > 1 ? styles.error : ''} />)
-//             ) : (
-//               <>
-//                 <input
-//                   value={props.modelValue}
-//                   readonly={props.type === 'date'}
-//                   placeholder={props.placeholder}
-//                   onInput={(e: any) => {
-//                     context.emit('update:modelValue', e.target.value);
-//                   }}
-//                   onClick={() => {
-//                     if (props.type === 'date') {
-//                       refDateVisible.value = true;
-//                     }
-//                   }}
-//                   class={[
-//                     styles.form_item,
-//                     styles.input,
-//                     props.type === 'validation' ? styles.validationCodeInput : '',
-//                     props.error?.length! > 1 ? styles.error : '',
-//                   ]}
-//                 />
-//                 {props.type === 'date' ? (
-//                   <Popup position="bottom" v-model:show={refDateVisible.value} teleport="body">
-//                     <DatetimePicker
-//                       value={props.modelValue}
-//                       type="date"
-//                       title="选择年月日"
-//                       onConfirm={(date: Date) => {
-//                         context.emit('update:modelValue', new Time(date).format());
-//                         refDateVisible.value = false;
-//                       }}
-//                       onCancel={() => (refDateVisible.value = false)}
-//                     />
-//                   </Popup>
-//                 ) : null}
-//                 {props.type === 'validation' ? (
-//                   <Button class={[styles.formItem, styles.button, styles.validationCodeButton]}>
-//                     发送验证码
-//                   </Button>
-//                 ) : null}
-//               </>
-//             )}
-//           </div>
-//         );
-//       });
-
-//       return () => (
-//         <div class={styles.form_row}>
-//           <label class={styles.form_label}>
-//             <span class={styles.form_item_name}>{props.label}</span>
-//             {content.value}
-//             <div class={styles.form_item_errorHint}>
-//               <span>{props.error}</span>
-//             </div>
-//           </label>
-//         </div>
-//       );
-//     },
-//   });
-// }

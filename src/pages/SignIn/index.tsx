@@ -48,10 +48,14 @@ export const SignInPage = defineComponent({
                   <FormItem
                     label="验证码"
                     prop="code"
-                    type="validation"
                     placeholder="请输入六位数字"
-                    onClick={onClickSendValidationCode}
-                  />
+                  >
+                    {{
+                      button: () => <Button onClick={onClickSendValidationCode}>
+                        发送验证码
+                      </Button>
+                    }}
+                  </FormItem>
                   <FormItem style={{ paddingTop: '96px' }}>
                     <Button type="submit" class={styles.btn}>
                       登录
