@@ -23,7 +23,14 @@ export const SignInPage = defineComponent({
       { key: 'code', type: 'required', message: '必填' },
     ];
     const onClickSendValidationCode = () => {
-      const res = getValidationCode({ email: formData.email }).catch(onError);
+      // const res = getValidationCode({ email: formData.email }).catch(onError);
+      return new Promise((res) => {
+        if (formData.email) {
+          res(1234)
+        } else {
+
+        }
+      })
     };
     const onError = (error: any) => {
       if (error.status === 422) Object.assign(error, error.data.errors);

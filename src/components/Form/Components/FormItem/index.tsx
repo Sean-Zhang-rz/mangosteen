@@ -7,9 +7,6 @@ import styles from './index.module.scss';
 
 export const FormItem = defineComponent({
   props: {
-    // formData: {
-    //   type: Object as PropType<FormDataProps>,
-    // },
     prop: {
       type: String,
     },
