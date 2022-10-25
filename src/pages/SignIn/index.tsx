@@ -1,5 +1,5 @@
 import { MainLayout } from '@/components/MainLayout';
-import { defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import { Form } from '@/components/Form';
 import styles from './index.module.scss';
 import { FormItem } from '@/components/Form/Components/FormItem';
@@ -7,12 +7,16 @@ import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
 import { getValidationCode } from '@/api/common';
+import { TimerButton } from '../Components/TimerButton';
 
 export const SignInPage = defineComponent({
   components: {
     MainLayout,
   },
   setup: (props, context) => {
+    // const timer = ref<number | NodeJS.Timer>();
+    // const count = ref<number>(60);
+    // const isCounting = computed(() => !!timer.value)
     const formData = reactive({
       email: '',
       code: '',
@@ -23,14 +27,17 @@ export const SignInPage = defineComponent({
       { key: 'code', type: 'required', message: '必填' },
     ];
     const onClickSendValidationCode = () => {
+
       // const res = getValidationCode({ email: formData.email }).catch(onError);
-      return new Promise((res) => {
+      new Promise((res) => {
         if (formData.email) {
           res(1234)
         } else {
 
         }
       })
+      console.log(123);
+
     };
     const onError = (error: any) => {
       if (error.status === 422) Object.assign(error, error.data.errors);
@@ -58,9 +65,7 @@ export const SignInPage = defineComponent({
                     placeholder="请输入六位数字"
                   >
                     {{
-                      button: () => <Button onClick={onClickSendValidationCode}>
-                        发送验证码
-                      </Button>
+                      button: () => <TimerButton onClick={onClickSendValidationCode} />
                     }}
                   </FormItem>
                   <FormItem style={{ paddingTop: '96px' }}>

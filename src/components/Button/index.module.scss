@@ -6,6 +6,10 @@
   color: var(--button-text);
   font-size: var(--button-font-size);
   border-radius: var(--button-radius);
+  &.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
   // &.normal {
   // }
   // &.important {
