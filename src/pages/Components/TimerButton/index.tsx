@@ -18,7 +18,6 @@ export const TimerButton = defineComponent({
   setup: (props, context) => {
     const timer = ref<number | NodeJS.Timer>();
     const count = ref<number>(props.countFrom);
-    const disabled = ref<boolean>(false);
 
     const isCounting = computed(() => !!timer.value);
     const startCount = () => {
@@ -33,7 +32,7 @@ export const TimerButton = defineComponent({
     };
     console.log(props.disabled);
 
-    context.expose({ startCount, disabled });
+    context.expose({ startCount });
     return () => (
       <Button disabled={isCounting.value} onClick={props.onClick}>
         {isCounting.value ? `${count.value}秒后重新发送` : '发送验证码'}

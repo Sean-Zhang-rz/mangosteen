@@ -31,7 +31,6 @@ export const FormItem = defineComponent({
   setup: (props, context) => {
     const children = context.slots.default?.();
     const button = context.slots.button?.();
-    console.log('button变了', button);
     const refDateVisible = ref(false);
     const content = computed(() => {
       return (

@@ -15,6 +15,10 @@ export const Button = defineComponent({
       type: Boolean,
       default: false
     },
+    autoSelfDisabled: {
+      type: Boolean,
+      default: false
+    },
     onClick: {
       type: Function as PropType<(e: MouseEvent) => void>,
     },
@@ -22,6 +26,7 @@ export const Button = defineComponent({
   setup: (props, context) => {
     const selfDisabled = ref<boolean>(false)
     const _disabled = computed(() => {
+      if (!props.autoSelfDisabled) return props.disabled
       return selfDisabled.value || props.disabled
     })
     const onClick = (e: MouseEvent) => {
