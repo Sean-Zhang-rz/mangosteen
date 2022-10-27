@@ -1,5 +1,5 @@
 import { MainLayout } from '@/components/MainLayout';
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive, ref, watchEffect } from 'vue';
 import { Toast } from 'vant'
 import { Form } from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
@@ -11,29 +11,28 @@ import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
 
 export const SignInPage = defineComponent({
-  components: {
-    MainLayout,
-  },
+  components: { MainLayout },
   setup: (props, context) => {
     const refValidationCode = ref<any>('');
     const formData = reactive({
-      email: '',
+      email: '770899447',
       code: '',
     });
     const rules: Rules[] = [
       { key: 'email', type: 'required', message: '必填' },
-      { key: 'email', type: 'pattern', regex: /\A.+@.+\z/, message: '邮箱地址不正确' },
+      { key: 'email', type: 'pattern', regex: /.+@.+/, message: '邮箱地址不正确' },
       { key: 'code', type: 'required', message: '必填' },
     ];
     const onError = (error: any) => {
       Object.assign(error, error.email);
       throw error;
     };
+
     const onClickSendValidationCode = async () => {
-      if (!/\A.+@.+\z/.test(formData.email)) {
-        Toast('邮箱地址不正确')
-        return
-      }
+      // if (!/\A.+@.+\z/.test(formData.email)) {
+      //   Toast('邮箱地址不正确')
+      //   return
+      // }
       const res = await getValidationCode({ email: formData.email }).catch(onError)
       refValidationCode.value.startCount();
     };
