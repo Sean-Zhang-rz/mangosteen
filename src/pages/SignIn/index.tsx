@@ -16,7 +16,7 @@ export const SignInPage = defineComponent({
   setup: (props, context) => {
     const refValidationCode = ref<any>('');
     const formData = reactive({
-      email: '770899447@qq.com',
+      email: '770899447',
       code: '',
     });
     const rules: Rules[] = [
@@ -24,15 +24,15 @@ export const SignInPage = defineComponent({
       { key: 'email', type: 'pattern', regex: /.+@.+/, message: '必须是邮箱地址' },
       { key: 'code', type: 'required', message: '必填' },
     ];
-    const onClickSendValidationCode = () => {
-      const res = getValidationCode({ email: formData.email }).catch(onError);
-      console.log(123);
-      refValidationCode.value.startCount();
-    };
     const onError = (error: any) => {
-      if (error.status === 422) Object.assign(error, error.data.errors);
+      Object.assign(error, error.email);
       throw error;
     };
+    const onClickSendValidationCode = async () => {
+      const res = await getValidationCode({ email: formData.email }).catch(onError)
+      refValidationCode.value.startCount();
+    };
+
     return () => (
       <MainLayout title="登录" icon="back">
         {{

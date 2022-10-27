@@ -6,7 +6,7 @@ export class Request {
   constructor(baseURL: string) {
     this.instance = axios.create({ baseURL });
     this.instance.interceptors.response.use(
-      (respopnse) => {},
+      (respopnse) => respopnse,
       (error) => {
         if (error.response) {
           const axiosError = error as AxiosError;
@@ -14,7 +14,7 @@ export class Request {
             alert('请求太频繁了');
           }
         }
-        throw error;
+        throw error.response.data.errors;
         // 待实现toast
       }
     );
