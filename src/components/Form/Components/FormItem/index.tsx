@@ -25,12 +25,13 @@ export const FormItem = defineComponent({
     options: Array as PropType<Array<{ value: string; text: string }>>,
     error: String,
     placeholder: String,
-    onClick: Function as PropType<((e: MouseEvent) => void) | undefined>
+    onClick: Function as PropType<((e: MouseEvent) => void) | undefined>,
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
     const children = context.slots.default?.();
     const button = context.slots.button?.();
+
     const refDateVisible = ref(false);
     const content = computed(() => {
       return (

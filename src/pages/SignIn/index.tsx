@@ -27,17 +27,14 @@ export const SignInPage = defineComponent({
       { key: 'code', type: 'required', message: '必填' },
     ];
     const onClickSendValidationCode = () => {
-
       // const res = getValidationCode({ email: formData.email }).catch(onError);
       new Promise((res) => {
         if (formData.email) {
-          res(1234)
+          res(1234);
         } else {
-
         }
-      })
+      });
       console.log(123);
-
     };
     const onError = (error: any) => {
       if (error.status === 422) Object.assign(error, error.data.errors);
@@ -59,13 +56,9 @@ export const SignInPage = defineComponent({
                     prop="email"
                     placeholder="请输入邮箱，然后点击发送验证码"
                   />
-                  <FormItem
-                    label="验证码"
-                    prop="code"
-                    placeholder="请输入六位数字"
-                  >
+                  <FormItem label="验证码" prop="code" placeholder="请输入六位数字">
                     {{
-                      button: () => <TimerButton onClick={onClickSendValidationCode} />
+                      button: () => <TimerButton onClick={onClickSendValidationCode} />,
                     }}
                   </FormItem>
                   <FormItem style={{ paddingTop: '96px' }}>
