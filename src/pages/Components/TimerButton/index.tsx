@@ -7,6 +7,10 @@ export const TimerButton = defineComponent({
       type: Number,
       default: 60,
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     onClick: {
       type: Function as PropType<(e?: MouseEvent) => void>,
     },
@@ -25,9 +29,12 @@ export const TimerButton = defineComponent({
         }
       }, 1000);
     };
+    console.log(props.disabled);
+
     context.expose({ startCount });
     return () => (
       <Button disabled={isCounting.value} onClick={props.onClick}>
+        {props.disabled}
         {isCounting.value ? `${count.value}秒后重新发送` : '发送验证码'}
       </Button>
     );

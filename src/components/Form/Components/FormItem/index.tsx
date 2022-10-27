@@ -29,11 +29,9 @@ export const FormItem = defineComponent({
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
-    console.log(props.error);
-
     const children = context.slots.default?.();
     const button = context.slots.button?.();
-
+    console.log('button变了', button);
     const refDateVisible = ref(false);
     const content = computed(() => {
       return (

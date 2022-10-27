@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
+import { Toast } from 'vant';
+
 type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue };
 
 export class Request {
@@ -14,8 +16,8 @@ export class Request {
             alert('请求太频繁了');
           }
         }
-        throw error.response.data.errors;
-        // 待实现toast
+        Toast(error.response.data.msg)
+        throw error.response.data.msg;
       }
     );
   }
