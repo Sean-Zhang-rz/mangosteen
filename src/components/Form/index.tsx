@@ -20,15 +20,21 @@ export const Form = defineComponent({
     const errors = reactive<{ [k in keyof typeof props.formData]?: string[] }>({});
     const onSubmit = (e: Event) => {
       e.preventDefault();
-      checkInput();
+      const validate = checkInput();
+      if (validate) props.onSubmit?.(e)
     };
     const checkInput = () => {
-      if (props.rules) {
-        Object.assign(errors, {
-          name: undefined,
-          sign: undefined,
-        });
-        Object.assign(errors, validate(props.formData, props.rules));
+      if (props.formData && props.rules) {
+        Object.keys(props.formData).forEach(key => {
+          errors[key] = undefined
+        })
+        const err = validate(props.formData, props.rules)
+        if (Object.keys(err).length) {
+          Object.assign(errors, err);
+          return false
+        } else {
+          return true
+        }
       }
     };
     return () => (

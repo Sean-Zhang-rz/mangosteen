@@ -6,7 +6,7 @@ import { FormItem } from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
-import { getValidationCode } from '@/api/common';
+import { getValidationCode, signIn } from '@/api/common';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
 
@@ -36,6 +36,11 @@ export const SignInPage = defineComponent({
       const res = await getValidationCode({ email: formData.email }).catch(onError)
       refValidationCode.value.startCount();
     };
+    const onSubmit = async (e: Event) => {
+      const res = await signIn(formData).catch(onError)
+      console.log(res);
+
+    }
 
     return () => (
       <MainLayout title="登录" icon="back">
@@ -47,7 +52,7 @@ export const SignInPage = defineComponent({
                   <Icon class={styles.icon} name="logo" />
                   <h1 class={styles.appName}>山竹记账</h1>
                 </div>
-                <Form formData={formData} rules={rules}>
+                <Form formData={formData} rules={rules} onSubmit={onSubmit}>
                   <FormItem
                     label="邮箱地址"
                     prop="email"

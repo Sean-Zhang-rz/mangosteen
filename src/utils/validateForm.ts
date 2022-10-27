@@ -9,7 +9,7 @@ export const validate = <T extends FormDataProps>(formData: T, rules: Rules[]) =
   rules.map((rule) => {
     const { key, type, message } = rule;
     const index = fKeys.indexOf(key);
-
+    
     if (index > -1) {
       const value = formData[key]?.toString().trim();
       switch (type) {
@@ -30,6 +30,7 @@ export const validate = <T extends FormDataProps>(formData: T, rules: Rules[]) =
       }
     }
   });
+  
   return errors;
 };
 function isEmpty(value: null | undefined | string | number | FormDataProps) {
