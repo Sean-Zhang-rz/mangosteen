@@ -1,17 +1,16 @@
-import { MainLayout } from '@/components/MainLayout';
 import { defineComponent, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { Toast } from 'vant';
+import { MainLayout } from '@/components/MainLayout';
 import { Form } from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
 import { getValidationCode, signIn } from '@/api/common';
-import { history } from '@/utils/history';
 import { onError } from '@/utils/onError';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
-
-
 
 export const SignInPage = defineComponent({
   components: { MainLayout },
@@ -27,20 +26,20 @@ export const SignInPage = defineComponent({
       { key: 'code', type: 'required', message: '必填' },
     ];
 
-
     const onClickSendValidationCode = async () => {
-      // if (!/\A.+@.+\z/.test(formData.email)) {
-      //   Toast('邮箱地址不正确')
-      //   return
-      // }
-      const res = await getValidationCode({ email: formData.email }).catch(onError)
+      if (!/.+@.+/.test(formData.email)) {
+        Toast('邮箱地址不正确');
+        return;
+      }
+      const res = await getValidationCode({ email: formData.email }).catch(onError);
       refValidationCode.value.startCount();
     };
     const onSubmit = async (e: Event) => {
-      const res = await signIn(formData).catch(onError)
-      localStorage.setItem('jwt', res.data.jwt)
-      history.push('/')
-    }
+      const res = await signIn(formData).catch(onError);
+      localStorage.setItem('jwt', res.data.jwt);
+      const returnTo = useRoute().query.return_to?.toString();
+      useRouter().push(returnTo || '/');
+    };
 
     return () => (
       <MainLayout title="登录" icon="back">
@@ -60,11 +59,13 @@ export const SignInPage = defineComponent({
                   />
                   <FormItem label="验证码" prop="code" placeholder="请输入六位数字">
                     {{
-                      button: () => <TimerButton
-                        ref={refValidationCode}
-                        disabled={!formData.email}
-                        onClick={onClickSendValidationCode}
-                      />,
+                      button: () => (
+                        <TimerButton
+                          ref={refValidationCode}
+                          disabled={!formData.email}
+                          onClick={onClickSendValidationCode}
+                        />
+                      ),
                     }}
                   </FormItem>
                   <FormItem style={{ paddingTop: '96px' }}>
