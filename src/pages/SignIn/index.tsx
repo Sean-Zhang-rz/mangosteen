@@ -16,7 +16,7 @@ export const SignInPage = defineComponent({
   setup: (props, context) => {
     const refValidationCode = ref<any>('');
     const formData = reactive({
-      email: '',
+      email: '770899447@qq.com',
       code: '',
     });
     const rules: Rules[] = [
@@ -25,7 +25,7 @@ export const SignInPage = defineComponent({
       { key: 'code', type: 'required', message: '必填' },
     ];
     const onClickSendValidationCode = () => {
-      // const res = getValidationCode({ email: formData.email }).catch(onError);
+      const res = getValidationCode({ email: formData.email }).catch(onError);
       console.log(123);
       refValidationCode.value.startCount();
     };

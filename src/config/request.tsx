@@ -5,18 +5,19 @@ export class Request {
   instance: AxiosInstance;
   constructor(baseURL: string) {
     this.instance = axios.create({ baseURL });
-    this.instance.interceptors.response.use(respopnse => {
-
-    }, error => {
-      if (error.response) {
-        const axiosError = error as AxiosError
-        if (axiosError.response?.status === 429) {
-          alert('请求太频繁了')
+    this.instance.interceptors.response.use(
+      (respopnse) => {},
+      (error) => {
+        if (error.response) {
+          const axiosError = error as AxiosError;
+          if (axiosError.response?.status === 429) {
+            alert('请求太频繁了');
+          }
         }
+        throw error;
+        // 待实现toast
       }
-      throw error;
-      // 待实现toast
-    })
+    );
   }
   get<T = unknown>(
     url: string,
