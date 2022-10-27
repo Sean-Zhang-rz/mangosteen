@@ -1,21 +1,24 @@
 import { MainLayout } from '@/components/MainLayout';
-import { defineComponent, reactive, ref, watchEffect } from 'vue';
-import { Toast } from 'vant'
+import { defineComponent, reactive, ref } from 'vue';
 import { Form } from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
 import { getValidationCode, signIn } from '@/api/common';
+import { history } from '@/utils/history';
+import { onError } from '@/utils/onError';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
+
+
 
 export const SignInPage = defineComponent({
   components: { MainLayout },
   setup: (props, context) => {
     const refValidationCode = ref<any>('');
     const formData = reactive({
-      email: '770899447',
+      email: '770899447@qq.com',
       code: '',
     });
     const rules: Rules[] = [
@@ -23,10 +26,7 @@ export const SignInPage = defineComponent({
       { key: 'email', type: 'pattern', regex: /.+@.+/, message: '邮箱地址不正确' },
       { key: 'code', type: 'required', message: '必填' },
     ];
-    const onError = (error: any) => {
-      Object.assign(error, error.email);
-      throw error;
-    };
+
 
     const onClickSendValidationCode = async () => {
       // if (!/\A.+@.+\z/.test(formData.email)) {
@@ -38,8 +38,8 @@ export const SignInPage = defineComponent({
     };
     const onSubmit = async (e: Event) => {
       const res = await signIn(formData).catch(onError)
-      console.log(res);
-
+      localStorage.setItem('jwt', res.data.jwt)
+      history.push('/')
     }
 
     return () => (

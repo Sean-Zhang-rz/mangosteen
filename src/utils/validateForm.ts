@@ -20,7 +20,7 @@ export const validate = <T extends FormDataProps>(formData: T, rules: Rules[]) =
           }
           break;
         case 'pattern':
-          if (!isEmpty(value) && !rule.regex.test(value!.toString())) {
+          if (!isEmpty(value) && rule.type === 'pattern' && !rule.regex.test(value!.toString())) {
             errors[key as keyof T] = errors[key] ?? [];
             errors[key]?.push(message);
           }
