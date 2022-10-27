@@ -11,12 +11,11 @@ export const TimerButton = defineComponent({
       type: Function as PropType<(e?: MouseEvent) => void>,
     },
   },
-  setup: (props) => {
+  setup: (props, context) => {
     const timer = ref<number | NodeJS.Timer>();
     const count = ref<number>(props.countFrom);
     const isCounting = computed(() => !!timer.value);
-    const onClick = () => {
-      props.onClick?.();
+    const startCount = () => {
       timer.value = setInterval(() => {
         count.value -= 1;
         if (count.value === 0) {
@@ -26,9 +25,10 @@ export const TimerButton = defineComponent({
         }
       }, 1000);
     };
+    context.expose({ startCount });
     return () => (
-      <Button disabled={isCounting.value} onClick={onClick}>
-        {isCounting.value ? count.value : '发送验证码'}
+      <Button disabled={isCounting.value} onClick={props.onClick}>
+        {isCounting.value ? `${count.value}秒后重新发送` : '发送验证码'}
       </Button>
     );
   },

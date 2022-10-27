@@ -28,7 +28,7 @@
     padding-right: 16px;
     box-shadow: inset 0 0 3px var(--input-shadow);
     &.input_with_button {
-      width: 11em;
+      width: 9em;
     }
 
     &.error {
@@ -60,7 +60,7 @@
 .slots_button {
   // flex-shrink: 0;
   // width: 100%;
-  width: 11em;
+  width: 15em;
   margin-left: 16px;
 
   button {

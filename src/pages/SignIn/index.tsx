@@ -14,9 +14,7 @@ export const SignInPage = defineComponent({
     MainLayout,
   },
   setup: (props, context) => {
-    // const timer = ref<number | NodeJS.Timer>();
-    // const count = ref<number>(60);
-    // const isCounting = computed(() => !!timer.value)
+    const refValidationCode = ref<any>('');
     const formData = reactive({
       email: '',
       code: '',
@@ -28,13 +26,8 @@ export const SignInPage = defineComponent({
     ];
     const onClickSendValidationCode = () => {
       // const res = getValidationCode({ email: formData.email }).catch(onError);
-      new Promise((res) => {
-        if (formData.email) {
-          res(1234);
-        } else {
-        }
-      });
       console.log(123);
+      refValidationCode.value.startCount();
     };
     const onError = (error: any) => {
       if (error.status === 422) Object.assign(error, error.data.errors);
@@ -58,7 +51,9 @@ export const SignInPage = defineComponent({
                   />
                   <FormItem label="验证码" prop="code" placeholder="请输入六位数字">
                     {{
-                      button: () => <TimerButton onClick={onClickSendValidationCode} />,
+                      button: () => (
+                        <TimerButton ref={refValidationCode} onClick={onClickSendValidationCode} />
+                      ),
                     }}
                   </FormItem>
                   <FormItem style={{ paddingTop: '96px' }}>
