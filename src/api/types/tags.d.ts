@@ -5,3 +5,11 @@ export interface TagDTO {
   sign: string;
   kind: 'expenses' | 'income'
 }
+export interface TagResult {
+  tagList: TagDTO[];
+  pager: {
+    page: number;
+    per_page: number;
+    count: number;
+  }
+}

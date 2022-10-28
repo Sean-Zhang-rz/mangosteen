@@ -8,8 +8,15 @@
     // overflow: auto;
     .tags_wrapper {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       padding-top: 16px;
+
+      .main {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
     .createTag {
       fill: var(--main);
