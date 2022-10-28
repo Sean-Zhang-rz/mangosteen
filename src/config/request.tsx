@@ -7,6 +7,11 @@ export class Request {
   instance: AxiosInstance;
   constructor(baseURL: string) {
     this.instance = axios.create({ baseURL });
+    this.instance.interceptors.request.use((config) => {
+      const token = localStorage.getItem('jwt');
+      if (token) config.headers!.Authorization = `Bearer ${token}`;
+      return config;
+    });
     this.instance.interceptors.response.use(
       (respopnse) => respopnse,
       (error) => {
@@ -16,7 +21,7 @@ export class Request {
             alert('请求太频繁了');
           }
         }
-        Toast(error.response.data.msg)
+        Toast(error.response.data.msg);
         throw error.response.data.msg;
       }
     );
