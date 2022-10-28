@@ -15,6 +15,8 @@ import styles from './index.module.scss';
 export const SignInPage = defineComponent({
   components: { MainLayout },
   setup: (props, context) => {
+    const route = useRoute();
+    const router = useRouter();
     const refValidationCode = ref<any>('');
     const formData = reactive({
       email: '770899447@qq.com',
@@ -37,8 +39,9 @@ export const SignInPage = defineComponent({
     const onSubmit = async (e: Event) => {
       const res = await signIn(formData).catch(onError);
       localStorage.setItem('jwt', res.data.jwt);
-      const returnTo = useRoute().query.return_to?.toString();
-      useRouter().push(returnTo || '/');
+      const returnTo = route.query.return_to?.toString();
+      console.log(returnTo);
+      router.push(returnTo || '/');
     };
 
     return () => (
