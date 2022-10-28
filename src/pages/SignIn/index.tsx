@@ -42,7 +42,6 @@ export const SignInPage = defineComponent({
 
       localStorage.setItem('jwt', res.data.jwt);
       const returnTo = route.query.return_to?.toString();
-      console.log(returnTo);
       refreshMe().then(() => {
         router.replace(returnTo || '/');
       }, () => {
