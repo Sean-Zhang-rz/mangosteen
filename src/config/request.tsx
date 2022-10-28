@@ -1,8 +1,12 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Toast } from 'vant';
 
 type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue };
-
+interface Result<R> {
+  code: number;
+  data: R;
+  msg: string;
+}
 export class Request {
   instance: AxiosInstance;
   constructor(baseURL: string) {
@@ -13,7 +17,7 @@ export class Request {
       return config;
     });
     this.instance.interceptors.response.use(
-      (respopnse) => respopnse,
+      (respopnse) => respopnse.data,
       (error) => {
         if (error.response) {
           const axiosError = error as AxiosError;
@@ -31,28 +35,48 @@ export class Request {
     params?: Record<string, string>,
     config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
   ) {
-    return this.instance.request<T>({ ...config, url, params, method: 'get' });
+    return this.instance.request<Result<T>>({
+      ...config,
+      url,
+      params,
+      method: 'get'
+    }) as unknown as Promise<Result<T>>;
   }
   post<T = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
     config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
   ) {
-    return this.instance.request<T>({ ...config, url, data, method: 'post' });
+    return this.instance.request<Result<T>>({
+      ...config,
+      url,
+      data,
+      method: 'post'
+    }) as unknown as Promise<Result<T>>
   }
   patch<T = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
     config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
   ) {
-    return this.instance.request<T>({ ...config, url, data, method: 'patch' });
+    return this.instance.request<Result<T>>({
+      ...config,
+      url,
+      data,
+      method: 'patch'
+    }) as unknown as Promise<Result<T>>;
   }
   delete<T = unknown>(
     url: string,
     params?: Record<string, string>,
     config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
   ) {
-    return this.instance.request<T>({ ...config, url, params, method: 'delete' });
+    return this.instance.request<Result<T>>({
+      ...config,
+      url,
+      params,
+      method: 'delete'
+    }) as unknown as Promise<Result<T>>;
   }
 }
 

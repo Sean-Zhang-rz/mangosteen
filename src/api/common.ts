@@ -11,10 +11,10 @@ export const signIn = async (params:{email: string, code: string}) => {
 export const meSession = async () => {
   return request.get<{id: number}>('/me');
 }
-export let me: Promise<AxiosResponse<{data: { id: number}}>>
+export let me: Promise<{data: { id: number}}>
 
 export const refreshMe = () => {
-  me = request.get<{data: {id: number}}>('/me');
+  me = request.get<{id: number}>('/me');
   return me
 }
 export const fetchMe = refreshMe
