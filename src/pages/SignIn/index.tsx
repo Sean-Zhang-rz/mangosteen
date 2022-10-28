@@ -7,7 +7,7 @@ import { FormItem } from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
-import { getValidationCode, signIn } from '@/api/common';
+import { getValidationCode, refreshMe, signIn } from '@/api/common';
 import { onError } from '@/utils/onError';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
@@ -41,7 +41,11 @@ export const SignInPage = defineComponent({
       localStorage.setItem('jwt', res.data.jwt);
       const returnTo = route.query.return_to?.toString();
       console.log(returnTo);
-      router.push(returnTo || '/');
+      refreshMe().then(() => {
+        router.push(returnTo || '/');
+      }, () => {
+        Toast('登录失败')
+      })
     };
 
     return () => (
