@@ -10,16 +10,14 @@ const router = createRouter({ history, routes });
 
 fetchMe()
 
-router.beforeEach(async (to, from) => {
-  if (to.path === '/' || to.path === '/start' 
-      || to.path.startsWith('welcome') || to.path.startsWith('/sign_in')) {
+router.beforeEach((to, from) => {
+  if (['/start', '/'].includes(to.path) || to.path.startsWith('welcome') || to.path.startsWith('/sign_in')) {
     return true
   } else {
-    const path = await me.then(
+    return me.then(
       () => true, 
       () => '/sign_in?return_to=' + to.path
-    )
-    return path
+    ) 
   }
 })
 const app = createApp(App);

@@ -42,7 +42,7 @@ export const SignInPage = defineComponent({
       const returnTo = route.query.return_to?.toString();
       console.log(returnTo);
       refreshMe().then(() => {
-        router.push(returnTo || '/');
+        router.replace(returnTo || '/');
       }, () => {
         Toast('登录失败')
       })
