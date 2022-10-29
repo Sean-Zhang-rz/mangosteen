@@ -14,9 +14,11 @@ const Tags = defineComponent({
     },
   },
   setup: (props) => {
-    const { tags: tagList, hasMore } = useTags((p) =>
-      getTags({ kind: props.kind, page: p + 1 }).catch(onError)
-    );
+    const {
+      tags: tagList,
+      hasMore,
+      getTagList,
+    } = useTags((p) => getTags({ kind: props.kind, page: p + 1 }).catch(onError));
     return () => (
       <>
         <div class={styles.main}>
@@ -34,7 +36,7 @@ const Tags = defineComponent({
           ))}
         </div>
         <div class={styles.loadMore}>
-          {hasMore.value ? <Button>加载更多</Button> : <span>没有更多了</span>}
+          {hasMore.value ? <Button onClick={getTagList}>加载更多</Button> : <span>没有更多了</span>}
         </div>
       </>
     );

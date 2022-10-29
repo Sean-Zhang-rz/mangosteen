@@ -7,7 +7,7 @@ const useTags = (fetch: (page: number) => Promise<TagResult>) => {
   const tags = ref<TagDTO[]>([]);
   const getTagList = async () => {
     const { tagList, pager } = await fetch(page.value);
-    tags.value = tagList;
+    tags.value.push(...tagList);
     hasMore.value = (pager.page - 1) * pager.per_page + tagList.length < pager.count;
     page.value += 1;
   };
@@ -16,6 +16,7 @@ const useTags = (fetch: (page: number) => Promise<TagResult>) => {
     page,
     hasMore,
     tags,
+    getTagList,
   };
 };
 
