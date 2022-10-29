@@ -4,8 +4,14 @@ export const time = (date = new Date()) => {
 };
 export class Time {
   date: Date;
-  constructor(date = new Date()) {
-    this.date = date;
+  constructor(date?: string | Date) {
+    if (!date) {
+      this.date = new Date();
+    } else if (typeof date === 'string') {
+      this.date = new Date(date);
+    } else {
+      this.date = date;
+    }
   }
   format(pattern = 'YYYY-MM-DD') {
     const year = this.date.getFullYear();

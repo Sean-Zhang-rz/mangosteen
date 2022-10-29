@@ -4,21 +4,28 @@ import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
 import useTags from '@/hooks/useTags';
 import { onError } from '@/utils/onError';
+import { TagDTO } from '@/api/types/tags';
 
 import styles from './index.module.scss';
+
 const Tags = defineComponent({
   props: {
     kind: {
       type: String,
       required: true,
     },
+    selected: Number,
   },
-  setup: (props) => {
+  setup: (props, context) => {
     const {
       tags: tagList,
       hasMore,
       getTagList,
     } = useTags((p) => getTags({ kind: props.kind, page: p + 1 }).catch(onError));
+    const onSelect = (tag: TagDTO) => {
+      context.emit('update:selected', tag.id);
+    };
+
     return () => (
       <>
         <div class={styles.main}>
@@ -29,7 +36,10 @@ const Tags = defineComponent({
             <div class={styles.name}>新增</div>
           </div>
           {tagList.value.map((tag) => (
-            <div class={[styles.tag, styles.selected]}>
+            <div
+              class={[styles.tag, props.selected === tag.id ? styles.selected : '']}
+              onClick={() => onSelect(tag)}
+            >
               <div class={styles.sign}>{tag.sign}</div>
               <div class={styles.name}>{tag.name}</div>
             </div>
