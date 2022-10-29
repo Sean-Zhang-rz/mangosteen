@@ -2,6 +2,7 @@ import { defineComponent } from 'vue';
 
 export const Tab = defineComponent({
   props: {
+    id: String,
     name: {
       type: String,
     },

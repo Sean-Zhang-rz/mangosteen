@@ -29,17 +29,19 @@ export const Tabs = defineComponent({
             {childrenArray.map((item) => (
               <li
                 class={[
-                  item.props?.name === props.selected ? [styles.selected, cp + '_selected'] : '',
+                  item.props?.id === props.selected ? [styles.selected, cp + '_selected'] : '',
                   cp + '_tabs_nav_item',
                 ]}
-                onClick={() => context.emit('update:selected', item.props?.name)}
+                onClick={() => {
+                  context.emit('update:selected', item.props?.id);
+                }}
               >
-                {item.props?.name}
+                {item.props?.name || item.props?.id}
               </li>
             ))}
           </ol>
           <div class={styles.tab_content}>
-            {childrenArray.find((content) => content.props?.name === props.selected)}
+            {childrenArray.find((content) => content.props?.id === props.selected)}
           </div>
         </div>
       );
