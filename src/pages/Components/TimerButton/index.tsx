@@ -9,7 +9,7 @@ export const TimerButton = defineComponent({
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     onClick: {
       type: Function as PropType<(e?: MouseEvent) => void>,
@@ -30,7 +30,6 @@ export const TimerButton = defineComponent({
         }
       }, 1000);
     };
-    console.log(props.disabled);
 
     context.expose({ startCount });
     return () => (

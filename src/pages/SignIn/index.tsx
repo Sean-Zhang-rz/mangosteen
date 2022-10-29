@@ -38,15 +38,16 @@ export const SignInPage = defineComponent({
     };
     const onSubmit = async (e: Event) => {
       const res = await signIn(formData).catch(onError);
-      console.log(res);
-
       localStorage.setItem('jwt', res.data.jwt);
       const returnTo = route.query.return_to?.toString();
-      refreshMe().then(() => {
-        router.replace(returnTo || '/');
-      }, () => {
-        Toast('登录失败')
-      })
+      refreshMe().then(
+        () => {
+          router.replace(returnTo || '/');
+        },
+        () => {
+          Toast('登录失败');
+        }
+      );
     };
 
     return () => (

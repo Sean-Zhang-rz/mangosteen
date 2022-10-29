@@ -30,7 +30,6 @@ export const InputPad = defineComponent({
     const setDate = (date: Date) => {
       console.log(date);
       context.emit('update:happenAt', date.toISOString());
-      // props.happenAt = date;
       hideDatePicker();
     };
     const showDatePicker = () => {
@@ -115,7 +114,7 @@ export const InputPad = defineComponent({
       {
         text: '提交',
         onClick: () => {
-          context.emit('update:amount', amount);
+          context.emit('update:amount', +amount.value);
         },
       },
     ];
