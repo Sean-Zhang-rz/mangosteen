@@ -51,7 +51,7 @@ export const SignInPage = defineComponent({
     };
 
     return () => (
-      <MainLayout title="登录" icon="back">
+      <MainLayout title="登录">
         {{
           default: () => {
             return (

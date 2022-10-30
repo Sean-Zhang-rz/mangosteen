@@ -28,7 +28,7 @@ export const TagForm = defineComponent({
     ];
 
     return () => (
-      <MainLayout title="新建标签" icon="back">
+      <MainLayout title="新建标签">
         <Form formData={formData} rules={rules}>
           <FormItem label="标签名" prop="name" />
           <FormItem label={`符号 ${formData.sign}`} prop="sign">

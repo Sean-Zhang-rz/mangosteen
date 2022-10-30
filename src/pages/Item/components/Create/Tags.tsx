@@ -14,7 +14,7 @@ const Tags = defineComponent({
       type: String,
       required: true,
     },
-    selected: Number,
+    selected: String,
   },
   setup: (props, context) => {
     const {

@@ -29,7 +29,7 @@ export const ItemCreate = defineComponent({
       router.push('/items');
     };
     return () => (
-      <MainLayout title="记一笔" icon="back">
+      <MainLayout title="记一笔">
         <div class={styles.wrapper}>
           <Tabs v-model:selected={formData.kind} class={styles.tabs}>
             <Tab id="expenses" name="支出" class={styles.tags_wrapper}>
