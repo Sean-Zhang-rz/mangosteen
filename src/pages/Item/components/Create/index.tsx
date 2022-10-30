@@ -1,4 +1,5 @@
 import { defineComponent, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { MainLayout } from '@/components/MainLayout';
 import { Tabs } from '@/components/Tabs';
 import { Tab } from '@/components/Tabs/Tab';
@@ -17,10 +18,15 @@ export const ItemCreate = defineComponent({
       amount: 0,
       happen_at: new Date().toISOString(),
     });
-    const kindMap = { expenses: '支出', income: '收入' };
+    const router = useRouter();
 
     const onSubmit = async () => {
-      await createItems(formData).catch(onError);
+      if (!formData.tag_id || !formData.amount) return;
+      await createItems({
+        ...formData,
+        tags_id: [formData.tag_id],
+      }).catch(onError);
+      router.push('/items');
     };
     return () => (
       <MainLayout title="记一笔" icon="back">

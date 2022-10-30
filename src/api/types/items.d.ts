@@ -3,6 +3,7 @@ export type ItemCreateDTO = {
   amount: number;
   kind: 'expenses' | 'income';
   tag_id: string;
+  tags_id?: string[];
 };
 
 export interface ItemDTO {
