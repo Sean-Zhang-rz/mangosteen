@@ -19,7 +19,6 @@ export const ItemCreate = defineComponent({
       happen_at: new Date().toISOString(),
     });
     const router = useRouter();
-
     const onSubmit = async () => {
       if (!formData.tag_id || !formData.amount) return;
       await createItems({

@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import { getTags } from '@/api/tags';
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
@@ -17,6 +18,7 @@ const Tags = defineComponent({
     selected: String,
   },
   setup: (props, context) => {
+    const router = useRouter();
     const {
       tags: tagList,
       hasMore,
@@ -25,11 +27,14 @@ const Tags = defineComponent({
     const onSelect = (tag: TagDTO) => {
       context.emit('update:selected', tag.id);
     };
+    const addNewTag = () => {
+      router.push(`/tags/create?kind=${props.kind}`);
+    };
 
     return () => (
       <>
         <div class={styles.main}>
-          <div class={styles.tag}>
+          <div class={styles.tag} onClick={addNewTag}>
             <div class={styles.sign}>
               <Icon name="add" class={styles.createTag} />
             </div>

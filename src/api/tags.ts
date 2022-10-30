@@ -1,58 +1,57 @@
 import request from '@/config/request';
-import { TagResult } from './types/tags';
+import { TagDTO, TagResult } from './types/tags';
 
 export const getTags = async (params: { kind: string; page: number }) => {
   // return request.get<TagResult>('/tags', params);
   return new Promise((res) => {
     res({
-      tagList:
-        params.kind === 'expenses'
-          ? [
-              { id: 1, name: '餐费', sign: '￥', kind: 'expenses' },
-              { id: 2, name: '打车', sign: '￥', kind: 'expenses' },
-              { id: 3, name: '聚餐', sign: '￥', kind: 'expenses' },
-              { id: 4, name: '打车', sign: '￥', kind: 'expenses' },
-              { id: 5, name: '聚餐', sign: '￥', kind: 'expenses' },
-              { id: 6, name: '打车', sign: '￥', kind: 'expenses' },
-              { id: 7, name: '聚餐', sign: '￥', kind: 'expenses' },
-            ]
-          : [
-              { id: 4, name: '工资', sign: '￥', kind: 'income' },
-              { id: 5, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 11, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 17, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 4, name: '工资', sign: '￥', kind: 'income' },
-              { id: 5, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 11, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 17, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 4, name: '工资', sign: '￥', kind: 'income' },
-              { id: 5, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 11, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 17, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 4, name: '工资', sign: '￥', kind: 'income' },
-              { id: 5, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 11, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 17, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 4, name: '工资', sign: '￥', kind: 'income' },
-              { id: 5, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 11, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
-              { id: 17, name: '彩票', sign: '￥', kind: 'income' },
-              { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
-            ],
+      tagList: (params.kind === 'expenses'
+        ? [
+            { id: 1, name: '餐费', sign: '￥', kind: 'expenses' },
+            { id: 2, name: '打车', sign: '￥', kind: 'expenses' },
+            { id: 3, name: '聚餐', sign: '￥', kind: 'expenses' },
+            { id: 4, name: '打车', sign: '￥', kind: 'expenses' },
+            { id: 5, name: '聚餐', sign: '￥', kind: 'expenses' },
+            { id: 6, name: '打车', sign: '￥', kind: 'expenses' },
+            { id: 7, name: '聚餐', sign: '￥', kind: 'expenses' },
+          ]
+        : [
+            { id: 4, name: '工资', sign: '￥', kind: 'income' },
+            { id: 5, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 11, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 17, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 4, name: '工资', sign: '￥', kind: 'income' },
+            { id: 5, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 11, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 17, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 4, name: '工资', sign: '￥', kind: 'income' },
+            { id: 5, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 11, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 17, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 4, name: '工资', sign: '￥', kind: 'income' },
+            { id: 5, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 11, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 17, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 4, name: '工资', sign: '￥', kind: 'income' },
+            { id: 5, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 6, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 11, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 18, name: '滴滴', sign: '￥', kind: 'income' },
+            { id: 17, name: '彩票', sign: '￥', kind: 'income' },
+            { id: 19, name: '滴滴', sign: '￥', kind: 'income' },
+          ]) as unknown as TagDTO[],
       pager: {
         page: 1,
         per_page: 25,
@@ -60,4 +59,8 @@ export const getTags = async (params: { kind: string; page: number }) => {
       },
     });
   }) as Promise<TagResult>;
+};
+
+export const createTag = async (params: TagDTO) => {
+  return request.post('/tags', params);
 };

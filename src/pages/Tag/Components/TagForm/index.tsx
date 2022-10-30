@@ -1,24 +1,30 @@
 import { defineComponent, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { Rules } from '@/api/types/form';
 import { Button } from '@/components/Button';
 import { EmojiList } from '@/components/EmojiList';
 import { Form } from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import { MainLayout } from '@/components/MainLayout';
-import { useRoute } from 'vue-router';
+import { createTag } from '@/api/tags';
+import { onError } from '@/utils/onError';
 import styles from './index.module.scss';
 
 type tagPageType = 'show' | 'edit';
 
 export const TagForm = defineComponent({
   setup: (props, context) => {
-    const tagPageType: tagPageType = useRoute().params.type as tagPageType;
-    const tagName = useRoute().query.tagName as string;
-    const tagSign = useRoute().query.tagSign as string;
+    const route = useRoute();
+    const router = useRouter();
+    const tagPageType: tagPageType = route.params.type as tagPageType;
+    const tagName = route.query.tagName?.toString();
+    const tagSign = route.query.tagSign?.toString();
+    const kind = route.query.kind?.toString() as 'expenses' | 'income';
 
     const formData = reactive({
       name: tagName || '',
       sign: tagSign || '',
+      kind,
     });
 
     const rules: Rules[] = [
@@ -27,20 +33,24 @@ export const TagForm = defineComponent({
       { key: 'sign', type: 'required', message: '必填' },
     ];
 
+    const submit = async () => {
+      if (!formData.kind) throw Error('类型参数缺失');
+      await createTag(formData).catch(onError);
+      router.back();
+    };
     return () => (
       <MainLayout title="新建标签">
-        <Form formData={formData} rules={rules}>
+        <Form formData={formData} rules={rules} onSubmit={submit}>
           <FormItem label="标签名" prop="name" />
           <FormItem label={`符号 ${formData.sign}`} prop="sign">
-            {{
-              default: () => <EmojiList v-model={formData.sign} />,
-            }}
+            <EmojiList v-model={formData.sign} />,
           </FormItem>
           <p class={styles.tips}>记账时长按标签即可进行编辑</p>
           <FormItem>
-            {{
-              default: () => <button class={[styles.form_item, styles.button]}>提交</button>,
-            }}
+            <Button class={[styles.form_item, styles.button]} type="submit">
+              提交
+            </Button>
+            ,
           </FormItem>
         </Form>
 
