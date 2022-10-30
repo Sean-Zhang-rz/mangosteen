@@ -33,7 +33,6 @@ export const ItemCreate = defineComponent({
         <div class={styles.wrapper}>
           <Tabs v-model:selected={formData.kind} class={styles.tabs}>
             <Tab id="expenses" name="支出" class={styles.tags_wrapper}>
-              <div>{JSON.stringify(formData)}</div>
               <Tags v-model:selected={formData.tag_id} kind="expenses" key="expenses" />
             </Tab>
             <Tab id="income" name="收入" class={styles.tags_wrapper}>

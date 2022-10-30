@@ -1,17 +1,22 @@
 import { DatetimePicker, Popup } from 'vant';
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref, watch, watchEffect } from 'vue';
 import { Time } from '@/utils/time';
 import { Icon } from '../Icon';
 import styles from './index.module.scss';
 
 interface ButtonProps {
   text: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 export const InputPad = defineComponent({
   props: {
     happenAt: String,
     amount: Number,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     onSubmit: {
       type: Function as PropType<() => void>,
     },
@@ -19,6 +24,7 @@ export const InputPad = defineComponent({
   setup: (props, context) => {
     const amount = ref<String>(props.amount ? `${props.amount}` : '');
     const isShow = ref(false);
+    const disabled = ref<boolean>(false);
     const appendText = (n: number | string) => {
       const ns = n.toString();
       const m = amount.value;
@@ -145,7 +151,9 @@ export const InputPad = defineComponent({
         <div class={styles.number_keyboard__body}>
           <div class={styles.number_keyboard__body_keys}>
             {keyMaps.map((key) => (
-              <button onClick={key.onClick}>{key.text}</button>
+              <button onClick={key.onClick} class={disabled.value ? styles.disabled : ''}>
+                {key.text}
+              </button>
             ))}
           </div>
         </div>
