@@ -1,7 +1,7 @@
 import request from '@/config/request';
 import { TagResult } from './types/tags';
 
-export const getTags = async (params: { kind: string }) => {
+export const getTags = async (params: { kind: string, page?: number }) => {
   // return request.get<TagResult>('/tags', params);
   return new Promise((res) => {
     res({

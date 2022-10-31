@@ -26,7 +26,14 @@ export const ItemCreate = defineComponent({
       refExpensesTags.value = eTagList;
       refIncomeTags.value = income.tagList;
       refHasMore.value = (ePager.page - 1) * ePager.per_page + eTagList.length < ePager.count
+      refPage.value = 1
     })
+    const showMore = async () => {
+      const { tagList, pager } = await getTags({
+        kind: 'expenses',
+        page: refPage.value + 1
+      }).catch(onError)
+    }
 
     return () => (
       <MainLayout title="记一笔" icon="back">
@@ -50,22 +57,31 @@ export const ItemCreate = defineComponent({
                     ))}
                   </div>
                   <div class={styles.loadMore}>
-                    {refHasMore.value ? <Button>加载更多</Button> : <span>没有更多了</span>}
+                    {refHasMore.value ? <Button onClick={showMore}>
+                      加载更多
+                    </Button> : <span>没有更多了</span>}
                   </div>
                 </Tab>
                 <Tab name="收入" class={styles.tags_wrapper}>
-                  <div class={styles.tag}>
-                    <div class={styles.sign}>
-                      <Icon name="add" class={styles.createTag} />
+                  <div class={styles.main}>
+                    <div class={styles.tag}>
+                      <div class={styles.sign}>
+                        <Icon name="add" class={styles.createTag} />
+                      </div>
+                      <div class={styles.name}>新增</div>
                     </div>
-                    <div class={styles.name}>新增</div>
+                    {refIncomeTags.value.map((tag) => (
+                      <div class={[styles.tag, styles.selected]}>
+                        <div class={styles.sign}>{tag.sign}</div>
+                        <div class={styles.name}>{tag.name}</div>
+                      </div>
+                    ))}
                   </div>
-                  {refIncomeTags.value.map((tag) => (
-                    <div class={[styles.tag, styles.selected]}>
-                      <div class={styles.sign}>{tag.sign}</div>
-                      <div class={styles.name}>{tag.name}</div>
-                    </div>
-                  ))}
+                  <div class={styles.loadMore}>
+                    {refHasMore.value ? <Button onClick={showMore}>
+                      加载更多
+                    </Button> : <span>没有更多了</span>}
+                  </div>
                 </Tab>
               </Tabs>
               <div class={styles.inputPad_wrapper}>

@@ -1,0 +1,14 @@
+.van-pull-refresh__head {
+    height: 80px;
+    line-height: 27px;
+    box-sizing: border-box;
+    padding-top: 13px;
+  }
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rotate {
+  transform: rotate(180deg);
+}
