@@ -12,7 +12,7 @@ export const ItemSummary = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
-      default: new Time().format(),
+      default: new Time().firstDayOfMonth().format(),
       required: true,
     },
     endDate: {
@@ -55,7 +55,9 @@ export const ItemSummary = defineComponent({
     onMounted(fetchBalance);
     watch(
       () => [props.startDate, props.endDate],
-      () => {
+      (q, h) => {
+        console.log(q, h);
+
         Object.assign(itemBalance, {
           expenses: 0,
           income: 0,

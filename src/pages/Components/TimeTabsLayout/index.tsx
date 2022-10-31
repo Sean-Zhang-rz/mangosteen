@@ -12,12 +12,10 @@ const demo = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
-      default: new Time().format(),
       required: true,
     },
     endDate: {
       type: String as PropType<string>,
-      default: new Time().format(),
       required: true,
     },
   },
