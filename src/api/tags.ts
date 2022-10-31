@@ -10,3 +10,6 @@ return request.get<TagDTO>(`/tags/${params.id}`);
 export const createTag = async (params: TagDTO) => {
   return request.post('/tags', params);
 };
+export const deleteTag = async (params: { id: number, withItem?: boolean }) => {
+  return request.delete(`/tags/${params.id}`, params);
+};

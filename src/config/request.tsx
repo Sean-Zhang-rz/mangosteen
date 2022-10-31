@@ -68,7 +68,7 @@ export class Request {
   }
   delete<T = unknown>(
     url: string,
-    params?: Record<string, string>,
+    params?: Record<string, unknown>,
     config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
   ) {
     return this.instance.request<Result<T>>({
