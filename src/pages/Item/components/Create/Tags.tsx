@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getTags } from '@/api/tags';
 import { Button } from '@/components/Button';
@@ -30,10 +30,30 @@ const Tags = defineComponent({
     const addNewTag = () => {
       router.push(`/tags/create?kind=${props.kind}`);
     };
+    const timer = ref<NodeJS.Timeout>();
+    const currentTag = ref<HTMLDivElement>();
+    const onLongPress = () => {
+      console.log(1);
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      currentTag.value = e.currentTarget as HTMLDivElement;
+      timer.value = setTimeout(() => {
+        onLongPress();
+      }, 1000);
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      clearTimeout(timer.value);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const pointedElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+      if (currentTag.value !== pointedElement && !currentTag.value?.contains(pointedElement)) {
+        clearTimeout(timer.value);
+      }
+    };
 
     return () => (
       <>
-        <div class={styles.main}>
+        <div class={styles.main} onTouchmove={onTouchMove}>
           <div class={styles.tag} onClick={addNewTag}>
             <div class={styles.sign}>
               <Icon name="add" class={styles.createTag} />
@@ -44,6 +64,8 @@ const Tags = defineComponent({
             <div
               class={[styles.tag, props.selected === tag.id ? styles.selected : '']}
               onClick={() => onSelect(tag)}
+              onTouchstart={onTouchStart}
+              onTouchend={onTouchEnd}
             >
               <div class={styles.sign}>{tag.sign}</div>
               <div class={styles.name}>{tag.name}</div>
