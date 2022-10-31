@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
 import { FloatButton } from '@/components/FloatButton';
 import styles from './index.module.scss';
 import { ItemDTO } from '@/api/types/items';
@@ -6,15 +6,18 @@ import { getBalance, getItems } from '@/api/item';
 import { onError } from '@/utils/onError';
 import { Button } from '@/components/Button';
 import { DateTime } from '@/pages/Components/Datetime';
+import { Time } from '@/utils/time';
 
 export const ItemSummary = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
+      default: new Time().format(),
       required: true,
     },
     endDate: {
       type: String as PropType<string>,
+      default: new Time().format(),
       required: true,
     },
   },
@@ -39,16 +42,32 @@ export const ItemSummary = defineComponent({
       hasMore.value = (pager.page - 1) * pager.per_page + items.length < pager.count;
       page.value += 1;
     };
-
-    onMounted(fetchItems);
-    onMounted(async () => {
+    const fetchBalance = async () => {
       const res = await getBalance({
         happen_at: props.startDate,
         happen_before: props.endDate,
         page: page.value + 1,
       }).catch(onError);
       Object.assign(itemBalance, res.data);
-    });
+    };
+
+    onMounted(fetchItems);
+    onMounted(fetchBalance);
+    watch(
+      () => [props.startDate, props.endDate],
+      () => {
+        Object.assign(itemBalance, {
+          expenses: 0,
+          income: 0,
+          balance: 0,
+        });
+        itemList.value = [];
+        hasMore.value = false;
+        page.value = 0;
+        fetchItems();
+        fetchBalance();
+      }
+    );
 
     return () => (
       <div class={styles.wrapper}>

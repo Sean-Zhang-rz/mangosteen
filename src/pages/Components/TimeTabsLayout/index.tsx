@@ -12,10 +12,12 @@ const demo = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
+      default: new Time().format(),
       required: true,
     },
     endDate: {
       type: String as PropType<string>,
+      default: new Time().format(),
       required: true,
     },
   },
@@ -28,11 +30,15 @@ export const TimeTabsLayout = defineComponent({
       required: true,
     },
   },
-  setup: (props, context) => {
+  setup: (props) => {
     const refSelected = ref('本月');
     const refOverlayVisible = ref(false);
     const time = new Time();
-    const customTime = reactive({
+    const customTime = reactive<{
+      start?: string;
+      end?: string;
+    }>({});
+    const tempTime = reactive({
       start: new Time().format(),
       end: new Time().format(),
     });
@@ -53,6 +59,7 @@ export const TimeTabsLayout = defineComponent({
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault();
       refOverlayVisible.value = false;
+      Object.assign(customTime, tempTime);
     };
 
     return () => (
@@ -83,7 +90,7 @@ export const TimeTabsLayout = defineComponent({
             />
           </Tab>
           <Tab id="自定义时间" name="自定义时间">
-            <props.component startDate={customTime.start} endDate={customTime.end} />
+            <props.component startDate={customTime.start!} endDate={customTime.end!} />
           </Tab>
         </Tabs>
 
@@ -91,15 +98,12 @@ export const TimeTabsLayout = defineComponent({
           <div class={styles.overlay_inner}>
             <header>请选择时间</header>
             <main>
-              <Form formData={customTime} onSubmit={onSubmitCustomTime}>
+              <Form formData={tempTime}>
                 <FormItem label="开始时间" prop="start" type="date" />
                 <FormItem label="结束时间" prop="end" type="date" />
                 <FormItem>
                   <div class={styles.actions}>
-                    <button
-                      type="button"
-                      onClick={() => refOverlayVisible.value = false}
-                    >
+                    <button type="button" onClick={() => (refOverlayVisible.value = false)}>
                       取消
                     </button>
                     <button type="submit" onClick={onSubmitCustomTime}>
