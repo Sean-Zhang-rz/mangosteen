@@ -1,6 +1,10 @@
+import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { FloatButton } from '@/components/FloatButton';
-import { defineComponent, PropType } from 'vue';
 import styles from './index.module.scss';
+import { ItemDTO } from '@/api/types/items';
+import { getItems } from '@/api/item';
+import { onError } from '@/utils/onError';
+import { Button } from '@/components/Button';
 
 export const ItemSummary = defineComponent({
   props: {
@@ -14,6 +18,22 @@ export const ItemSummary = defineComponent({
     },
   },
   setup: (props, context) => {
+    const itemList = ref<ItemDTO[]>([])
+    const hasMore = ref(false)
+    const page = ref(0)
+    const fetchItems = async () => {
+      const { data: { itemsList: items, pager } } = await getItems({
+        happen_at: props.startDate,
+        happen_before: props.endDate,
+        page: page.value + 1
+      }).catch(onError)
+      itemList.value.push(...items);
+      hasMore.value = (pager.page - 1) * pager.per_page + items.length < pager.count
+      page.value += 1
+    }
+
+    onMounted(fetchItems)
+
     return () => (
       <div class={styles.wrapper}>
         <ul class={styles.total}>
@@ -30,81 +50,33 @@ export const ItemSummary = defineComponent({
             <span>39</span>
           </li>
         </ul>
-        <ol class={styles.list}>
-          <li>
-            <div class={styles.sign}>
-              <span>X</span>
+        {
+          itemList.value.length ? <>
+            <ol class={styles.list}>
+              {
+                itemList.value.map(item => <li>
+                  <div class={styles.sign}>
+                    <span>{item.tags_id[0]}</span>
+                  </div>
+                  <div class={styles.text}>
+                    <div class={styles.tagAndAmount}>
+                      <span class={styles.tag}>{item.tags_id[0]}</span>
+                      <span class={styles.amount}>￥<>{item.amount}</></span>
+                    </div>
+                    <div class={styles.time}>{item.happen_at}</div>
+                  </div>
+                </li>)
+              }
+            </ol>
+            <div class={styles.more}>
+              {
+                hasMore.value
+                  ? <Button onClick={fetchItems}>向下滑动加载更多</Button>
+                  : <span>没有更多了</span>
+              }
             </div>
-            <div class={styles.text}>
-              <div class={styles.tagAndAmount}>
-                <span class={styles.tag}>旅行</span>
-                <span class={styles.amount}>￥1234</span>
-              </div>
-              <div class={styles.time}>2000-01-01 12:39</div>
-            </div>
-          </li>
-          <li>
-            <div class={styles.sign}>
-              <span>X</span>
-            </div>
-            <div class={styles.text}>
-              <div class={styles.tagAndAmount}>
-                <span class={styles.tag}>旅行</span>
-                <span class={styles.amount}>￥1234</span>
-              </div>
-              <div class={styles.time}>2000-01-01 12:39</div>
-            </div>
-          </li>
-          <li>
-            <div class={styles.sign}>
-              <span>X</span>
-            </div>
-            <div class={styles.text}>
-              <div class={styles.tagAndAmount}>
-                <span class={styles.tag}>旅行</span>
-                <span class={styles.amount}>￥1234</span>
-              </div>
-              <div class={styles.time}>2000-01-01 12:39</div>
-            </div>
-          </li>
-          <li>
-            <div class={styles.sign}>
-              <span>X</span>
-            </div>
-            <div class={styles.text}>
-              <div class={styles.tagAndAmount}>
-                <span class={styles.tag}>旅行</span>
-                <span class={styles.amount}>￥1234</span>
-              </div>
-              <div class={styles.time}>2000-01-01 12:39</div>
-            </div>
-          </li>
-          <li>
-            <div class={styles.sign}>
-              <span>X</span>
-            </div>
-            <div class={styles.text}>
-              <div class={styles.tagAndAmount}>
-                <span class={styles.tag}>旅行</span>
-                <span class={styles.amount}>￥1234</span>
-              </div>
-              <div class={styles.time}>2000-01-01 12:39</div>
-            </div>
-          </li>
-          <li>
-            <div class={styles.sign}>
-              <span>X</span>
-            </div>
-            <div class={styles.text}>
-              <div class={styles.tagAndAmount}>
-                <span class={styles.tag}>旅行</span>
-                <span class={styles.amount}>￥1234</span>
-              </div>
-              <div class={styles.time}>2000-01-01 12:39</div>
-            </div>
-          </li>
-        </ol>
-        <div class={styles.more}>向下滑动加载更多</div>
+          </> : <div>记录为空</div>
+        }
         <FloatButton name="add" />
       </div>
     );

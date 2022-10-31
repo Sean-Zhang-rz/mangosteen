@@ -69,25 +69,25 @@ export const TimeTabsLayout = defineComponent({
                   }
                 }}
               >
-                <Tab name="本月">
+                <Tab id="本月" name="本月">
                   <props.component
                     startDate={timeList[0].start.format()}
                     endDate={timeList[0].end.format()}
                   />
                 </Tab>
-                <Tab name="上月">
+                <Tab id="上月" name="上月">
                   <props.component
                     startDate={timeList[1].start.format()}
                     endDate={timeList[1].end.format()}
                   />
                 </Tab>
-                <Tab name="今年">
+                <Tab id="今年" name="今年">
                   <props.component
                     startDate={timeList[2].start.format()}
                     endDate={timeList[2].end.format()}
                   />
                 </Tab>
-                <Tab name="自定义时间">
+                <Tab id="自定义时间" name="自定义时间">
                   <props.component startDate={customTime.start} endDate={customTime.end} />
                 </Tab>
               </Tabs>
