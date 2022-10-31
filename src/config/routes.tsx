@@ -58,7 +58,11 @@ export const routes: RouteRecordRaw[] = [
         redirect: '/tags/show',
       },
       {
-        path: ':type',
+        path: ':id/edit',
+        component: TagForm,
+      },
+      {
+        path: 'create',
         component: TagForm,
       },
     ],

@@ -32,13 +32,13 @@ const Tags = defineComponent({
     };
     const timer = ref<NodeJS.Timeout>();
     const currentTag = ref<HTMLDivElement>();
-    const onLongPress = () => {
-      console.log(1);
+    const onLongPress = (id: string) => {
+      router.push(`/tags/${id}/edit?kind=${props.kind}`)
     };
-    const onTouchStart = (e: TouchEvent) => {
+    const onTouchStart = (e: TouchEvent, tag: TagDTO) => {
       currentTag.value = e.currentTarget as HTMLDivElement;
       timer.value = setTimeout(() => {
-        onLongPress();
+        onLongPress(tag.id!);
       }, 1000);
     };
     const onTouchEnd = (e: TouchEvent) => {
@@ -64,7 +64,7 @@ const Tags = defineComponent({
             <div
               class={[styles.tag, props.selected === tag.id ? styles.selected : '']}
               onClick={() => onSelect(tag)}
-              onTouchstart={onTouchStart}
+              onTouchstart={(e) => onTouchStart(e, tag)}
               onTouchend={onTouchEnd}
             >
               <div class={styles.sign}>{tag.sign}</div>
