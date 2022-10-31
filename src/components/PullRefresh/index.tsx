@@ -2,16 +2,22 @@ import { defineComponent, ref } from "vue";
 import { PullRefresh as PR, Icon, Loading } from "vant";
 import dayjs from "dayjs";
 
-export const PullRefresh = defineComponent({
+import styles from './index.module.scss'
+
+const PullRefresh = defineComponent({
   props: {
     value: {
       type: Boolean,
-      default: undefined,
+      default: false,
     },
     error: {
       type: Boolean,
       default: false,
     },
+    disabledRefreshing: {
+      type: Boolean,
+      default: false,
+    }
   },
   setup: (props, context) => {
     const lastTime = ref<number>(Date.now())
@@ -19,30 +25,33 @@ export const PullRefresh = defineComponent({
       if (!t) return '-';
       return dayjs(t).format(formatStr);
     }
+    console.log(context);
+
     const refresh = () => {
 
     }
+    const input = (e) => {
+      context.emit('input', e);
+    }
 
-    return (
-      <PR
-        v-model={props.value}
-        headHeight={80}
-        successDuration={1000}
-        onRefresh={refresh}
-      >
-        {/* 下拉刷新 */}
-        <template v-slot="pulling">
-          <p class="flex">
-            <Icon
-              color="#0084FF"
-              name="down"
-            />
+    return () => <PR
+      v-model={props.value}
+      headHeight={80}
+      successDuration={1000}
+      onRefresh={refresh}
+    >
+      {/* 下拉刷新 */}
+      {{
+        pulling: () => <>
+          <p class={styles.flex}>
+            <Icon color="#0084FF" name="down" />
             &nbsp;下拉可以刷新
           </p>
           <p>上次更新于 {format(lastTime.value)}</p>
-        </template>
-        {/* 释放提示 */}
-        <template v-slot="loosing">
+        </>
+      }}
+      {/* 释放提示 */}
+      {/* <template v-slot="loosing">
           <p class="flex">
             <Icon
               color="#0084FF"
@@ -52,10 +61,10 @@ export const PullRefresh = defineComponent({
             &nbsp;松开立即刷新
           </p>
           <p>上次更新于 {format(lastTime.value)}</p>
-        </template>
+        </template> */}
 
-        {/* 加载提示 */}
-        <template v-slot="loading">
+      {/* 加载提示 */}
+      {/* <template v-slot="loading">
           <Loading
             size={18}
             color="#0084FF"
@@ -63,10 +72,10 @@ export const PullRefresh = defineComponent({
             正在刷新数据…
           </Loading>
           <p>上次更新于 {format(lastTime.value)}</p>
-        </template>
+        </template> */}
 
-        {/* <!-- 成功提示-- > */}
-        <template v-slot="success">
+      {/* <!-- 成功提示-- > */}
+      {/* <template v-slot="success">
           <p
             v-if="error"
             class="flex"
@@ -91,9 +100,9 @@ export const PullRefresh = defineComponent({
             <span>加载成功</span>
           </p>
           <p>上次更新于 {format(lastTime.value)}</p>
-        </template>
-        <slot />
-      </PR >
-    )
+        </template> */}
+      {context.slots.default?.()}
+    </PR >
   }
 })
+export default PullRefresh;

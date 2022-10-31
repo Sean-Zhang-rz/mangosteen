@@ -10,6 +10,8 @@ import { TagPage } from '@/pages/Tag';
 import { TagForm } from '@/pages/Tag/Components/TagForm';
 import { SignInPage } from '@/pages/SignIn';
 import { StatisticsPage } from '@/pages/Statistics';
+import Demo from '@/pages/demo';
+
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -39,13 +41,14 @@ export const routes: RouteRecordRaw[] = [
     component: ItemPage,
     children: [
       {
-        path: '',
+        path: 'summary',
         component: ItemList,
       },
       {
         path: 'create',
         component: ItemCreate,
       },
+
     ],
   },
   {
@@ -57,7 +60,11 @@ export const routes: RouteRecordRaw[] = [
         redirect: '/tags/show',
       },
       {
-        path: ':type',
+        path: ':id/edit',
+        component: TagForm,
+      },
+      {
+        path: 'create',
         component: TagForm,
       },
     ],
@@ -70,4 +77,8 @@ export const routes: RouteRecordRaw[] = [
     path: '/statistics',
     component: StatisticsPage,
   },
+  {
+    path: '/demo',
+    component: Demo
+  }
 ];

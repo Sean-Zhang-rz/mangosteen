@@ -33,7 +33,7 @@ const Tags = defineComponent({
     const timer = ref<NodeJS.Timeout>();
     const currentTag = ref<HTMLDivElement>();
     const onLongPress = (id: string) => {
-      router.push(`/tags/${id}?kind=${props.kind}`);
+      router.push(`/tags/${id}/edit?kind=${props.kind}`);
     };
     const onTouchStart = (e: TouchEvent, tag: TagDTO) => {
       currentTag.value = e.currentTarget as HTMLDivElement;
