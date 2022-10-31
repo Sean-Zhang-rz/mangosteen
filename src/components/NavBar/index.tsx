@@ -1,4 +1,5 @@
 import { defineComponent, PropType, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { Icon, IconName } from '../Icon';
 import { OverlayIcon } from '../OverlayIcon';
 import styles from './index.module.scss';
@@ -16,7 +17,16 @@ export const NavBar = defineComponent({
   },
   setup: ({ title, icon }) => {
     const overlayVisible = ref(false);
-    const goBack = () => {};
+    const route = useRoute();
+    const router = useRouter();
+    const goBack = () => {
+      const { return_to } = route.query;
+      if (return_to) {
+        router.push(return_to.toString());
+      } else {
+        router.back();
+      }
+    };
     const openMenu = () => {
       overlayVisible.value = !overlayVisible.value;
     };

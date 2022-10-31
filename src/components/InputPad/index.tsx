@@ -1,18 +1,30 @@
-import { Time } from '@/utils/time';
 import { DatetimePicker, Popup } from 'vant';
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, PropType, ref, watch, watchEffect } from 'vue';
+import { Time } from '@/utils/time';
 import { Icon } from '../Icon';
 import styles from './index.module.scss';
 
 interface ButtonProps {
   text: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 export const InputPad = defineComponent({
+  props: {
+    happenAt: String,
+    amount: Number,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    onSubmit: {
+      type: Function as PropType<() => void>,
+    },
+  },
   setup: (props, context) => {
-    const amount = ref<String>('');
-    const selectedDate = ref<Date>(new Date());
+    const amount = ref<String>(props.amount ? `${props.amount}` : '');
     const isShow = ref(false);
+    const disabled = ref<boolean>(false);
     const appendText = (n: number | string) => {
       const ns = n.toString();
       const m = amount.value;
@@ -26,8 +38,7 @@ export const InputPad = defineComponent({
     };
     const setDate = (date: Date) => {
       console.log(date);
-
-      selectedDate.value = date;
+      context.emit('update:happenAt', date.toISOString());
       hideDatePicker();
     };
     const showDatePicker = () => {
@@ -109,7 +120,13 @@ export const InputPad = defineComponent({
           amount.value = '0';
         },
       },
-      { text: '提交', onClick: () => {} },
+      {
+        text: '提交',
+        onClick: () => {
+          context.emit('update:amount', +amount.value);
+          props.onSubmit?.();
+        },
+      },
     ];
     return () => (
       <div class={styles.number_keyboard}>
@@ -117,10 +134,10 @@ export const InputPad = defineComponent({
           <span class={styles.date}>
             <Icon name="date" class={styles.icon} onClick={showDatePicker} />
             <span>
-              <span onClick={showDatePicker}>{new Time(selectedDate.value).format()}</span>
+              <span onClick={showDatePicker}>{new Time(props.happenAt).format()}</span>
               <Popup position="bottom" v-model:show={isShow.value}>
                 <DatetimePicker
-                  value={selectedDate.value}
+                  value={props.happenAt}
                   type="date"
                   title="选择年月日"
                   onConfirm={setDate}
@@ -134,7 +151,9 @@ export const InputPad = defineComponent({
         <div class={styles.number_keyboard__body}>
           <div class={styles.number_keyboard__body_keys}>
             {keyMaps.map((key) => (
-              <button onClick={key.onClick}>{key.text}</button>
+              <button onClick={key.onClick} class={disabled.value ? styles.disabled : ''}>
+                {key.text}
+              </button>
             ))}
           </div>
         </div>

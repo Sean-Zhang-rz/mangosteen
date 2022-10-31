@@ -55,6 +55,9 @@
           background: var(--button-bg-important);
           color: var(--button-text-important);
         }
+        &.disabled {
+          background: #999;
+        }
       }
     }
   }
