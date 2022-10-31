@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 import { Toast } from 'vant';
 
 type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue };
-interface Result<R> {
+export interface Result<R> {
   code: number;
   data: R;
   msg: string;
@@ -32,7 +32,7 @@ export class Request {
   }
   get<T = unknown>(
     url: string,
-    params?: Record<string, string>,
+    params?: Record<string, unknown>,
     config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
   ) {
     return this.instance.request<Result<T>>({

@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Rules } from '@/api/types/form';
 import { Button } from '@/components/Button';
@@ -6,20 +6,23 @@ import { EmojiList } from '@/components/EmojiList';
 import { Form } from '@/components/Form';
 import { FormItem } from '@/components/Form/Components/FormItem';
 import { MainLayout } from '@/components/MainLayout';
-import { createTag } from '@/api/tags';
+import { createTag, getTag } from '@/api/tags';
 import { onError } from '@/utils/onError';
 import styles from './index.module.scss';
-
-type tagPageType = 'show' | 'edit';
 
 export const TagForm = defineComponent({
   setup: (props, context) => {
     const route = useRoute();
     const router = useRouter();
-    const tagPageType: tagPageType = route.params.type as tagPageType;
+    const id = parseInt(route.params.id?.toString());
     const tagName = route.query.tagName?.toString();
     const tagSign = route.query.tagSign?.toString();
     const kind = route.query.kind?.toString() as 'expenses' | 'income';
+
+    onMounted(async () => {
+      if (!id) return
+      const res = await getTag({ id }).catch(onError)
+    })
 
     const formData = reactive({
       name: tagName || '',
@@ -39,27 +42,27 @@ export const TagForm = defineComponent({
       router.back();
     };
     return () => (
-      <MainLayout title="新建标签">
+      <MainLayout title={id ? '编辑标签' : '新建标签'}>
+        {JSON.stringify(formData)}
         <Form formData={formData} rules={rules} onSubmit={submit}>
           <FormItem label="标签名" prop="name" />
           <FormItem label={`符号 ${formData.sign}`} prop="sign">
-            <EmojiList v-model={formData.sign} />,
+            <EmojiList v-model={formData.sign} />
           </FormItem>
           <p class={styles.tips}>记账时长按标签即可进行编辑</p>
           <FormItem>
             <Button class={[styles.form_item, styles.button]} type="submit">
               提交
             </Button>
-            ,
           </FormItem>
         </Form>
 
-        {tagPageType === 'edit' ? (
+        {id ? (
           <div class={styles.actions}>
-            <Button level="danger" class={styles.removeTags} onClick={() => {}}>
+            <Button level="danger" class={styles.removeTags} onClick={() => { }}>
               删除标签
             </Button>
-            <Button level="danger" class={styles.removeTagsAndItems} onClick={() => {}}>
+            <Button level="danger" class={styles.removeTagsAndItems} onClick={() => { }}>
               删除标签和记账
             </Button>
           </div>
