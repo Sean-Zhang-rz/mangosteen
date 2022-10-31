@@ -57,70 +57,60 @@ export const TimeTabsLayout = defineComponent({
 
     return () => (
       <MainLayout title="山竹记账" icon="menu">
-        {{
-          default: () => (
-            <>
-              <Tabs
-                classPrefix={'customTabs'}
-                v-model:selected={refSelected.value}
-                onUpdate:selected={(value) => {
-                  if (value === '自定义时间') {
-                    refOverlayVisible.value = true;
-                  }
-                }}
-              >
-                <Tab id="本月" name="本月">
-                  <props.component
-                    startDate={timeList[0].start.format()}
-                    endDate={timeList[0].end.format()}
-                  />
-                </Tab>
-                <Tab id="上月" name="上月">
-                  <props.component
-                    startDate={timeList[1].start.format()}
-                    endDate={timeList[1].end.format()}
-                  />
-                </Tab>
-                <Tab id="今年" name="今年">
-                  <props.component
-                    startDate={timeList[2].start.format()}
-                    endDate={timeList[2].end.format()}
-                  />
-                </Tab>
-                <Tab id="自定义时间" name="自定义时间">
-                  <props.component startDate={customTime.start} endDate={customTime.end} />
-                </Tab>
-              </Tabs>
+        <Tabs
+          classPrefix={'customTabs'}
+          v-model:selected={refSelected.value}
+          onUpdate:selected={(value) => {
+            if (value === '自定义时间') refOverlayVisible.value = true;
+          }}
+        >
+          <Tab id="本月" name="本月">
+            <props.component
+              startDate={timeList[0].start.format()}
+              endDate={timeList[0].end.format()}
+            />
+          </Tab>
+          <Tab id="上月" name="上月">
+            <props.component
+              startDate={timeList[1].start.format()}
+              endDate={timeList[1].end.format()}
+            />
+          </Tab>
+          <Tab id="今年" name="今年">
+            <props.component
+              startDate={timeList[2].start.format()}
+              endDate={timeList[2].end.format()}
+            />
+          </Tab>
+          <Tab id="自定义时间" name="自定义时间">
+            <props.component startDate={customTime.start} endDate={customTime.end} />
+          </Tab>
+        </Tabs>
 
-              <Overlay show={refOverlayVisible.value} class={styles.overlay}>
-                <div class={styles.overlay_inner}>
-                  <header>请选择时间</header>
-                  <main>
-                    <Form formData={customTime} onSubmit={onSubmitCustomTime}>
-                      <FormItem label="开始时间" prop="start" type="date" />
-                      <FormItem label="结束时间" prop="end" type="date" />
-                      <FormItem>
-                        <div class={styles.actions}>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              refOverlayVisible.value = false;
-                            }}
-                          >
-                            取消
-                          </button>
-                          <button type="submit" onClick={onSubmitCustomTime}>
-                            确认
-                          </button>
-                        </div>
-                      </FormItem>
-                    </Form>
-                  </main>
-                </div>
-              </Overlay>
-            </>
-          ),
-        }}
+        <Overlay show={refOverlayVisible.value} class={styles.overlay}>
+          <div class={styles.overlay_inner}>
+            <header>请选择时间</header>
+            <main>
+              <Form formData={customTime} onSubmit={onSubmitCustomTime}>
+                <FormItem label="开始时间" prop="start" type="date" />
+                <FormItem label="结束时间" prop="end" type="date" />
+                <FormItem>
+                  <div class={styles.actions}>
+                    <button
+                      type="button"
+                      onClick={() => refOverlayVisible.value = false}
+                    >
+                      取消
+                    </button>
+                    <button type="submit" onClick={onSubmitCustomTime}>
+                      确认
+                    </button>
+                  </div>
+                </FormItem>
+              </Form>
+            </main>
+          </div>
+        </Overlay>
       </MainLayout>
     );
   },

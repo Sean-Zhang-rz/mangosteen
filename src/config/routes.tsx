@@ -11,7 +11,7 @@ import { TagForm } from '@/pages/Tag/Components/TagForm';
 import { SignInPage } from '@/pages/SignIn';
 import { StatisticsPage } from '@/pages/Statistics';
 import Demo from '@/pages/demo';
-import { ItemSummary } from '@/pages/Item/components/Summary';
+
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
@@ -41,17 +41,14 @@ export const routes: RouteRecordRaw[] = [
     component: ItemPage,
     children: [
       {
-        path: '',
+        path: 'summary',
         component: ItemList,
       },
       {
         path: 'create',
         component: ItemCreate,
       },
-      {
-        path: 'summary',
-        component: ItemSummary
-      }
+
     ],
   },
   {
