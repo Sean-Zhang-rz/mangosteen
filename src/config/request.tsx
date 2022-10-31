@@ -19,10 +19,16 @@ export class Request {
     this.instance.interceptors.response.use(
       (respopnse) => respopnse.data,
       (error) => {
+        console.log('error', error);
+        if (error.response.status === 404) {
+          Toast('网络开小差了');
+          return;
+        }
         if (error.response) {
           const axiosError = error as AxiosError;
           if (axiosError.response?.status === 429) {
-            alert('请求太频繁了');
+            Toast('请求太频繁了');
+            return;
           }
         }
         Toast(error.response.data.msg);
@@ -39,7 +45,7 @@ export class Request {
       ...config,
       url,
       params,
-      method: 'get'
+      method: 'get',
     }) as unknown as Promise<Result<T>>;
   }
   post<T = unknown>(
@@ -51,8 +57,8 @@ export class Request {
       ...config,
       url,
       data,
-      method: 'post'
-    }) as unknown as Promise<Result<T>>
+      method: 'post',
+    }) as unknown as Promise<Result<T>>;
   }
   patch<T = unknown>(
     url: string,
@@ -63,7 +69,7 @@ export class Request {
       ...config,
       url,
       data,
-      method: 'patch'
+      method: 'patch',
     }) as unknown as Promise<Result<T>>;
   }
   delete<T = unknown>(
@@ -75,7 +81,7 @@ export class Request {
       ...config,
       url,
       params,
-      method: 'delete'
+      method: 'delete',
     }) as unknown as Promise<Result<T>>;
   }
 }
