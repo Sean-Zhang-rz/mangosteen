@@ -9,7 +9,7 @@ export type ItemParams = {
   happen_at: string;
   happen_before: string;
   page: number;
-}
+};
 
 export interface ItemDTO {
   id: number;
@@ -27,4 +27,9 @@ export interface ItemResultDTO {
     per_page: number;
     count: number;
   };
+}
+export interface BalanceDTO {
+  balance: number;
+  expenses: number;
+  income: number;
 }

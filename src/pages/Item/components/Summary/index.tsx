@@ -1,8 +1,8 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
 import { FloatButton } from '@/components/FloatButton';
 import styles from './index.module.scss';
 import { ItemDTO } from '@/api/types/items';
-import { getItems } from '@/api/item';
+import { getBalance, getItems } from '@/api/item';
 import { onError } from '@/utils/onError';
 import { Button } from '@/components/Button';
 import { DateTime } from '@/pages/Components/Datetime';
@@ -20,6 +20,11 @@ export const ItemSummary = defineComponent({
   },
   setup: (props, context) => {
     const itemList = ref<ItemDTO[]>([]);
+    const itemBalance = reactive({
+      expenses: 0,
+      income: 0,
+      balance: 0,
+    });
     const hasMore = ref(false);
     const page = ref(0);
     const fetchItems = async () => {
@@ -36,21 +41,29 @@ export const ItemSummary = defineComponent({
     };
 
     onMounted(fetchItems);
+    onMounted(async () => {
+      const res = await getBalance({
+        happen_at: props.startDate,
+        happen_before: props.endDate,
+        page: page.value + 1,
+      }).catch(onError);
+      Object.assign(itemBalance, res.data);
+    });
 
     return () => (
       <div class={styles.wrapper}>
         <ul class={styles.total}>
           <li>
             <span>收入</span>
-            <span>128</span>
+            <span>{itemBalance.income}</span>
           </li>
           <li>
             <span>支出</span>
-            <span>99</span>
+            <span>{itemBalance.expenses}</span>
           </li>
           <li>
             <span>净收入</span>
-            <span>39</span>
+            <span>{itemBalance.balance}</span>
           </li>
         </ul>
         {itemList.value.length ? (
