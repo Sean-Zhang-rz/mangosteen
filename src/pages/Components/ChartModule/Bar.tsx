@@ -1,11 +1,6 @@
 import { computed, defineComponent, PropType, reactive } from 'vue';
 import styles from './index.module.scss';
 export const BarChart = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>,
-    },
-  },
   setup: (props, context) => {
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
