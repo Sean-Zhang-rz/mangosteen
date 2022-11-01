@@ -19,14 +19,17 @@ export const Tabs = defineComponent({
       const childrenArray = context.slots.default?.();
       if (!childrenArray) return () => null;
       childrenArray.forEach((v) => {
+        if (typeof v.type === 'symbol') return
         if (v.type !== Tab) {
           throw new Error('<Tabs> only accepts <Tab> as children');
         }
       });
+      console.log(childrenArray.filter(v => v.type === Tab));
+
       return (
         <div class={[styles.tabs, cp + '_tabs']}>
           <ol class={[styles.tabs_nav]}>
-            {childrenArray.map((item) => (
+            {childrenArray.filter(v => v.type === Tab).map((item) => (
               <li
                 class={[
                   item.props?.id === props.selected ? [styles.selected, cp + '_selected'] : '',

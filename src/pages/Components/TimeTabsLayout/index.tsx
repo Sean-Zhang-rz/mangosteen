@@ -12,10 +12,12 @@ const demo = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
+      default: new Time().firstDayOfMonth().format(),
       required: true,
     },
     endDate: {
       type: String as PropType<string>,
+      default: new Time().lastDayOfMonth().format(),
       required: true,
     },
   },
@@ -27,6 +29,10 @@ export const TimeTabsLayout = defineComponent({
       type: Object as PropType<typeof demo>,
       required: true,
     },
+    showYear: {
+      type: Boolean,
+      default: false
+    }
   },
   setup: (props) => {
     const refSelected = ref('本月');
@@ -37,8 +43,8 @@ export const TimeTabsLayout = defineComponent({
       end?: string;
     }>({});
     const tempTime = reactive({
-      start: new Time().format(),
-      end: new Time().format(),
+      start: new Time().firstDayOfMonth().format(),
+      end: new Time().lastDayOfMonth().format(),
     });
     const timeList = [
       {
@@ -52,8 +58,9 @@ export const TimeTabsLayout = defineComponent({
       {
         start: time.firstDayOfYear(),
         end: time.lastDayOfYear(),
-      },
+      }
     ];
+
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault();
       refOverlayVisible.value = false;
@@ -81,12 +88,14 @@ export const TimeTabsLayout = defineComponent({
               endDate={timeList[1].end.format()}
             />
           </Tab>
-          <Tab id="今年" name="今年">
-            <props.component
-              startDate={timeList[2].start.format()}
-              endDate={timeList[2].end.format()}
-            />
-          </Tab>
+          {
+            props.showYear ? <Tab id="今年" name="今年">
+              <props.component
+                startDate={timeList[2].start.format()}
+                endDate={timeList[2].end.format()}
+              />
+            </Tab> : null
+          }
           <Tab id="自定义时间" name="自定义时间">
             <props.component startDate={customTime.start!} endDate={customTime.end!} />
           </Tab>

@@ -14,10 +14,12 @@ export const Charts = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
+      default: new Time().firstDayOfMonth().format(),
       required: true,
     },
     endDate: {
       type: String as PropType<string>,
+      default: new Time().lastDayOfMonth().format(),
       required: true,
     },
   },
@@ -55,13 +57,13 @@ export const Charts = defineComponent({
 
     const lineChartData = computed<[string, number][]>(() => {
       let dataIndex = 0;
-      const days = (new Date(props.endDate).getTime() - new Date(props.startDate).getTime()) / 86400000 + 1
+      const days = (+new Date(props.endDate) - +new Date(props.startDate)) / 86400000 + 1
       const arr: [string, number][] = Array.from(new Array(days), (_, d) => {
         const time = new Time(props.startDate).add(d, 'day').getRaw().toISOString()
         const data = lineChartRawData.value?.groups;
         return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0]
       })
-      console.log(arr);
+      console.log(arr.length);
       return arr
     })
     onMounted(getItemSummary)

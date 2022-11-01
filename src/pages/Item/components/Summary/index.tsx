@@ -17,7 +17,7 @@ export const ItemSummary = defineComponent({
     },
     endDate: {
       type: String as PropType<string>,
-      default: new Time().format(),
+      default: new Time().lastDayOfMonth().format(),
       required: true,
     },
   },
