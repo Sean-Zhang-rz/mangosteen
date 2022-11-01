@@ -1,7 +1,8 @@
 import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import * as echarts from 'echarts';
-import styles from './index.module.scss';
 import { Time } from '@/utils/time';
+import styles from './index.module.scss';
+
 const echartsOption = {
   tooltip: {
     show: true,

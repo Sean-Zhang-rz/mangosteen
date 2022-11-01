@@ -1,3 +1,5 @@
+import { TagDTO } from "./tags";
+
 export type ItemCreateDTO = {
   happen_at: string;
   amount: number;
@@ -40,8 +42,7 @@ export interface HappenAtDTO {
   amount: number;
 }
 export interface TagIdDTO {
-  tag_id: string;
-  tag_name: string;
+  tag: TagDTO
   amount: number;
 }
 export interface ItemSummaryByTagId {

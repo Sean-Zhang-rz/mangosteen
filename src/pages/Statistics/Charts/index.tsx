@@ -9,6 +9,7 @@ import { getSummary } from '@/api/item';
 import { onError } from '@/utils/onError';
 import { ItemSummaryByHappenAt, ItemSummaryByTagId, ItemSummaryDTO } from '@/api/types/items';
 import { Time } from '@/utils/time';
+import { TagDTO } from '@/api/types/tags';
 
 export const Charts = defineComponent({
   props: {
@@ -23,12 +24,13 @@ export const Charts = defineComponent({
       required: true,
     },
   },
-  setup: (props, context) => {
+  setup: (props) => {
     const kind = ref('expenses');
     const rawData = reactive<{
       line: ItemSummaryByHappenAt | null,
       pie: ItemSummaryByTagId | null
     }>({ line: null, pie: null })
+
     const getItemSummary = async () => {
       const line = await getSummary({
         happen_after: props.startDate,
@@ -59,10 +61,23 @@ export const Charts = defineComponent({
     const pieChartData = computed<{
       value: number,
       name: string
-    }[]>(() => rawData.pie?.groups.map(item => ({
+    }[]>(() => rawData.pie?.groups?.map(item => ({
       value: item.amount,
-      name: item.tag_name
+      name: item.tag.name
     })) || [])
+
+    const barChartData = computed<{
+      tag: TagDTO,
+      amount: number,
+      percent: string
+    }[]>(() => {
+      const total = rawData.pie?.groups?.reduce((sum, item) => sum + item.amount, 0) ?? 1;
+      return rawData.pie?.groups?.map(({ amount, tag }) => ({
+        tag,
+        amount,
+        percent: Math.round((amount / total) * 100) + '%',
+      })) || [];
+    });
 
     onMounted(getItemSummary)
     return () => (
@@ -82,7 +97,7 @@ export const Charts = defineComponent({
         {
           pieChartData.value?.length ? <PieChart data={pieChartData.value} /> : null
         }
-        <BarChart />
+        <BarChart data={barChartData.value} />
       </div>
     );
   },
