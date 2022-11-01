@@ -52,41 +52,36 @@ export const SignInPage = defineComponent({
 
     return () => (
       <MainLayout title="登录">
-        {{
-          default: () => {
-            return (
-              <div class={styles.wrapper}>
-                <div class={styles.logo}>
-                  <Icon class={styles.icon} name="logo" />
-                  <h1 class={styles.appName}>山竹记账</h1>
-                </div>
-                <Form formData={formData} rules={rules} onSubmit={onSubmit}>
-                  <FormItem
-                    label="邮箱地址"
-                    prop="email"
-                    placeholder="请输入邮箱，然后点击发送验证码"
+        <div class={styles.wrapper}>
+          <div class={styles.logo}>
+            <Icon class={styles.icon} name="logo" />
+            <h1 class={styles.appName}>山竹记账</h1>
+          </div>
+          <Form formData={formData} rules={rules} onSubmit={onSubmit}>
+            <FormItem
+              label="邮箱地址"
+              prop="email"
+              placeholder="请输入邮箱，然后点击发送验证码"
+            />
+            <FormItem label="验证码" prop="code" placeholder="请输入六位数字">
+              {{
+                button: () => (
+                  <TimerButton
+                    ref={refValidationCode}
+                    disabled={!formData.email}
+                    onClick={onClickSendValidationCode}
                   />
-                  <FormItem label="验证码" prop="code" placeholder="请输入六位数字">
-                    {{
-                      button: () => (
-                        <TimerButton
-                          ref={refValidationCode}
-                          disabled={!formData.email}
-                          onClick={onClickSendValidationCode}
-                        />
-                      ),
-                    }}
-                  </FormItem>
-                  <FormItem style={{ paddingTop: '96px' }}>
-                    <Button type="submit" class={styles.btn}>
-                      登录
-                    </Button>
-                  </FormItem>
-                </Form>
-              </div>
-            );
-          },
-        }}
+                ),
+              }}
+            </FormItem>
+            <FormItem style={{ paddingTop: '96px' }}>
+              <Button type="submit" class={styles.btn}>
+                登录
+              </Button>
+            </FormItem>
+          </Form>
+        </div>
+        );
       </MainLayout>
     );
   },

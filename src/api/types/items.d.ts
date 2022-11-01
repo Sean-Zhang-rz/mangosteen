@@ -35,12 +35,22 @@ export interface BalanceDTO {
   income: number;
 }
 
-export interface ItemGroupsDTO {
+export interface HappenAtDTO {
   happen_at: string;
   amount: number;
 }
-
-export interface ItemSummaryDTO {
-  groups: ItemGroupsDTO[];
+export interface TagIdDTO {
+  tag_id: string;
+  tag_name: string;
+  amount: number;
+}
+export interface ItemSummaryByTagId {
+  groups: TagIdDTO[];
   total: number
 }
+export interface ItemSummaryByHappenAt {
+  groups: HappenAtDTO[];
+  total: number
+}
+
+export type ItemSummaryDTO = ItemSummaryByTagId | ItemSummaryByHappenAt

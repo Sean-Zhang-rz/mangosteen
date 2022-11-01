@@ -13,6 +13,11 @@ export const getBalance = async (params: ItemParams) => {
   return request.get<BalanceDTO>('/items/balance', params);
 };
 
-export const getSummary = async () => {
-  return request.get<ItemSummaryDTO>('/items/summary');
+export const getSummary = async (params: {
+  happen_after: string,
+  happen_before: string,
+  kind: string,
+  group_by: 'happen_at' | 'tag_id'
+}) => {
+  return request.get<ItemSummaryDTO>('/items/summary', params);
 };
