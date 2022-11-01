@@ -1,5 +1,5 @@
 import request from '@/config/request';
-import { ItemDTO, ItemCreateDTO, ItemParams, ItemResultDTO, BalanceDTO } from './types/items';
+import { ItemDTO, ItemCreateDTO, ItemParams, ItemResultDTO, BalanceDTO, ItemSummaryDTO } from './types/items';
 
 export const createItems = async (params: ItemCreateDTO) => {
   return request.post<ItemDTO>('/items', params);
@@ -11,4 +11,8 @@ export const getItems = async (params: ItemParams) => {
 
 export const getBalance = async (params: ItemParams) => {
   return request.get<BalanceDTO>('/items/balance', params);
+};
+
+export const getSummary = async () => {
+  return request.get<ItemSummaryDTO>('/items/summary');
 };

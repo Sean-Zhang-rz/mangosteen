@@ -34,3 +34,13 @@ export interface BalanceDTO {
   expenses: number;
   income: number;
 }
+
+export interface ItemGroupsDTO {
+  happen_at: string;
+  amount: number;
+}
+
+export interface ItemSummaryDTO {
+  groups: ItemGroupsDTO[];
+  total: number
+}

@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import * as echarts from 'echarts';
 import styles from './index.module.scss';
 import { Time } from '@/utils/time';
@@ -46,12 +46,11 @@ export const LineChart = defineComponent({
   },
   setup: (props) => {
     const refDiv = ref<HTMLElement>();
+    const myChart = ref<echarts.ECharts>()
     onMounted(() => {
       if (!refDiv.value) return;
-      // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(refDiv.value);
-      // 绘制图表
-      myChart.setOption({
+      myChart.value = echarts.init(refDiv.value);
+      myChart.value.setOption({
         ...echartsOption,
         series: [{
           data: props.data,
@@ -59,6 +58,13 @@ export const LineChart = defineComponent({
         }]
       });
     });
+    watch(() => props.data, () => {
+      myChart.value?.setOption({
+        series: [{
+          data: props.data,
+        }]
+      });
+    })
     return () => <div ref={refDiv} class={styles.line_wrapper}></div>;
   },
 });
