@@ -1,12 +1,13 @@
 import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
 import { FloatButton } from '@/components/FloatButton';
-import styles from './index.module.scss';
 import { ItemDTO } from '@/api/types/items';
 import { getBalance, getItems } from '@/api/item';
 import { onError } from '@/utils/onError';
 import { Button } from '@/components/Button';
 import { DateTime } from '@/pages/Components/Datetime';
 import { Time } from '@/utils/time';
+
+import styles from './index.module.scss';
 
 export const ItemSummary = defineComponent({
   props: {
@@ -21,7 +22,7 @@ export const ItemSummary = defineComponent({
       required: true,
     },
   },
-  setup: (props, context) => {
+  setup: (props) => {
     const itemList = ref<ItemDTO[]>([]);
     const itemBalance = reactive({
       expenses: 0,
@@ -55,9 +56,7 @@ export const ItemSummary = defineComponent({
     onMounted(fetchBalance);
     watch(
       () => [props.startDate, props.endDate],
-      (q, h) => {
-        console.log(q, h);
-
+      () => {
         Object.assign(itemBalance, {
           expenses: 0,
           income: 0,

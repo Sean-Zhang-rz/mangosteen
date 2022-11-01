@@ -25,7 +25,6 @@ const PullRefresh = defineComponent({
       if (!t) return '-';
       return dayjs(t).format(formatStr);
     }
-    console.log(context);
 
     const refresh = () => {
 

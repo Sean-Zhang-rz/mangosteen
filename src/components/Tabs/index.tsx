@@ -24,7 +24,6 @@ export const Tabs = defineComponent({
           throw new Error('<Tabs> only accepts <Tab> as children');
         }
       });
-      console.log(childrenArray.filter(v => v.type === Tab));
 
       return (
         <div class={[styles.tabs, cp + '_tabs']}>

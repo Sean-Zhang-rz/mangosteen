@@ -37,7 +37,7 @@ export const InputPad = defineComponent({
       amount.value += `${n}`;
     };
     const setDate = (date: Date) => {
-      console.log(date);
+
       context.emit('update:happenAt', date.toISOString());
       hideDatePicker();
     };

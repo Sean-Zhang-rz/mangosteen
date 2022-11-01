@@ -19,7 +19,6 @@ export class Request {
     this.instance.interceptors.response.use(
       (respopnse) => respopnse.data,
       (error) => {
-        console.log('error', error);
         if (error.response.status === 404) {
           Toast('网络开小差了');
           return;

@@ -9,8 +9,6 @@ const useTags = (fetch: (page: number) => Promise<Result<TagResult>>) => {
   const getTagList = async () => {
     const { data: { tagList, pager } } = await fetch(page.value);
 
-    console.log(tagList, pager);
-
     tags.value.push(...tagList);
     hasMore.value = (pager.page - 1) * pager.per_page + tagList.length < pager.count;
     page.value += 1;

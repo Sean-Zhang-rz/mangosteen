@@ -1,15 +1,15 @@
-import { computed, defineComponent, onMounted, PropType, reactive, ref } from 'vue';
-import * as echarts from 'echarts';
+import { computed, defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
 import { FormItem } from '@/components/Form/Components/FormItem';
-import styles from './index.module.scss';
 import { LineChart } from '@/pages/Components/ChartModule/Line';
 import { PieChart } from '@/pages/Components/ChartModule/Pie';
 import { BarChart } from '@/pages/Components/ChartModule/Bar';
 import { getSummary } from '@/api/item';
 import { onError } from '@/utils/onError';
-import { ItemSummaryByHappenAt, ItemSummaryByTagId, ItemSummaryDTO } from '@/api/types/items';
+import { ItemSummaryByHappenAt, ItemSummaryByTagId } from '@/api/types/items';
 import { Time } from '@/utils/time';
 import { TagDTO } from '@/api/types/tags';
+
+import styles from './index.module.scss';
 
 export const Charts = defineComponent({
   props: {
@@ -55,7 +55,6 @@ export const Charts = defineComponent({
         const data = rawData.line?.groups;
         return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0]
       })
-      console.log(arr.length);
       return arr
     })
     const pieChartData = computed<{
@@ -80,6 +79,8 @@ export const Charts = defineComponent({
     });
 
     onMounted(getItemSummary)
+    watch(() => kind.value, getItemSummary)
+
     return () => (
       <div class={styles.wrapper}>
         <FormItem
