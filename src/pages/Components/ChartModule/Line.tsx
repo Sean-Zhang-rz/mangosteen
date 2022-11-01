@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
+import { defineComponent, onMounted, onUpdated, PropType, ref, watch } from 'vue';
 import * as echarts from 'echarts';
 import { Time } from '@/utils/time';
 import styles from './index.module.scss';
@@ -47,11 +47,11 @@ export const LineChart = defineComponent({
   },
   setup: (props) => {
     const refDiv = ref<HTMLElement>();
-    const myChart = ref<echarts.ECharts>()
+    let myChart: echarts.ECharts | null = null
     onMounted(() => {
       if (!refDiv.value) return;
-      myChart.value = echarts.init(refDiv.value);
-      myChart.value.setOption({
+      myChart = echarts.init(refDiv.value);
+      myChart.setOption({
         ...echartsOption,
         series: [{
           data: props.data,
@@ -59,8 +59,10 @@ export const LineChart = defineComponent({
         }]
       });
     });
-    watch(() => props.data, () => {
-      myChart.value?.setOption({
+    onUpdated(() => {
+      console.log(111, props.data);
+
+      myChart?.setOption({
         series: [{
           data: props.data,
         }]

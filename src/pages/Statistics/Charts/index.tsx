@@ -25,6 +25,7 @@ export const Charts = defineComponent({
     },
   },
   setup: (props) => {
+    let updateKey = 0
     const kind = ref('expenses');
     const rawData = reactive<{
       line: ItemSummaryByHappenAt | null,
@@ -32,13 +33,13 @@ export const Charts = defineComponent({
     }>({ line: null, pie: null })
 
     const getItemSummary = async () => {
-      const line = await getSummary({
+      const { data: line } = await getSummary({
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
         group_by: 'happen_at'
       }).catch(onError)
-      const pie = await getSummary({
+      const { data: pie } = await getSummary({
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
@@ -51,10 +52,12 @@ export const Charts = defineComponent({
       let dataIndex = 0;
       const days = (+new Date(props.endDate) - +new Date(props.startDate)) / 86400000 + 1
       const arr: [string, number][] = Array.from(new Array(days), (_, d) => {
-        const time = new Time(props.startDate).add(d, 'day').getRaw().toISOString()
+        const time = new Time(props.startDate).add(d, 'day').format()
         const data = rawData.line?.groups;
         return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0]
       })
+      console.log(arr);
+      updateKey += 1
       return arr
     })
     const pieChartData = computed<{
@@ -93,7 +96,7 @@ export const Charts = defineComponent({
           ]}
         />
         {
-          lineChartData.value?.length ? <LineChart data={lineChartData.value} /> : null
+          lineChartData.value?.length ? <LineChart data={lineChartData.value} key={updateKey} /> : null
         }
         {
           pieChartData.value?.length ? <PieChart data={pieChartData.value} /> : null

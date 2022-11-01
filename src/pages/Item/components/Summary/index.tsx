@@ -1,4 +1,5 @@
 import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
+import { RouterLink } from 'vue-router';
 import { FloatButton } from '@/components/FloatButton';
 import { ItemDTO } from '@/api/types/items';
 import { getBalance, getItems } from '@/api/item';
@@ -8,6 +9,7 @@ import { DateTime } from '@/pages/Components/Datetime';
 import { Time } from '@/utils/time';
 
 import styles from './index.module.scss';
+
 
 export const ItemSummary = defineComponent({
   props: {
@@ -119,7 +121,10 @@ export const ItemSummary = defineComponent({
         ) : (
           <div>记录为空</div>
         )}
-        <FloatButton name="add" />
+        <RouterLink to="/items/create">
+          <FloatButton name="add" />
+        </RouterLink>
+
       </div>
     );
   },
