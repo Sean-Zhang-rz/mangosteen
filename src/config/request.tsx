@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Toast } from 'vant';
+import { useRoute, useRouter } from 'vue-router';
 
 type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue };
 export interface Result<R> {
@@ -33,7 +34,13 @@ export class Request {
         return respopnse.data
       },
       (error) => {
+        const router = useRouter()
+        const route = useRoute()
         Toast.clear()
+        if (error.response.status === 401) {
+          router.push(`/sign_in?return_to=${route.fullPath}`)
+          return;
+        }
         if (error.response.status === 404) {
           Toast('网络开小差了');
           return;
