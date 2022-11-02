@@ -10,7 +10,6 @@ import { TagPage } from '@/pages/Tag';
 import { TagForm } from '@/pages/Tag/Components/TagForm';
 import { SignInPage } from '@/pages/SignIn';
 import { StatisticsPage } from '@/pages/Statistics';
-import Demo from '@/pages/demo';
 
 
 export const routes: RouteRecordRaw[] = [
@@ -77,8 +76,4 @@ export const routes: RouteRecordRaw[] = [
     path: '/statistics',
     component: StatisticsPage,
   },
-  {
-    path: '/demo',
-    component: Demo
-  }
 ];
