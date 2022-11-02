@@ -7,6 +7,10 @@ export interface Result<R> {
   data: R;
   msg: string;
 }
+export interface Config extends Omit<AxiosRequestConfig, 'url' | 'params' | 'method'> {
+  showLoading: boolean
+}
+
 export class Request {
   instance: AxiosInstance;
   constructor(baseURL: string) {
@@ -14,11 +18,22 @@ export class Request {
     this.instance.interceptors.request.use((config) => {
       const token = localStorage.getItem('jwt');
       if (token) config.headers!.Authorization = `Bearer ${token}`;
+      if (config.showLoading) {
+        Toast.loading({
+          message: '加载中',
+          forbidClick: true,
+          duration: 0
+        })
+      }
       return config;
     });
     this.instance.interceptors.response.use(
-      (respopnse) => respopnse.data,
+      (respopnse) => {
+        Toast.clear()
+        return respopnse.data
+      },
       (error) => {
+        Toast.clear()
         if (error.response.status === 404) {
           Toast('网络开小差了');
           return;
@@ -50,9 +65,10 @@ export class Request {
   post<T = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
-    config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
+    config?: Config
   ) {
     return this.instance.request<Result<T>>({
+      showLoading: true,
       ...config,
       url,
       data,
