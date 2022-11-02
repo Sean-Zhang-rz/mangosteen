@@ -60,7 +60,6 @@ export const Charts = defineComponent({
         const data = rawData.line?.groups;
         return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0]
       })
-      console.log(arr);
       updateKey += 1
       return arr
     })
@@ -103,7 +102,7 @@ export const Charts = defineComponent({
             { value: 'income', text: '收入' },
           ]}
         />
-        <LineChart data={lineChartData.value} /> 
+        <LineChart data={lineChartData.value} />
         {
           pieChartData.value?.length ? <PieChart data={pieChartData.value} /> : null
         }

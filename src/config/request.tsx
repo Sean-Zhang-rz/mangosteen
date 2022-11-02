@@ -53,9 +53,10 @@ export class Request {
   get<T = unknown>(
     url: string,
     params?: Record<string, unknown>,
-    config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
+    config?: Config
   ) {
     return this.instance.request<Result<T>>({
+      showLoading: true,
       ...config,
       url,
       params,
@@ -78,9 +79,10 @@ export class Request {
   patch<T = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
-    config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
+    config?: Config
   ) {
     return this.instance.request<Result<T>>({
+      showLoading: true,
       ...config,
       url,
       data,
@@ -90,9 +92,10 @@ export class Request {
   delete<T = unknown>(
     url: string,
     params?: Record<string, unknown>,
-    config?: Omit<AxiosRequestConfig, 'url' | 'params' | 'method'>
+    config?: Config
   ) {
     return this.instance.request<Result<T>>({
+      showLoading: true,
       ...config,
       url,
       params,

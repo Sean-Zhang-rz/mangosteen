@@ -59,9 +59,7 @@ export const LineChart = defineComponent({
         }]
       });
     });
-    onUpdated(() => {
-      console.log(111, props.data);
-
+    watch(() => props.data, () => {
       myChart?.setOption({
         series: [{
           data: props.data,
