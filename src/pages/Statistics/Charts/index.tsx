@@ -69,10 +69,18 @@ export const Charts = defineComponent({
     const pieChartData = computed<{
       value: number,
       name: string
-    }[]>(() => rawData.pie?.groups?.map(item => ({
-      value: item.amount,
-      name: item.tag.name
-    })) || [])
+    }[]>(() => {
+      console.log(rawData.pie?.groups?.map(item => ({
+        value: item.amount,
+        name: item.tag.name
+      })) || []);
+
+      return rawData.pie?.groups?.map(item => ({
+        value: item.amount,
+        name: item.tag.name
+      })) || []
+    })
+    console.log(pieChartData.value);
 
     const barChartData = computed<{
       tag: TagDTO,
@@ -103,9 +111,7 @@ export const Charts = defineComponent({
           ]}
         />
         <LineChart data={lineChartData.value} />
-        {
-          pieChartData.value?.length ? <PieChart data={pieChartData.value} /> : null
-        }
+        <PieChart data={pieChartData.value} />
         <BarChart data={barChartData.value} />
       </div>
     );
