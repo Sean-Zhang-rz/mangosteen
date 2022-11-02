@@ -29,11 +29,12 @@ export const TagForm = defineComponent({
     });
 
     onMounted(async () => {
-      if (!id) return
-      const { data: { name, sign } } = await getTag({ id }).catch(onError)
-      Object.assign(formData, { name, sign })
-    })
-
+      if (!id) return;
+      const {
+        data: { name, sign },
+      } = await getTag({ id }).catch(onError);
+      Object.assign(formData, { name, sign });
+    });
 
     const rules: Rules[] = [
       { key: 'name', type: 'required', message: '必填' },
@@ -46,14 +47,14 @@ export const TagForm = defineComponent({
       await createTag(formData).catch(onError);
       router.back();
     };
-    const onDelete = async ({ withItem = false }: { withItem?: boolean }) => {
+    const onDelete = async ({ with_items = false }: { with_items?: boolean }) => {
       await Dialog.confirm({
         title: '确认',
-        message: '确认要删除吗？'
+        message: '确认要删除吗？',
       });
-      await deleteTag({ id, withItem }).catch(onError);
+      await deleteTag({ id, with_items }).catch(onError);
       router.back();
-    }
+    };
     return () => (
       <MainLayout title={id ? '编辑标签' : '新建标签'}>
         <Form formData={formData} rules={rules} onSubmit={submit}>
@@ -77,7 +78,7 @@ export const TagForm = defineComponent({
             <Button
               level="danger"
               class={styles.removeTagsAndItems}
-              onClick={() => onDelete({ withItem: true })}
+              onClick={() => onDelete({ with_items: true })}
             >
               删除标签和记账
             </Button>

@@ -92,7 +92,7 @@ export const ItemSummary = defineComponent({
               {itemList.value.map((item) => (
                 <li>
                   <div class={styles.sign}>
-                    <span>{item.tags.sign}</span>
+                    <span>{item.tags?.sign}</span>
                   </div>
                   <div class={styles.text}>
                     <div class={styles.tagAndAmount}>
@@ -122,7 +122,6 @@ export const ItemSummary = defineComponent({
         <RouterLink to="/items/create">
           <FloatButton name="add" />
         </RouterLink>
-
       </div>
     );
   },
