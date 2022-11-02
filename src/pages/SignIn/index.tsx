@@ -81,7 +81,6 @@ export const SignInPage = defineComponent({
             </FormItem>
           </Form>
         </div>
-        );
       </MainLayout>
     );
   },

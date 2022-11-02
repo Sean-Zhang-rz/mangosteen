@@ -32,21 +32,25 @@ export const Charts = defineComponent({
       pie: ItemSummaryByTagId | null
     }>({ line: null, pie: null })
 
-    const getItemSummary = async () => {
+    const getLineData = async () => {
       const { data: line } = await getSummary({
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
         group_by: 'happen_at'
       }).catch(onError)
+      Object.assign(rawData, { line })
+    }
+    const getPieData = async () => {
       const { data: pie } = await getSummary({
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
         group_by: 'tag_id'
       }).catch(onError)
-      Object.assign(rawData, { line, pie })
+      Object.assign(rawData, { pie })
     }
+
 
     const lineChartData = computed<[string, number][]>(() => {
       let dataIndex = 0;
@@ -60,6 +64,9 @@ export const Charts = defineComponent({
       updateKey += 1
       return arr
     })
+    onMounted(getLineData)
+    watch(() => kind.value, getLineData)
+
     const pieChartData = computed<{
       value: number,
       name: string
@@ -80,9 +87,10 @@ export const Charts = defineComponent({
         percent: Math.round((amount / total) * 100) + '%',
       })) || [];
     });
+    onMounted(getPieData)
+    watch(() => kind.value, getPieData)
 
-    onMounted(getItemSummary)
-    watch(() => kind.value, getItemSummary)
+
 
     return () => (
       <div class={styles.wrapper}>
@@ -95,9 +103,7 @@ export const Charts = defineComponent({
             { value: 'income', text: '收入' },
           ]}
         />
-        {
-          lineChartData.value?.length ? <LineChart data={lineChartData.value} key={updateKey} /> : null
-        }
+        <LineChart data={lineChartData.value} /> 
         {
           pieChartData.value?.length ? <PieChart data={pieChartData.value} /> : null
         }
