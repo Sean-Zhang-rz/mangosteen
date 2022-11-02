@@ -92,7 +92,7 @@ export const ItemSummary = defineComponent({
               {itemList.value.map((item) => (
                 <li>
                   <div class={styles.sign}>
-                    <span>{item.sign}</span>
+                    <span>{item.tags.sign}</span>
                   </div>
                   <div class={styles.text}>
                     <div class={styles.tagAndAmount}>

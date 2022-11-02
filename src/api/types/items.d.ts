@@ -17,7 +17,7 @@ export interface ItemDTO {
   id: number;
   user_id: number;
   amount: number;
-  sign: string;
+  tags: TagDTO;
   tag_ids: number[];
   happen_at: string;
   kind: 'expenses' | 'income';
