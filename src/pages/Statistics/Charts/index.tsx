@@ -25,79 +25,85 @@ export const Charts = defineComponent({
     },
   },
   setup: (props) => {
-    let updateKey = 0
+    let updateKey = 0;
     const kind = ref('expenses');
     const rawData = reactive<{
-      line: ItemSummaryByHappenAt | null,
-      pie: ItemSummaryByTagId | null
-    }>({ line: null, pie: null })
+      line: ItemSummaryByHappenAt | null;
+      pie: ItemSummaryByTagId | null;
+    }>({ line: null, pie: null });
 
     const getLineData = async () => {
       const { data: line } = await getSummary({
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
-        group_by: 'happen_at'
-      }).catch(onError)
-      Object.assign(rawData, { line })
-    }
+        group_by: 'happen_at',
+      }).catch(onError);
+      Object.assign(rawData, { line });
+    };
     const getPieData = async () => {
       const { data: pie } = await getSummary({
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
-        group_by: 'tag_id'
-      }).catch(onError)
-      Object.assign(rawData, { pie })
-    }
-
+        group_by: 'tag_id',
+      }).catch(onError);
+      Object.assign(rawData, { pie });
+    };
 
     const lineChartData = computed<[string, number][]>(() => {
       let dataIndex = 0;
-      const days = (+new Date(props.endDate) - +new Date(props.startDate)) / 86400000 + 1
+      const days = (+new Date(props.endDate) - +new Date(props.startDate)) / 86400000 + 1;
       const arr: [string, number][] = Array.from(new Array(days), (_, d) => {
-        const time = new Time(props.startDate).add(d, 'day').format()
+        const time = new Time(props.startDate).add(d, 'day').format();
         const data = rawData.line?.groups;
-        return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0]
-      })
-      updateKey += 1
-      return arr
-    })
-    onMounted(getLineData)
-    watch(() => kind.value, getLineData)
-
-    const pieChartData = computed<{
-      value: number,
-      name: string
-    }[]>(() => {
-      console.log(rawData.pie?.groups?.map(item => ({
-        value: item.amount,
-        name: item.tag.name
-      })) || []);
-
-      return rawData.pie?.groups?.map(item => ({
-        value: item.amount,
-        name: item.tag.name
-      })) || []
-    })
-    console.log(pieChartData.value);
-
-    const barChartData = computed<{
-      tag: TagDTO,
-      amount: number,
-      percent: string
-    }[]>(() => {
-      const total = rawData.pie?.groups?.reduce((sum, item) => sum + item.amount, 0) ?? 1;
-      return rawData.pie?.groups?.map(({ amount, tag }) => ({
-        tag,
-        amount,
-        percent: Math.round((amount / total) * 100) + '%',
-      })) || [];
+        return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0];
+      });
+      updateKey += 1;
+      return arr;
     });
-    onMounted(getPieData)
-    watch(() => kind.value, getPieData)
+    onMounted(getLineData);
+    watch(() => kind.value, getLineData);
 
+    const pieChartData = computed<
+      {
+        value: number;
+        name: string;
+      }[]
+    >(() => {
+      console.log(
+        rawData.pie?.groups?.map((item) => ({
+          value: item.amount,
+          name: item.tag.name,
+        })) || []
+      );
 
+      return (
+        rawData.pie?.groups?.map((item) => ({
+          value: item.amount,
+          name: item.tag.name,
+        })) || []
+      );
+    });
+
+    const barChartData = computed<
+      {
+        tag: TagDTO;
+        amount: number;
+        percent: string;
+      }[]
+    >(() => {
+      const total = rawData.pie?.groups?.reduce((sum, item) => sum + item.amount, 0) ?? 1;
+      return (
+        rawData.pie?.groups?.map(({ amount, tag }) => ({
+          tag,
+          amount,
+          percent: Math.round((amount / total) * 100) + '%',
+        })) || []
+      );
+    });
+    onMounted(getPieData);
+    watch(() => kind.value, getPieData);
 
     return () => (
       <div class={styles.wrapper}>
