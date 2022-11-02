@@ -1,11 +1,11 @@
-import { TagDTO } from "./tags";
+import { TagDTO } from './tags';
 
 export type ItemCreateDTO = {
   happen_at: string;
   amount: number;
   kind: 'expenses' | 'income';
   tag_id: string;
-  tags_id?: string[];
+  tag_ids?: string[];
 };
 export type ItemParams = {
   happen_at: string;
@@ -18,7 +18,7 @@ export interface ItemDTO {
   user_id: number;
   amount: number;
   sign: string;
-  tags_id: number[];
+  tag_ids: number[];
   happen_at: string;
   kind: 'expenses' | 'income';
 }
@@ -42,16 +42,16 @@ export interface HappenAtDTO {
   amount: number;
 }
 export interface TagIdDTO {
-  tag: TagDTO
+  tag: TagDTO;
   amount: number;
 }
 export interface ItemSummaryByTagId {
   groups: TagIdDTO[];
-  total: number
+  total: number;
 }
 export interface ItemSummaryByHappenAt {
   groups: HappenAtDTO[];
-  total: number
+  total: number;
 }
 
-export type ItemSummaryDTO = ItemSummaryByTagId | ItemSummaryByHappenAt
+export type ItemSummaryDTO = ItemSummaryByTagId | ItemSummaryByHappenAt;

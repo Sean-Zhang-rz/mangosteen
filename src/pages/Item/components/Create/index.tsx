@@ -23,7 +23,7 @@ export const ItemCreate = defineComponent({
       if (!formData.tag_id || !formData.amount) return;
       await createItems({
         ...formData,
-        tags_id: [formData.tag_id],
+        tag_ids: [formData.tag_id],
       }).catch(onError);
       router.push('/items');
     };
