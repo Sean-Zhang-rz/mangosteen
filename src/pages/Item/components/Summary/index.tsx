@@ -25,7 +25,6 @@ export const ItemSummary = defineComponent({
   },
   setup: (props) => {
     const itemStore = useItemStore(`items-${props.startDate}-${props.endDate}`)
-    // const itemList = ref<ItemDTO[]>([]);
     const itemBalance = reactive({
       expenses: 0,
       income: 0,
@@ -49,9 +48,6 @@ export const ItemSummary = defineComponent({
           income: 0,
           balance: 0,
         });
-        // itemList.value = [];
-        // hasMore.value = false;
-        // page.value = 0;
         itemStore.reset()
         itemStore.fetchItems(props.startDate, props.endDate);
         fetchBalance();

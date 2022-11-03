@@ -37,11 +37,8 @@ export const routes: RouteRecordRaw[] = [
     path: '/start',
     component: StartPage,
     beforeEnter: async (to, from, next) => {
-      const itemStore = useItemStore('item')
-      await itemStore.fetchItems(
-        new Time().firstDayOfMonth().format(),
-        new Time().lastDayOfMonth().format()
-      )
+      const itemStore = useItemStore()
+      await itemStore.fetchItems()
       if (itemStore.itemList.length) {
         next('/items')
       } else {

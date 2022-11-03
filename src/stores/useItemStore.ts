@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { getItems } from '@/api/item';
 import { ItemDTO } from '@/api/types/items';
 import { onError } from '@/utils/onError';
+import { Time } from '@/utils/time';
 
 type ItemState = {
   itemList: ItemDTO[];
@@ -12,8 +13,8 @@ type ItemActions = {
   reset: () => void;
   fetchItems: (startDate?: string, endDate?: string) => void;
 };
-export const useItemStore = (id: string) =>
-  defineStore<string, ItemState, {}, ItemActions>(id, {
+export const useItemStore = (id?: string) =>
+  defineStore<string, ItemState, {}, ItemActions>((id = 'item'), {
     state: () => ({
       itemList: [],
       hasMore: false,
@@ -26,7 +27,10 @@ export const useItemStore = (id: string) =>
         this.page = 0;
       },
 
-      async fetchItems(startDate?: string, endDate?: string) {
+      async fetchItems(
+        startDate = new Time().firstDayOfMonth().format(),
+        endDate = new Time().lastDayOfMonth().format()
+      ) {
         if (!startDate || !endDate) return;
         const {
           data: { itemsList: items, pager },
