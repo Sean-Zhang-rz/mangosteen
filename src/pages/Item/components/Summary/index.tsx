@@ -8,6 +8,7 @@ import { Button } from '@/components/Button';
 import { DateTime } from '@/pages/Components/Datetime';
 import { Time } from '@/utils/time';
 import styles from './index.module.scss';
+import { useItemStore } from '@/stores/useItemStore';
 
 export const ItemSummary = defineComponent({
   props: {
@@ -23,36 +24,36 @@ export const ItemSummary = defineComponent({
     },
   },
   setup: (props) => {
-    const itemList = ref<ItemDTO[]>([]);
+    const itemStore = useItemStore(`items-${props.startDate}-${props.endDate}`)
+    // const itemList = ref<ItemDTO[]>([]);
     const itemBalance = reactive({
       expenses: 0,
       income: 0,
       balance: 0,
     });
-    const hasMore = ref(false);
-    const page = ref(0);
-    const fetchItems = async () => {
-      const {
-        data: { itemsList: items, pager },
-      } = await getItems({
-        happen_at: props.startDate,
-        happen_before: props.endDate,
-        page: page.value + 1,
-      }).catch(onError);
-      itemList.value.push(...items);
-      hasMore.value = (pager.page - 1) * pager.per_page + items.length < pager.count;
-      page.value += 1;
-    };
+    // const hasMore = ref(false);
+    // const page = ref(0);
+    // const fetchItems = async () => {
+    //   const {
+    //     data: { itemsList: items, pager },
+    //   } = await getItems({
+    //     happen_at: props.startDate,
+    //     happen_before: props.endDate,
+    //     page: page.value + 1,
+    //   }).catch(onError);
+    //   itemList.value.push(...items);
+    //   hasMore.value = (pager.page - 1) * pager.per_page + items.length < pager.count;
+    //   page.value += 1;
+    // };
     const fetchBalance = async () => {
       const res = await getBalance({
         happen_at: props.startDate,
         happen_before: props.endDate,
-        page: page.value + 1,
       }).catch(onError);
       Object.assign(itemBalance, res.data);
     };
 
-    onMounted(fetchItems);
+    onMounted(() => itemStore.fetchItems(props.startDate, props.endDate));
     onMounted(fetchBalance);
     watch(
       () => [props.startDate, props.endDate],
@@ -62,10 +63,11 @@ export const ItemSummary = defineComponent({
           income: 0,
           balance: 0,
         });
-        itemList.value = [];
-        hasMore.value = false;
-        page.value = 0;
-        fetchItems();
+        // itemList.value = [];
+        // hasMore.value = false;
+        // page.value = 0;
+        itemStore.reset()
+        itemStore.fetchItems(props.startDate, props.endDate);
         fetchBalance();
       }
     );
@@ -86,10 +88,10 @@ export const ItemSummary = defineComponent({
             <span>{itemBalance.balance}</span>
           </li>
         </ul>
-        {itemList.value.length ? (
+        {itemStore.itemList.length ? (
           <>
             <ol class={styles.list}>
-              {itemList.value.map((item) => (
+              {itemStore.itemList.map((item) => (
                 <li>
                   <div class={styles.sign}>
                     <span>{item.tags?.sign}</span>
@@ -109,8 +111,12 @@ export const ItemSummary = defineComponent({
               ))}
             </ol>
             <div class={styles.more}>
-              {hasMore.value ? (
-                <Button onClick={fetchItems}>向下滑动加载更多</Button>
+              {itemStore.hasMore ? (
+                <Button onClick={() =>
+                  itemStore.fetchItems(props.startDate, props.endDate)}
+                >
+                  向下滑动加载更多
+                </Button>
               ) : (
                 <span>没有更多了</span>
               )}
