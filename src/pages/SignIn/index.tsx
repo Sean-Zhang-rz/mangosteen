@@ -9,11 +9,11 @@ import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
 import { getValidationCode, signIn } from '@/api/common';
 import { onError } from '@/utils/onError';
-import { TimerButton } from '../Components/TimerButton';
-import styles from './index.module.scss';
 import { useMeStore } from '@/stores/useMeStore';
 import { useItemStore } from '@/stores/useItemStore';
-import { Time } from '@/utils/time';
+import { TimerButton } from '../Components/TimerButton';
+import styles from './index.module.scss';
+
 
 export const SignInPage = defineComponent({
   components: { MainLayout },
@@ -50,7 +50,7 @@ export const SignInPage = defineComponent({
     };
 
     return () => (
-      <MainLayout title="登录">
+      <MainLayout title="登录" icon="none">
         <div class={styles.wrapper}>
           <div class={styles.logo}>
             <Icon class={styles.icon} name="logo" />

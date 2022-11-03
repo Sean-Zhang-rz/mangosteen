@@ -15,7 +15,8 @@ export type IconName =
   | 'charts'
   | 'notify'
   | 'back'
-  | 'date';
+  | 'date'
+  | 'none';
 
 export const Icon = defineComponent({
   props: {
@@ -30,7 +31,9 @@ export const Icon = defineComponent({
   setup: (props, context) => {
     return () => (
       <svg class={styles.icon} onClick={props.onClick}>
-        <use xlinkHref={'#' + props.name}></use>
+        {
+          props.name === 'none' ? null : <use xlinkHref={'#' + props.name}></use>
+        }
       </svg>
     );
   },

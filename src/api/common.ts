@@ -1,5 +1,4 @@
 import request from '@/config/request';
-import { User } from './types/common';
 
 export const getValidationCode = async (params: { email: string }) => {
   return request.post('/validation_codes', params);

@@ -1,5 +1,5 @@
-import { ItemPage } from '@/pages/Item';
 import { RouteRecordRaw } from 'vue-router';
+import { ItemPage } from '@/pages/Item';
 import { StartPage } from '@/pages/StartPage/inedx';
 import { Welcome } from '@/pages/Welcome';
 import { WelcomeAction } from '@/pages/Welcome/Components/Action';
@@ -11,7 +11,6 @@ import { TagForm } from '@/pages/Tag/Components/TagForm';
 import { SignInPage } from '@/pages/SignIn';
 import { StatisticsPage } from '@/pages/Statistics';
 import { useItemStore } from '@/stores/useItemStore';
-import { Time } from '@/utils/time';
 
 
 export const routes: RouteRecordRaw[] = [
@@ -19,7 +18,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/welcome',
     component: Welcome,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, __, next) => {
       localStorage.getItem('skipFeature') === 'yes' ? next('/start') : next();
     },
     children: [
@@ -36,7 +35,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/start',
     component: StartPage,
-    beforeEnter: async (to, from, next) => {
+    beforeEnter: async (_, __, next) => {
       const itemStore = useItemStore()
       await itemStore.fetchItems()
       if (itemStore.itemList.length) {
