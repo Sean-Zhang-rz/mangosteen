@@ -1,8 +1,7 @@
-import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import { FloatButton } from '@/components/FloatButton';
-import { ItemDTO } from '@/api/types/items';
-import { getBalance, getItems } from '@/api/item';
+import { getBalance } from '@/api/item';
 import { onError } from '@/utils/onError';
 import { Button } from '@/components/Button';
 import { DateTime } from '@/pages/Components/Datetime';
@@ -95,7 +94,7 @@ export const ItemSummary = defineComponent({
             <div class={styles.more}>
               {itemStore.hasMore ? (
                 <Button onClick={() =>
-                  itemStore.fetchItems(props.startDate, props.endDate)}
+                  itemStore.fetchNextPage(props.startDate, props.endDate)}
                 >
                   向下滑动加载更多
                 </Button>
