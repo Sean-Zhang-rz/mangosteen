@@ -29,10 +29,11 @@ export const FormItem = defineComponent({
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
-    const children = context.slots.default?.();
-    const button = context.slots.button?.();
+
     const refDateVisible = ref(false);
     const content = computed(() => {
+      const children = context.slots.default?.();
+      const button = context.slots.button?.();
       return (
         <div class={styles.form_item_value}>
           {children ? (
