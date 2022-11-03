@@ -10,6 +10,8 @@ import { TagPage } from '@/pages/Tag';
 import { TagForm } from '@/pages/Tag/Components/TagForm';
 import { SignInPage } from '@/pages/SignIn';
 import { StatisticsPage } from '@/pages/Statistics';
+import { useItemStore } from '@/stores/useItemStore';
+import { Time } from '@/utils/time';
 
 
 export const routes: RouteRecordRaw[] = [
@@ -34,6 +36,18 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/start',
     component: StartPage,
+    beforeEnter: async (to, from, next) => {
+      const itemStore = useItemStore('item')
+      await itemStore.fetchItems(
+        new Time().firstDayOfMonth().format(),
+        new Time().lastDayOfMonth().format()
+      )
+      if (itemStore.itemList.length) {
+        next('/items')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/items',

@@ -12,11 +12,14 @@ import { onError } from '@/utils/onError';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
 import { useMeStore } from '@/stores/useMeStore';
+import { useItemStore } from '@/stores/useItemStore';
+import { Time } from '@/utils/time';
 
 export const SignInPage = defineComponent({
   components: { MainLayout },
   setup: () => {
     const meStore = useMeStore()
+    const itemStore = useItemStore('item')
     const route = useRoute();
     const router = useRouter();
     const refValidationCode = ref<any>('');

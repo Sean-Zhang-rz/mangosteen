@@ -3,5 +3,5 @@ import { Charts } from '@/pages/Statistics/Charts';
 import { TimeTabsLayout } from '@/pages/Components/TimeTabsLayout';
 
 export const StatisticsPage = defineComponent({
-  setup: () => () => <TimeTabsLayout component={Charts} showYear={false} />,
+  setup: () => () => <TimeTabsLayout component={Charts} showYear={false} icon='back' />,
 });

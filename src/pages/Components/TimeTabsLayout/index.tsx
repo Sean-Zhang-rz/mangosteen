@@ -32,6 +32,10 @@ export const TimeTabsLayout = defineComponent({
     showYear: {
       type: Boolean,
       default: true
+    },
+    icon: {
+      type: String as PropType<'back' | 'menu'>,
+      default: 'menu'
     }
   },
   setup: (props) => {
@@ -68,7 +72,7 @@ export const TimeTabsLayout = defineComponent({
     };
 
     return () => (
-      <MainLayout title="山竹记账" icon="back">
+      <MainLayout title="山竹记账" icon={props.icon}>
         <Tabs
           classPrefix={'customTabs'}
           v-model:selected={refSelected.value}

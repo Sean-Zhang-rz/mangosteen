@@ -31,20 +31,6 @@ export const ItemSummary = defineComponent({
       income: 0,
       balance: 0,
     });
-    // const hasMore = ref(false);
-    // const page = ref(0);
-    // const fetchItems = async () => {
-    //   const {
-    //     data: { itemsList: items, pager },
-    //   } = await getItems({
-    //     happen_at: props.startDate,
-    //     happen_before: props.endDate,
-    //     page: page.value + 1,
-    //   }).catch(onError);
-    //   itemList.value.push(...items);
-    //   hasMore.value = (pager.page - 1) * pager.per_page + items.length < pager.count;
-    //   page.value += 1;
-    // };
     const fetchBalance = async () => {
       const res = await getBalance({
         happen_at: props.startDate,
