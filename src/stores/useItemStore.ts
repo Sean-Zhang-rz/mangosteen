@@ -10,7 +10,6 @@ type ItemState = {
   page: number;
 };
 type ItemActions = {
-  reset: () => void;
   fetchItems: (startDate?: string, endDate?: string) => void;
   fetchNextPage: (startDate?: string, endDate?: string) => void;
 };
@@ -22,12 +21,6 @@ export const useItemStore = (id?: string) =>
       page: 0,
     }),
     actions: {
-      reset() {
-        this.itemList = [];
-        this.hasMore = false;
-        this.page = 0;
-      },
-
       async fetchItems(
         startDate = new Time().firstDayOfMonth().format(),
         endDate = new Time().lastDayOfMonth().format()

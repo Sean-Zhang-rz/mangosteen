@@ -47,7 +47,7 @@ export const ItemSummary = defineComponent({
           income: 0,
           balance: 0,
         });
-        itemStore.reset()
+        itemStore.$reset()
         itemStore.fetchItems(props.startDate, props.endDate);
         fetchBalance();
       }
