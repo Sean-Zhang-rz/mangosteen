@@ -7,14 +7,16 @@ import { FormItem } from '@/components/Form/Components/FormItem';
 import { Rules } from '@/api/types/form';
 import { Icon } from '@/components/Icon';
 import { Button } from '@/components/Button';
-import { getValidationCode, refreshMe, signIn } from '@/api/common';
+import { getValidationCode, signIn } from '@/api/common';
 import { onError } from '@/utils/onError';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
+import { useMeStore } from '@/stores/useMeStore';
 
 export const SignInPage = defineComponent({
   components: { MainLayout },
-  setup: (props, context) => {
+  setup: () => {
+    const meStore = useMeStore()
     const route = useRoute();
     const router = useRouter();
     const refValidationCode = ref<any>('');
@@ -33,21 +35,15 @@ export const SignInPage = defineComponent({
         Toast('邮箱地址不正确');
         return;
       }
-      const res = await getValidationCode({ email: formData.email }).catch(onError);
+      await getValidationCode({ email: formData.email }).catch(onError);
       refValidationCode.value.startCount();
     };
     const onSubmit = async (e: Event) => {
       const res = await signIn(formData).catch(onError);
       localStorage.setItem('jwt', res.data.jwt);
       const returnTo = route.query.return_to?.toString();
-      refreshMe().then(
-        () => {
-          router.replace(returnTo || '/start');
-        },
-        () => {
-          Toast('登录失败');
-        }
-      );
+      meStore.refreshMe();
+      router.replace(returnTo || '/start');
     };
 
     return () => (

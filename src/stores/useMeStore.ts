@@ -1,11 +1,12 @@
+import { defineStore } from 'pinia';
 import { User } from '@/api/types/common';
 import request, { Result } from '@/config/request';
-import { defineStore } from 'pinia';
 
 type MeState = {
   userInfo?: User;
   me?: Promise<Result<User>>;
 };
+
 type MeActions = {
   refreshMe: () => void;
   fetchMe: () => void;

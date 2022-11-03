@@ -1,5 +1,5 @@
-import { me } from '@/api/common';
 import { User } from '@/api/types/common';
+import { useMeStore } from '@/stores/useMeStore';
 import { Dialog } from 'vant';
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
@@ -13,12 +13,13 @@ export const OverlayIcon = defineComponent({
     },
   },
   setup: (props, context) => {
+    const meStore = useMeStore()
     const route = useRoute();
     const router = useRouter();
     const myInfo = ref<User>();
     onMounted(async () => {
-      const result = await me;
-      myInfo.value = result.data;
+      const result = await meStore.me;
+      myInfo.value = result?.data;
     });
     const onSignOut = async () => {
       await Dialog.confirm({
