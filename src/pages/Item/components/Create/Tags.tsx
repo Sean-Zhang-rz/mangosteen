@@ -73,7 +73,11 @@ const Tags = defineComponent({
           ))}
         </div>
         <div class={styles.loadMore}>
-          {hasMore.value ? <Button onClick={getTagList}>加载更多</Button> : <span>没有更多了</span>}
+          {hasMore.value && tagList.value.length ? (
+            <Button onClick={getTagList}>加载更多</Button>
+          ) : (
+            <span>没有更多了</span>
+          )}
         </div>
       </>
     );
