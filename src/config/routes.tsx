@@ -11,6 +11,7 @@ import { TagForm } from '@/pages/Tag/Components/TagForm';
 import { SignInPage } from '@/pages/SignIn';
 import { StatisticsPage } from '@/pages/Statistics';
 import { useItemStore } from '@/stores/useItemStore';
+import { ComingSoon } from '@/pages/CommingSoon';
 
 
 export const routes: RouteRecordRaw[] = [
@@ -86,4 +87,8 @@ export const routes: RouteRecordRaw[] = [
     path: '/statistics',
     component: StatisticsPage,
   },
+  {
+    path: '/commin-soon',
+    component: ComingSoon
+  }
 ];
