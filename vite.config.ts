@@ -46,8 +46,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/v1': {
-        target: 'http://127.0.0.1:3000/',
-        // target: 'http://121.4.100.133:3000/',
+        // target: 'http://127.0.0.1:3000/',
+        target: 'http://121.4.100.133:3000/',
       },
     },
   },
