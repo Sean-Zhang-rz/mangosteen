@@ -84,7 +84,7 @@ export const ItemSummary = defineComponent({
                   </div>
                   <div class={styles.text}>
                     <div class={styles.tagAndAmount}>
-                      <span class={styles.tag}>{item.tag_ids[0]}</span>
+                      <span class={styles.tag}>{item.tags.name}</span>
                       <span class={styles.amount}>
                         ￥<>{item.amount}</>
                       </span>
