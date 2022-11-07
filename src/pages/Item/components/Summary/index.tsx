@@ -22,6 +22,10 @@ export const ItemSummary = defineComponent({
       default: new Time().lastDayOfMonth().format(),
       required: true,
     },
+    custom: {
+      type: Boolean,
+      default: false
+    }
   },
   setup: (props) => {
     const itemStore = useItemStore(`items-${props.startDate}-${props.endDate}`)

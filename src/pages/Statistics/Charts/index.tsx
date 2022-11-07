@@ -23,6 +23,10 @@ export const Charts = defineComponent({
       default: new Time().lastDayOfMonth().format(),
       required: true,
     },
+    custom: {
+      type: Boolean,
+      default: false,
+    }
   },
   setup: (props) => {
     const kind = ref('expenses');
@@ -60,7 +64,10 @@ export const Charts = defineComponent({
       });
       return arr;
     });
-    onMounted(getLineData);
+    onMounted(() => {
+      if (props.custom) return
+      getLineData()
+    });
     watch(() => kind.value, getLineData);
 
     const pieChartData = computed<{
@@ -69,8 +76,7 @@ export const Charts = defineComponent({
     }[]>(() => rawData.pie?.groups?.map((item) => ({
       value: item.amount,
       name: item.tag.name,
-    })) || []
-    );
+    })) || []);
 
     const barChartData = computed<{
       tag: TagDTO;
@@ -83,11 +89,17 @@ export const Charts = defineComponent({
           tag,
           amount,
           percent: Math.round((amount / total) * 100) + '%',
-        })) || []
-      );
+        })) || []);
     });
-    onMounted(getPieData);
+    onMounted(() => {
+      if (props.custom) return
+      getPieData()
+    });
     watch(() => kind.value, getPieData);
+    watch(() => [props.startDate, props.endDate], () => {
+      getLineData();
+      getPieData()
+    })
 
     return () => (
       <div class={styles.wrapper}>
