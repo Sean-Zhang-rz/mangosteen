@@ -10,7 +10,7 @@ import { onError } from '@/utils/onError';
 import Tags from './Tags';
 import styles from './index.module.scss';
 
-export const ItemCreate = defineComponent({
+const ItemCreate = defineComponent({
   setup: (props, context) => {
     const formData = reactive<ItemCreateDTO>({
       kind: 'expenses',
@@ -50,3 +50,4 @@ export const ItemCreate = defineComponent({
     );
   },
 });
+export default ItemCreate;

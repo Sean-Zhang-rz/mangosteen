@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 import { TagDTO } from '@/api/types/tags';
 import { Dialog } from 'vant';
 
-export const TagForm = defineComponent({
+const TagForm = defineComponent({
   setup: (props, context) => {
     const route = useRoute();
     const router = useRouter();
@@ -88,3 +88,5 @@ export const TagForm = defineComponent({
     );
   },
 });
+
+export default TagForm;

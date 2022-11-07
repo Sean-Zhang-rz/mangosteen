@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import styles from './index.module.scss';
 
-export const WelcomeAction = defineComponent({
+const WelcomeAction = defineComponent({
   setup: () => {
     const id = parseInt(useRoute()?.params?.id.toString());
     const onClick = () => {
@@ -23,3 +23,5 @@ export const WelcomeAction = defineComponent({
     );
   },
 });
+
+export default WelcomeAction;

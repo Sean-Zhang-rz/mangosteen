@@ -26,9 +26,27 @@ export default defineConfig({
       resolves: [VantResolve()],
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id: any) {
+          if (id.includes('echarts')) {
+            return 'echarts';
+          }
+          if (id.includes('vant')) {
+            return 'vant';
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       '/api/v1': {
+        // target: 'http://127.0.0.1:3000/',
         target: 'http://121.4.100.133:3000/',
       },
     },

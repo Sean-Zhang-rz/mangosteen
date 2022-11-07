@@ -1,23 +1,11 @@
 import { RouteRecordRaw } from 'vue-router';
-import { ItemPage } from '@/pages/Item';
-import { StartPage } from '@/pages/StartPage/inedx';
-import { Welcome } from '@/pages/Welcome';
-import { WelcomeAction } from '@/pages/Welcome/Components/Action';
-import { WelcomeRender } from '@/pages/Welcome/Components/Render';
-import { ItemList } from '@/pages/Item/components/List';
-import { ItemCreate } from '@/pages/Item/components/Create';
-import { TagPage } from '@/pages/Tag';
-import { TagForm } from '@/pages/Tag/Components/TagForm';
-import { SignInPage } from '@/pages/SignIn';
-import { StatisticsPage } from '@/pages/Statistics';
 import { useItemStore } from '@/stores/useItemStore';
-
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
   {
     path: '/welcome',
-    component: Welcome,
+    component: () => import('@/pages/Welcome'),
     beforeEnter: (_, __, next) => {
       localStorage.getItem('skipFeature') === 'yes' ? next('/start') : next();
     },
@@ -28,13 +16,16 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: ':id',
-        components: { main: WelcomeRender, footer: WelcomeAction },
+        components: {
+          main: () => import('@/pages/Welcome/Components/Render'),
+          footer: () => import('@/pages/Welcome/Components/Action'),
+        },
       },
     ],
   },
   {
     path: '/start',
-    component: StartPage,
+    component: () => import('@/pages/StartPage/inedx'),
     beforeEnter: async (_, __, next) => {
       const itemStore = useItemStore()
       await itemStore.fetchItems()
@@ -47,22 +38,22 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/items',
-    component: ItemPage,
+    component: () => import('@/pages/Item'),
     children: [
       {
         path: '',
-        component: ItemList,
+        component: () => import('@/pages/Item/components/List'),
       },
       {
         path: 'create',
-        component: ItemCreate,
+        component: () => import('@/pages/Item/components/Create'),
       },
 
     ],
   },
   {
     path: '/tags',
-    component: TagPage,
+    component: () => import('@/pages/Tag'),
     children: [
       {
         path: '',
@@ -70,20 +61,32 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: ':id/edit',
-        component: TagForm,
+        component: () => import('@/pages/Tag/Components/TagForm'),
       },
       {
         path: 'create',
-        component: TagForm,
+        component: () => import('@/pages/Tag/Components/TagForm'),
       },
     ],
   },
   {
     path: '/sign_in',
-    component: SignInPage,
+    component: () => import('@/pages/SignIn'),
   },
   {
     path: '/statistics',
-    component: StatisticsPage,
+    component: () => import('@/pages/Statistics'),
+  },
+  {
+    path: '/commin-soon',
+    component: () => import('@/pages/CommingSoon')
+  },
+  {
+    path: '/export',
+    component: () => import('@/pages/CommingSoon')
+  },
+  {
+    path: '/notify',
+    component: () => import('@/pages/CommingSoon')
   },
 ];

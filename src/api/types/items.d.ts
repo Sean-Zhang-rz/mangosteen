@@ -8,7 +8,8 @@ export type ItemCreateDTO = {
   tag_ids?: string[];
 };
 export type ItemParams = {
-  happen_at: string;
+  // happen_at: string;
+  happen_after: string;
   happen_before: string;
   page: number;
 };

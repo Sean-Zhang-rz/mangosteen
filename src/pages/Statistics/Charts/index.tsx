@@ -23,9 +23,12 @@ export const Charts = defineComponent({
       default: new Time().lastDayOfMonth().format(),
       required: true,
     },
+    custom: {
+      type: Boolean,
+      default: false,
+    }
   },
   setup: (props) => {
-    let updateKey = 0;
     const kind = ref('expenses');
     const rawData = reactive<{
       line: ItemSummaryByHappenAt | null;
@@ -59,51 +62,44 @@ export const Charts = defineComponent({
         const data = rawData.line?.groups;
         return [time, time === data?.[dataIndex]?.happen_at ? data[dataIndex++].amount : 0];
       });
-      updateKey += 1;
       return arr;
     });
-    onMounted(getLineData);
+    onMounted(() => {
+      if (props.custom) return
+      getLineData()
+    });
     watch(() => kind.value, getLineData);
 
-    const pieChartData = computed<
-      {
-        value: number;
-        name: string;
-      }[]
-    >(() => {
-      console.log(
-        rawData.pie?.groups?.map((item) => ({
-          value: item.amount,
-          name: item.tag.name,
-        })) || []
-      );
+    const pieChartData = computed<{
+      value: number;
+      name: string;
+    }[]>(() => rawData.pie?.groups?.map((item) => ({
+      value: item.amount,
+      name: item.tag.name,
+    })) || []);
 
-      return (
-        rawData.pie?.groups?.map((item) => ({
-          value: item.amount,
-          name: item.tag.name,
-        })) || []
-      );
-    });
-
-    const barChartData = computed<
-      {
-        tag: TagDTO;
-        amount: number;
-        percent: string;
-      }[]
-    >(() => {
+    const barChartData = computed<{
+      tag: TagDTO;
+      amount: number;
+      percent: string;
+    }[]>(() => {
       const total = rawData.pie?.groups?.reduce((sum, item) => sum + item.amount, 0) ?? 1;
       return (
         rawData.pie?.groups?.map(({ amount, tag }) => ({
           tag,
           amount,
           percent: Math.round((amount / total) * 100) + '%',
-        })) || []
-      );
+        })) || []);
     });
-    onMounted(getPieData);
+    onMounted(() => {
+      if (props.custom) return
+      getPieData()
+    });
     watch(() => kind.value, getPieData);
+    watch(() => [props.startDate, props.endDate], () => {
+      getLineData();
+      getPieData()
+    })
 
     return () => (
       <div class={styles.wrapper}>

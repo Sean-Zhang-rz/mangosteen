@@ -1,9 +1,9 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import styles from './index.module.scss';
 import { Icon, IconName } from '@/components/Icon';
 
-export const WelcomeRender = defineComponent({
+const WelcomeRender = defineComponent({
   setup: () => {
     const slotsArray: {
       icon: IconName;
@@ -44,3 +44,4 @@ export const WelcomeRender = defineComponent({
     );
   },
 });
+export default WelcomeRender;

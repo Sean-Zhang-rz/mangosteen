@@ -1,5 +1,5 @@
 import { defineComponent, PropType, reactive, ref } from 'vue';
-import { Overlay } from 'vant';
+import { Overlay, Toast } from 'vant';
 import { Time } from '@/utils/time';
 import { MainLayout } from '@/components/MainLayout';
 import { Tabs } from '@/components/Tabs';
@@ -20,6 +20,10 @@ const demo = defineComponent({
       default: new Time().lastDayOfMonth().format(),
       required: true,
     },
+    custom: {
+      type: Boolean,
+      default: false,
+    }
   },
 });
 
@@ -67,6 +71,10 @@ export const TimeTabsLayout = defineComponent({
 
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault();
+      if (+new Date(tempTime.end) - +new Date(tempTime.start) < 0) {
+        Toast('结束时间不可大于结束时间');
+        return
+      }
       refOverlayVisible.value = false;
       Object.assign(customTime, tempTime);
     };
@@ -102,7 +110,7 @@ export const TimeTabsLayout = defineComponent({
             </Tab> : null
           }
           <Tab id="自定义时间" name="自定义时间">
-            <props.component startDate={customTime.start!} endDate={customTime.end!} />
+            <props.component startDate={customTime.start!} endDate={customTime.end!} custom={true} />
           </Tab>
         </Tabs>
 

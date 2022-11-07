@@ -1,6 +1,8 @@
 import { defineComponent } from 'vue';
 import { RouterView } from 'vue-router';
 
-export const ItemPage = defineComponent({
+const ItemPage = defineComponent({
   setup: () => () => <RouterView />,
 });
+
+export default ItemPage;
