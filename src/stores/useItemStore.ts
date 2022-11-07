@@ -29,7 +29,7 @@ export const useItemStore = (id?: string) =>
         const {
           data: { itemsList: items, pager },
         } = await getItems({
-          happen_at: startDate,
+          happen_after: startDate,
           happen_before: endDate,
           page: 1,
         }).catch(onError);
@@ -46,7 +46,7 @@ export const useItemStore = (id?: string) =>
         const {
           data: { itemsList: items, pager },
         } = await getItems({
-          happen_at: startDate,
+          happen_after: startDate,
           happen_before: endDate,
           page: this.page + 1,
         }).catch(onError);

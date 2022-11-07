@@ -32,7 +32,7 @@ export const ItemSummary = defineComponent({
     });
     const fetchBalance = async () => {
       const res = await getBalance({
-        happen_at: props.startDate,
+        happen_after: props.startDate,
         happen_before: props.endDate,
       }).catch(onError);
       Object.assign(itemBalance, res.data);
