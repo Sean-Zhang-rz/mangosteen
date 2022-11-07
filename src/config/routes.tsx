@@ -90,5 +90,13 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/commin-soon',
     component: ComingSoon
-  }
+  },
+  {
+    path: '/export',
+    component: ComingSoon
+  },
+  {
+    path: '/notify',
+    component: ComingSoon
+  },
 ];
