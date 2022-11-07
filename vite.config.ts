@@ -26,6 +26,23 @@ export default defineConfig({
       resolves: [VantResolve()],
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id: any) {
+          if (id.includes('echarts')) {
+            return 'echarts';
+          }
+          if (id.includes('vant')) {
+            return 'vant';
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       '/api/v1': {

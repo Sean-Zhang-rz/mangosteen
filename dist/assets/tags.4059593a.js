@@ -1,1 +1,0 @@
-import{ae as e}from"./index.1c216f5b.js";const a=async t=>e.get("/tags",t),g=async t=>e.get(`/tags/${t.id}`),n=async t=>e.post("/tags",t),r=async t=>e.delete(`/tags/${t.id}`,t);export{g as a,n as c,r as d,a as g};
