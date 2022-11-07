@@ -5,7 +5,7 @@ import { useSwipe } from '@/hooks/useSwipe';
 import { throttle } from '@/utils/throttle';
 import styles from './index.module.scss';
 
-export const Welcome = defineComponent({
+const Welcome = defineComponent({
   setup: () => {
     const main = ref<HTMLElement>();
     const router = useRouter();
@@ -59,3 +59,5 @@ export const Welcome = defineComponent({
     );
   },
 });
+
+export default Welcome;

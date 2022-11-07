@@ -1,0 +1,1 @@
+import{d as o,e}from"./index.1c216f5b.js";const t="_icon_1eenq_1",c={icon:t},l=o({props:{name:{type:String,required:!0},onClick:{type:Function}},setup:(n,i)=>()=>e("svg",{class:c.icon,onClick:n.onClick},[n.name==="none"?null:e("use",{"xlink:href":"#"+n.name},null)])});export{l as I};

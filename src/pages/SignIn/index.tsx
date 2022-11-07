@@ -15,7 +15,7 @@ import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
 
 
-export const SignInPage = defineComponent({
+const SignInPage = defineComponent({
   components: { MainLayout },
   setup: () => {
     const meStore = useMeStore()
@@ -84,3 +84,4 @@ export const SignInPage = defineComponent({
     );
   },
 });
+export default SignInPage;

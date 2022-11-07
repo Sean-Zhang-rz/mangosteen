@@ -6,7 +6,7 @@ import { Icon } from '@/components/Icon';
 import styles from './index.module.scss';
 import { MainLayout } from '@/components/MainLayout';
 
-export const StartPage = defineComponent({
+const StartPage = defineComponent({
   setup: () => () => (
     <MainLayout title="山竹记账" icon="menu">
       <div class={styles.icon_wrapper}>
@@ -25,3 +25,4 @@ export const StartPage = defineComponent({
     </MainLayout >
   ),
 });
+export default StartPage;

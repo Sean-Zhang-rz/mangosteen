@@ -1,0 +1,1 @@
+import{I as e}from"./index.16a27d37.js";import{d as s,e as t}from"./index.1c216f5b.js";const a="_float_button_sw19j_1",c="_icon_sw19j_13",o={float_button:a,icon:c},u=s({props:{name:{type:String,required:!0}},setup:(n,r)=>()=>t("div",{class:o.float_button},[t(e,{name:n.name,class:o.icon},null)])});export{u as F};
