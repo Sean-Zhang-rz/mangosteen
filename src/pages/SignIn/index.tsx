@@ -10,21 +10,18 @@ import { Button } from '@/components/Button';
 import { getValidationCode, signIn } from '@/api/common';
 import { onError } from '@/utils/onError';
 import { useMeStore } from '@/stores/useMeStore';
-import { useItemStore } from '@/stores/useItemStore';
 import { TimerButton } from '../Components/TimerButton';
 import styles from './index.module.scss';
-
 
 export const SignInPage = defineComponent({
   components: { MainLayout },
   setup: () => {
-    const meStore = useMeStore()
-    const itemStore = useItemStore('item')
+    const meStore = useMeStore();
     const route = useRoute();
     const router = useRouter();
     const refValidationCode = ref<any>('');
     const formData = reactive({
-      email: '770899447@qq.com',
+      email: '',
       code: '',
     });
     const rules: Rules[] = [
@@ -57,11 +54,7 @@ export const SignInPage = defineComponent({
             <h1 class={styles.appName}>山竹记账</h1>
           </div>
           <Form formData={formData} rules={rules} onSubmit={onSubmit}>
-            <FormItem
-              label="邮箱地址"
-              prop="email"
-              placeholder="请输入邮箱，然后点击发送验证码"
-            />
+            <FormItem label="邮箱地址" prop="email" placeholder="请输入邮箱，然后点击发送验证码" />
             <FormItem label="验证码" prop="code" placeholder="请输入六位数字">
               {{
                 button: () => (
